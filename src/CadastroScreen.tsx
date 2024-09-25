@@ -25,7 +25,7 @@ const CadastroScreen: React.FC<CadastroScreenProps> = ({ navigation }) => {
     }
 
     // Realizar a requisição POST para o backend de cadastro , LEMBRAR DE ALTERAR O ENDEREÇO IPV4!!!
-    fetch('http://10.0.0.114:3000/register', {
+    fetch('http://10.0.0.7:3000/register', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -114,4 +114,3 @@ const styles = StyleSheet.create({
 });
 
 export default CadastroScreen;
-

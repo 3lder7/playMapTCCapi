@@ -24,7 +24,7 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
     }
 
     // Realizar a requisição POST para o backend de login
-    fetch('http://10.0.0.114:3000/login', {
+    fetch('http://10.0.0.7:3000/login', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
