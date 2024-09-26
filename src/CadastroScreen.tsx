@@ -1,116 +1,193 @@
 import React, { useState } from 'react';
-import {
-  View,
-  Text,
-  TextInput,
-  Button,
-  StyleSheet,
-  Alert,
-} from 'react-native';
+import { NavigationProp } from '@react-navigation/native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image, Alert } from 'react-native';
+import { FontAwesome } from '@expo/vector-icons';
 
-interface CadastroScreenProps {
-  navigation: any;  // Propriedade para navegação entre telas
+interface Props {
+  navigation: NavigationProp<any, any>;
 }
 
-const CadastroScreen: React.FC<CadastroScreenProps> = ({ navigation }) => {
+export default function CadastroScreen({ navigation }: Props) {
   const [nome, setNome] = useState('');
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
+  const [confirmarSenha, setConfirmarSenha] = useState('');
 
-  const handleCadastro = () => {
-    // Verificar se os campos estão preenchidos
-    if (!nome || !email || !senha) {
+  const handleRegister = async () => {
+    if (!email || !nome || !senha) {
       Alert.alert('Erro', 'Por favor, preencha todos os campos');
+      console.log('Erro: campos faltando');
       return;
     }
-
-    // Realizar a requisição POST para o backend de cadastro , LEMBRAR DE ALTERAR O ENDEREÇO IPV4!!!
-    fetch('http://10.0.0.7:3000/register', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        nome,
-        email,
-        senha,
-      }),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.message === 'Usuário cadastrado com sucesso') {
-          Alert.alert('Sucesso', 'Cadastro realizado com sucesso!');
-          // Redirecionar o usuário para a tela de login após o cadastro
-          navigation.navigate('Login');
-        } else {
-          Alert.alert('Erro', data.message);
-        }
-      })
-      .catch((error) => {
-        console.error('Erro durante o cadastro:', error);
-        Alert.alert('Erro', 'Não foi possível realizar o cadastro');
+  
+    try {
+      console.log('Iniciando cadastro com:', { email, nome, senha });
+  
+      const response = await fetch('http://10.0.0.7:3000/cadastro',{//tem q ser a mesma do server.js
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, nome, senha }),
       });
+  
+      const data = await response.json();
+      console.log('Resposta do servidor:', data);
+  
+      if (data.message === 'Cadastro bem-sucedido') {
+        Alert.alert('Sucesso', 'Cadastro realizado com sucesso!');
+        console.log('Cadastro bem-sucedido');
+        navigation.navigate('LoginScreen');  // Redireciona para a tela de login ou outra tela
+      } else {
+        Alert.alert('Erro', data.message);
+        console.log('Erro no cadastro:', data.message);
+      }
+    } catch (error) {
+      console.error('Erro ao realizar cadastro:', error);
+      Alert.alert('Erro', 'Não foi possível realizar o cadastro');
+    }
   };
+  
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Cadastro</Text>
-      <TextInput
-        style={styles.input}
-        placeholder="Nome"
-        value={nome}
-        onChangeText={setNome}
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Email"
-        value={email}
-        onChangeText={setEmail}
-        keyboardType="email-address"
-        autoCapitalize="none"
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Senha"
-        value={senha}
-        onChangeText={setSenha}
-        secureTextEntry={true}
-      />
-      <Button title="Cadastrar" onPress={handleCadastro} />
-      {/* Botão para alternar para a tela de login */}
-      <Text style={styles.switchText}>Já possui conta?</Text>
-      <Button
-        title="Login"
-        onPress={() => navigation.navigate('Login')}
-      />
+      <View style={styles.logoContainer}>
+        <Image source={require('./img/playmap.png')} style={styles.logo} />
+      </View>
+
+      <Text style={styles.header}>Novo Usuário</Text>
+
+      <View style={styles.inputContainer}>
+        <FontAwesome name="user" size={24} color="black" style={styles.icon} />
+        <TextInput 
+          placeholder="Digite Seu Nome Completo" 
+          style={styles.input} 
+          value={nome}
+          onChangeText={setNome}
+        />
+      </View>
+
+      <View style={styles.inputContainer}>
+        <FontAwesome name="envelope" size={24} color="black" style={styles.icon} />
+        <TextInput 
+          placeholder="Digite Seu Email" 
+          style={styles.input} 
+          keyboardType="email-address"
+          value={email}
+          onChangeText={setEmail}
+        />
+      </View>
+
+      <View style={styles.inputContainer}>
+        <FontAwesome name="lock" size={24} color="black" style={styles.icon} />
+        <TextInput 
+          placeholder="Digite Sua Senha" 
+          style={styles.input} 
+          secureTextEntry
+          value={senha}
+          onChangeText={setSenha}
+        />
+      </View>
+
+      <View style={styles.inputContainer}>
+        <FontAwesome name="lock" size={24} color="black" style={styles.icon} />
+        <TextInput 
+          placeholder="Confirme Sua Senha" 
+          style={styles.input} 
+          secureTextEntry
+          value={confirmarSenha}
+          onChangeText={setConfirmarSenha}
+        />
+      </View>
+
+      <TouchableOpacity style={styles.registerButton} onPress={handleRegister}>
+        <Text style={styles.registerButtonText}>Cadastrar</Text>
+      </TouchableOpacity>
+
+      <Text style={styles.orText}>OU</Text>
+
+      
+
+      <Text style={styles.loginText}>
+        Já possui conta? <Text style={styles.loginLink} onPress={() => navigation.navigate('Login')}>Faça o login</Text>
+      </Text>
     </View>
   );
-};
+}
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: 'white',
     justifyContent: 'center',
-    padding: 16,
+    paddingHorizontal: 20,
+  },
+  logoContainer: {
+    alignItems: 'flex-start',
+    marginBottom: 30,
+  },
+  logo: {
+    width: 150,
+    height: 80,
+    marginBottom: 10,
   },
   title: {
-    fontSize: 24,
+    fontSize: 28,
     fontWeight: 'bold',
-    marginBottom: 24,
+    color: '#000',
+  },
+  header: {
+    fontSize: 22,
+    fontWeight: 'bold',
     textAlign: 'center',
+    marginBottom: 20,
+    color: '#333',
+  },
+  inputContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderWidth: 1,
+    borderColor: '#ccc',
+    borderRadius: 8,
+    marginBottom: 15,
+    paddingLeft: 10,
+  },
+  icon: {
+    marginRight: 10,
   },
   input: {
-    height: 40,
-    borderColor: 'gray',
-    borderWidth: 1,
-    marginBottom: 16,
-    paddingLeft: 8,
+    flex: 1,
+    height: 50,
+    fontSize: 16,
   },
-  switchText: {
-    marginTop: 16,
+  registerButton: {
+    backgroundColor: '#3b5998',
+    borderRadius: 8,
+    paddingVertical: 12,
+    alignItems: 'center',
+    marginBottom: 20,
+  },
+  registerButtonText: {
+    color: '#fff',
+    fontSize: 18,
+    fontWeight: 'bold',
+  },
+  orText: {
     textAlign: 'center',
-    marginBottom: 8,
+    marginVertical: 10,
+    color: '#aaa',
+  },
+  socialContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    marginBottom: 20,
+  },
+  loginText: {
+    textAlign: 'center',
+    color: '#333',
+  },
+  loginLink: {
+    color: '#3b5998',
+    fontWeight: 'bold',
   },
 });
-
-export default CadastroScreen;
