@@ -1,0 +1,57 @@
+Ao abrir o código:
+
+- Arquivo "tsconfig.json" com erro, pelo fato de não ter o expo ou o typescript instalado
+
+
+-Tentei instalar o expo diretamente, usando o comando "npm install -g expo-cli", ocorreu o erro de não ter o "npm" instalado.
+
+*Fiz a instalação do "node.js" na máquina, que já acompanha o "npm"
+
+*Após ser instalado, faça a verificação com "expo --version"
+
+(Erro de execução de script{
+
+Caso ocorra o erro de "não pode ser 
+carregado porque a execução de scripts foi desabilitada neste sistema" que foi o caso dessa máquina, faça o seguinte:
+
+Abra o powershell como administrador, e digite o comando:
+
+Set-ExecutionPolicy RemoteSigned
+
+Isso irá resolver o problema  
+})
+
+*Após o sucesso da instalação do expo, aparece a mensagem de aviso que diz que a versão que baixamos do expo, o "expo-cli", é a versão legada, que não é compatível com node.js 17 ou superior.
+
+*Para resolver esse "erro" por desencargo de consciência, teremos que fazer a desinstalação do "expo-cli" e instalar do novo expo.
+
+*Para isso, são os seguintes comandos:
+
+npm uninstall -g expo-cli
+npm install -g expo
+expo --version 
+
+*Após esse processo, o erro continua por não ter o TypeScript instalado, então, faz a instalação através do npm:
+
+npm install -g typescript
+
+*Depois disso, é necessário instalar todas as dependências, uma delas é o "react navigation", pra permitir a navegação de telas através dos arquivos. Use o comando:
+
+npm install @react-navigation/native
+
+*Deu erro de conflito entre versão do expo e do "expo/webpack"
+
+Para resolver:
+npm install --legacy-peer-deps (isso ignora as verificações de dependência de pares)
+
+npm install expo@latest (atualiza o Expo e as dependências relacionadas)
+
+*Após isso, foi necessário limpar o cache do npm para rodar o programa, usando:
+
+npm cache clean --force
+
+E então, rodar o projeto com:
+npx expo start -c
+
+
+
