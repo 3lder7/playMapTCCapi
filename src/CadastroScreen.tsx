@@ -23,7 +23,7 @@ export default function CadastroScreen({ navigation }: Props) {
     try {
       console.log('Iniciando cadastro com:', { email, nome, senha });
   
-      const response = await fetch('http://10.0.0.7:3000/cadastro',{//tem q ser a mesma do server.js
+      const response = await fetch('https://glorious-telegram-g4rxv79qvwh9jpg-3306.app.github.dev/cadastro',{//tem q ser a mesma do server.js
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

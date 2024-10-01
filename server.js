@@ -5,16 +5,20 @@ const bodyParser = require('body-parser');
 
 
 const app = express();
-app.use(cors());
+app.use(cors({
+  origin: 'https://glorious-telegram-g4rxv79qvwh9jpg-19006.app.github.dev/',  // ou o domínio do seu frontend
+  methods: 'GET,POST',
+  allowedHeaders: 'Content-Type, Authorization'
+}));
 app.use(bodyParser.json());
 
 
 // Conexão com o banco de dados MySQL
 const db = mysql.createConnection({
-  host: 'localhost',
-  user: 'root',
-  password: '',
-  database: 'teste'
+  host: 'localhost', // Substitua pelo host do seu container Docker, se necessário
+  user: 'root',      // Substitua pelo seu usuário MySQL
+  password: 'root_password', // Substitua pela sua senha MySQL
+  database: 'nome_do_banco' // Substitua pelo nome do banco de dados
 });
 
 db.connect((err) => {

@@ -13,7 +13,7 @@ export default function LoginScreen({ navigation }: Props) {
 
   const handleLogin = () => {
     console.log('Login button clicked');
-    fetch('http://10.0.0.7:3000/login', {//tem q ser a mesma do server.js
+    fetch('https://glorious-telegram-g4rxv79qvwh9jpg-3306.app.github.dev/login', {//tem q ser a mesma do server.js
       // Verifique se o endereço está correto
       method: 'POST',
       headers: {
@@ -26,6 +26,7 @@ export default function LoginScreen({ navigation }: Props) {
         console.log('Login response:', data);
         if (data.message === 'Login bem-sucedido') {
           Alert.alert('Sucesso', 'Login realizado com sucesso!');
+          console.log("LOGIN EFETUADO COM SUCESSO");
           // Redirecionar para a tela principal ou dashboard
           
         } else {
