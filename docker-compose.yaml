@@ -7,9 +7,9 @@ services:
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: root_password
-      MYSQL_DATABASE: nome_do_banco
+      MYSQL_DATABASE: teste
       MYSQL_USER: usuario
-      MYSQL_PASSWORD: senha_usuario
+      MYSQL_PASSWORD: "1234"
     ports:
       - "3306:3306"
     volumes:

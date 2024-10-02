@@ -12,31 +12,30 @@ export default function LoginScreen({ navigation }: Props) {
   const [senha, setSenha] = useState('');
 
   const handleLogin = () => {
-    console.log('Login button clicked');
-    fetch('https://glorious-telegram-g4rxv79qvwh9jpg-3306.app.github.dev/login', {//tem q ser a mesma do server.js
-      // Verifique se o endereço está correto
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ email, senha }),
-    })
-      .then(response => response.json())
-      .then(data => {
-        console.log('Login response:', data);
-        if (data.message === 'Login bem-sucedido') {
-          Alert.alert('Sucesso', 'Login realizado com sucesso!');
-          console.log("LOGIN EFETUADO COM SUCESSO");
-          // Redirecionar para a tela principal ou dashboard
-          
-        } else {
-          Alert.alert('Erro', data.message);
-        }
+      console.log('Login button clicked');
+      fetch('https://glorious-telegram-g4rxv79qvwh9jpg-3306.app.github.dev/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, senha }),
       })
-      .catch(error => {
-        console.error('Erro ao realizar login:', error);
-        Alert.alert('Erro', 'Não foi possível realizar o login');
-      });
+        .then(response => response.json())
+        .then(data => {
+          console.log('Login response:', data);
+          if (data.message === 'Login bem-sucedido') {
+            Alert.alert('Sucesso', 'Login realizado com sucesso!');
+            console.log("LOGIN EFETUADO COM SUCESSO");
+            // Redirecionar para a tela do mapa
+            navigation.navigate('Map');
+          } else {
+            Alert.alert('Erro', data.message);
+          }
+        })
+        .catch(error => {
+          console.error('Erro ao realizar login:', error);
+          Alert.alert('Erro', 'Não foi possível realizar o login');
+        });   
   };
 
   return (
@@ -95,6 +94,12 @@ export default function LoginScreen({ navigation }: Props) {
       <TouchableOpacity onPress={() => navigation.navigate('Cadastro')}>
         <Text style={styles.registerText}>
           Não tem uma conta? <Text style={styles.registerLink}>Cadastre-se</Text>
+        </Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity onPress={() => navigation.navigate('Map')}>
+        <Text style={styles.registerText}>
+          Mapa Teste <Text style={styles.registerLink}>Mapa</Text>
         </Text>
       </TouchableOpacity>
     </View>
