@@ -1,0 +1,5 @@
+expo-location = obter a localização do usuario
+	npx expo install expo-location
+map view = exibir o mapa e manipular
+	npx expo install react-native-maps
+
