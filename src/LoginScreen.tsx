@@ -27,7 +27,6 @@ export default function LoginScreen({ navigation }: Props) {
             Alert.alert('Sucesso', 'Login realizado com sucesso!');
             console.log("LOGIN EFETUADO COM SUCESSO");
             // Redirecionar para a tela do mapa
-            navigation.navigate('Map');
           } else {
             Alert.alert('Erro', data.message);
           }
@@ -96,10 +95,10 @@ export default function LoginScreen({ navigation }: Props) {
           Não tem uma conta? <Text style={styles.registerLink}>Cadastre-se</Text>
         </Text>
       </TouchableOpacity>
-
-      <TouchableOpacity onPress={() => navigation.navigate('Map')}>
+      
+      <TouchableOpacity onPress={() => navigation.navigate('Mapa')}>
         <Text style={styles.registerText}>
-          Mapa Teste <Text style={styles.registerLink}>Mapa</Text>
+          Tela Teste MAPA <Text style={styles.registerLink}>Mapa</Text>
         </Text>
       </TouchableOpacity>
     </View>
