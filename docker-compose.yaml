@@ -1,19 +1,14 @@
 version: '3.8'
-
 services:
   db:
     image: mysql:latest
-    container_name: mysql_db
-    restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: root_password
-      MYSQL_DATABASE: teste
-      MYSQL_USER: usuario
-      MYSQL_PASSWORD: "1234"
+      MYSQL_ROOT_PASSWORD: 'rootpassword' # Define a senha do usuário root
+      MYSQL_DATABASE: 'teste'             # O nome do banco de dados
     ports:
       - "3306:3306"
     volumes:
-      - db_data:/var/lib/mysql
+      - db-data:/var/lib/mysql
 
 volumes:
-  db_data:
+  db-data:

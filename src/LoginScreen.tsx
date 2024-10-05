@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { NavigationProp } from '@react-navigation/native';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image, Alert } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image, Alert, Platform } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
 
 interface Props {
@@ -11,31 +11,43 @@ export default function LoginScreen({ navigation }: Props) {
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
 
-  const handleLogin = () => {
-      console.log('Login button clicked');
-      fetch('https://glorious-telegram-g4rxv79qvwh9jpg-3306.app.github.dev/login', {
+  const showAlert = (title: string, message: string) => {
+    if (Platform.OS === 'web') {
+      alert(`${title}: ${message}`);
+    } else {
+      Alert.alert(title, message);
+    }
+  };
+
+  const handleLogin = async () => {
+    if (!email || !senha) {
+      showAlert('Erro', 'Por favor, preencha todos os campos');
+      return;
+    }
+  
+    try {
+      const response = await fetch('/login', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
+          'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ email, senha }),
-      })
-        .then(response => response.json())
-        .then(data => {
-          console.log('Login response:', data);
-          if (data.message === 'Login bem-sucedido') {
-            Alert.alert('Sucesso', 'Login realizado com sucesso!');
-            console.log("LOGIN EFETUADO COM SUCESSO");
-            // Redirecionar para a tela do mapa
-          } else {
-            Alert.alert('Erro', data.message);
-          }
-        })
-        .catch(error => {
-          console.error('Erro ao realizar login:', error);
-          Alert.alert('Erro', 'Não foi possível realizar o login');
-        });   
-  };
+        body: JSON.stringify({ email, senha })
+      });
+  
+      const data = await response.json();
+      
+      if (response.status === 200) {
+        showAlert('Sucesso', 'Login bem-sucedido');
+        navigation.navigate('Mapa')
+      } else {
+        showAlert('Erro', data.message);
+      }
+    } catch (error) {
+      console.log('Erro ao fazer login:', error);
+      showAlert('Erro', 'Erro ao fazer login. Tente novamente mais tarde.');
+    }
+  };  
+
 
   return (
     <View style={styles.container}>

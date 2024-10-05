@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { NavigationProp } from '@react-navigation/native';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image, Alert } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image, Alert, Platform } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
 
 interface Props {
@@ -13,38 +13,40 @@ export default function CadastroScreen({ navigation }: Props) {
   const [senha, setSenha] = useState('');
   const [confirmarSenha, setConfirmarSenha] = useState('');
 
+  const showAlert = (title: string, message: string) => {
+    if (Platform.OS === 'web') {
+      alert(`${title}: ${message}`);
+    } else {
+      Alert.alert(title, message);
+    }
+  };
+
   const handleRegister = async () => {
-    if (!email || !nome || !senha) {
-      Alert.alert('Erro', 'Por favor, preencha todos os campos');
-      console.log('Erro: campos faltando');
+    if (!email || !nome || !senha || senha !== confirmarSenha) {
+      showAlert('Erro', 'Verifique se todos os campos estão preenchidos e se as senhas coincidem');
       return;
     }
   
     try {
-      console.log('Iniciando cadastro com:', { email, nome, senha });
-  
-      const response = await fetch('https://glorious-telegram-g4rxv79qvwh9jpg-3306.app.github.dev/cadastro',{//tem q ser a mesma do server.js
+      const response = await fetch('/cadastro', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
+          'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ email, nome, senha }),
+        body: JSON.stringify({ nome, email, senha })
       });
   
       const data = await response.json();
-      console.log('Resposta do servidor:', data);
-  
-      if (data.message === 'Cadastro bem-sucedido') {
-        Alert.alert('Sucesso', 'Cadastro realizado com sucesso!');
-        console.log('Cadastro bem-sucedido');
-        navigation.navigate('LoginScreen');  // Redireciona para a tela de login ou outra tela
+      
+      if (response.status === 201) {
+        showAlert('Sucesso', data.message);
+        navigation.navigate('Login');
       } else {
-        Alert.alert('Erro', data.message);
-        console.log('Erro no cadastro:', data.message);
+        showAlert('Erro', data.message);
       }
     } catch (error) {
-      console.error('Erro ao realizar cadastro:', error);
-      Alert.alert('Erro', 'Não foi possível realizar o cadastro');
+      console.log('Erro ao registrar:', error);
+      showAlert('Erro', 'Erro ao registrar. Tente novamente mais tarde.');
     }
   };
   
