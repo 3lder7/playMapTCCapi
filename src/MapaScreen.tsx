@@ -4,6 +4,7 @@ import { requestForegroundPermissionsAsync} from "expo-location";//pedir permiss
 import { getCurrentPositionAsync} from "expo-location";//obter a localização do usuario
 import { LocationObject } from "expo-location";//latitude e longitude
 import { useEffect, useState } from "react";
+import  MapView  from "react-native-maps";//importa para a visualização do mapa
 
 export default function MapScreen(){
 
@@ -23,10 +24,14 @@ export default function MapScreen(){
 
     useEffect(() =>{//usando a função//no momento que a intrface é renderizada, solicita o método
         requestLocationPermission();
-    }, []);//STOP HERE 02/10
+    }, []);
 
     return (
         <View style ={styles.container}>
+
+            <MapView
+                style={styles.map}//define uma única estilização pro mapa
+            />
 
         </View>
     );
