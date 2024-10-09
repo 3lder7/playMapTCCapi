@@ -26,11 +26,11 @@ export default function MapScreen(){
         requestLocationPermission();
     }, []);
 
+    //exibe o mapa 
     return (
         <View style ={styles.container}>
             
-        
-
+        //vazio
         </View>
     );
 }
