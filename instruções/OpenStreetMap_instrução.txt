@@ -1,0 +1,12 @@
+
+android:
+    npm install @maplibre/maplibre-react-native --save
+
+web:
+    npm install react-leaflet leaflet
+
+instalar também:
+    npm install react-leaflet
+
+ é necessário garantir que as definições de tipo estejam instaladas.
+    npm install @types/leaflet --save-dev

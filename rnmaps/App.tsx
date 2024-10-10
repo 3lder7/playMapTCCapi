@@ -4,7 +4,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import LoginScreen from './src/LoginScreen';
 import CadastroScreen from './src/CadastroScreen';
-import MapaScreen from './src/MapaScreen';
+import MapaScreen from './src/MapScreen';
 
 const Stack = createStackNavigator();
 
