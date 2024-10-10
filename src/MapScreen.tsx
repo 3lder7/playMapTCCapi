@@ -13,15 +13,21 @@ const customIcon = L.icon({
     popupAnchor: [1, -34]
 });
 
+//limites pra Salvador-Bahia
+const bounds = L.latLngBounds(
+    L.latLng(-13.0106, -38.5303), // Sudoeste
+    L.latLng(-12.8963, -38.3863)  // Nordeste
+);
+
 export default function MapScreen() {
     const [location, setLocation] = useState<Location.LocationObject | null>(null);
 
-    //função para solicitar permissão e obter a localização
+    //solicitar permissão e obter a localização
     async function requestLocationPermission() {
         const { status } = await Location.requestForegroundPermissionsAsync();
         if (status === 'granted') {
             const posicaoAtual = await Location.getCurrentPositionAsync({
-                accuracy: Location.Accuracy.High, 
+                accuracy: Location.Accuracy.High,
             });
             setLocation(posicaoAtual);
         } else {
@@ -29,19 +35,20 @@ export default function MapScreen() {
         }
     }
 
-    //solicitar a permissão na montagem do componente
     useEffect(() => {
         requestLocationPermission();
     }, []);
+    if (!location) return null; 
 
-    if (!location) return null;
-
-    //renderizando o mapa
+    //renderizar o mapa
     return (
         <MapContainer 
-            center={[location.coords.latitude, location.coords.longitude]} 
-            zoom={13} 
+            center={[-12.9716, -38.5014]} //centro de Salvador
+            zoom={13} //nível de zoom
             style={{ height: "100vh", width: "100%" }}
+            bounds={bounds} //limites de Salvador
+            maxBounds={bounds} //restringir o movimento
+            maxBoundsViscosity={1.0} //ajusta a "aderência" aos limites
         >
             <TileLayer
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
