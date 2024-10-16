@@ -1,22 +1,25 @@
 import 'react-native-gesture-handler';
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
+import { createNativeStackNavigator } from '@react-navigation/native-stack'; // Use isso
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import LoginScreen from './src/LoginScreen';
 import CadastroScreen from './src/CadastroScreen';
-import MapaScreen from './src/MapScreen';
+import MapScreen from './src/MapScreen';
 
-const Stack = createStackNavigator();
+const Stack = createNativeStackNavigator(); // Atualize aqui
 
 function App(): React.JSX.Element {
   return (
-    <NavigationContainer>
-      <Stack.Navigator initialRouteName="Login">
-        <Stack.Screen name="Login" component={LoginScreen} />
-        <Stack.Screen name="Cadastro" component={CadastroScreen} />
-        <Stack.Screen name="Mapa" component={MapaScreen} />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <NavigationContainer>
+        <Stack.Navigator initialRouteName="Cadastro">
+          <Stack.Screen name="Login" component={LoginScreen} />
+          <Stack.Screen name="Cadastro" component={CadastroScreen} />
+          <Stack.Screen name="Mapa" component={MapScreen} />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </GestureHandlerRootView>
   );
 }
 
