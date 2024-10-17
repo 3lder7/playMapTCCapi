@@ -1,0 +1,1 @@
+Pra rodar o aplicativo no celular atraves do expo go é so dar um " npx expo start --tunnel " que o expo vai abrir um link remoto de acesso ao aplicativo e então é so escanear o qr code gerado e ta la.
