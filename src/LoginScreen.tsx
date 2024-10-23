@@ -26,7 +26,7 @@ export default function LoginScreen({ navigation }: Props) {
     }
   
     try {
-      const response = await fetch('/login', {
+      const response = await fetch('https://supreme-fiesta-wpp7wrg7pxqc54w-3000.app.github.dev/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

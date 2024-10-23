@@ -28,7 +28,7 @@ export default function CadastroScreen({ navigation }: Props) {
     }
   
     try {
-      const response = await fetch('/cadastro', {
+      const response = await fetch('https://supreme-fiesta-wpp7wrg7pxqc54w-3000.app.github.dev/cadastro', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

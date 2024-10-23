@@ -1,0 +1,13 @@
+
+CREATE TABLE USUARIOS(  
+    codigo int AUTO_INCREMENT,
+    email VARCHAR(50) NOT NULL,
+    nome VARCHAR(50) NOT NULL,
+    senha VARCHAR(15) NOT NULL,
+    PRIMARY KEY (codigo),
+    UNIQUE(email)
+);
+
+SELECT * FROM USUARIOS;
+
+--------server.js-------------
