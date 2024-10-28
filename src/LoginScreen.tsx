@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { NavigationProp } from '@react-navigation/native';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image, Alert, Platform } from 'react-native';
+import { db } from '../firebaseConfig'; 
+import { collection, getDocs, query, where } from 'firebase/firestore';
 import { FontAwesome } from '@expo/vector-icons';
 
 interface Props {
@@ -26,21 +28,14 @@ export default function LoginScreen({ navigation }: Props) {
     }
   
     try {
-      const response = await fetch('https://supreme-fiesta-wpp7wrg7pxqc54w-3000.app.github.dev/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ email, senha })
-      });
-  
-      const data = await response.json();
-      
-      if (response.status === 200) {
+      const userRef = query(collection(db, 'usuarios'), where('email', '==', email), where('senha', '==', senha));
+      const querySnapshot = await getDocs(userRef);
+
+      if (!querySnapshot.empty) {
         showAlert('Sucesso', 'Login bem-sucedido');
-        navigation.navigate('Mapa')
+        navigation.navigate('Main');
       } else {
-        showAlert('Erro', data.message);
+        showAlert('Erro', 'Email ou senha inválidos');
       }
     } catch (error) {
       console.log('Erro ao fazer login:', error);
@@ -108,7 +103,7 @@ export default function LoginScreen({ navigation }: Props) {
         </Text>
       </TouchableOpacity>
       
-      <TouchableOpacity onPress={() => navigation.navigate('Mapa')}>
+      <TouchableOpacity onPress={() => navigation.navigate('Main')}>
         <Text style={styles.registerText}>
           Tela Teste MAPA <Text style={styles.registerLink}>Mapa</Text>
         </Text>
