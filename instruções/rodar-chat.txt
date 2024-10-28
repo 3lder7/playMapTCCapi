@@ -1,0 +1,3 @@
+instalar:
+    npm install --save-dev @types/express
+    npm install --save-dev @types/socket.io
