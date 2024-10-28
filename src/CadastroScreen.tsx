@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import { NavigationProp } from '@react-navigation/native';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image, Alert, Platform } from 'react-native';
+import { db } from '../firebaseConfig'; 
 import { FontAwesome } from '@expo/vector-icons';
+import { collection, addDoc } from 'firebase/firestore';
 
 interface Props {
   navigation: NavigationProp<any, any>;
@@ -22,28 +24,19 @@ export default function CadastroScreen({ navigation }: Props) {
   };
 
   const handleRegister = async () => {
-    if (!email || !nome || !senha || senha !== confirmarSenha) {
+    if (!nome || !email || !senha || senha !== confirmarSenha) {
       showAlert('Erro', 'Verifique se todos os campos estão preenchidos e se as senhas coincidem');
       return;
     }
   
     try {
-      const response = await fetch('https://supreme-fiesta-wpp7wrg7pxqc54w-3000.app.github.dev/cadastro', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ nome, email, senha })
+      await addDoc(collection(db, 'usuarios'), {
+        nome,
+        email,
+        senha,
       });
-  
-      const data = await response.json();
-      
-      if (response.status === 201) {
-        showAlert('Sucesso', data.message);
-        navigation.navigate('Login');
-      } else {
-        showAlert('Erro', data.message);
-      }
+      showAlert('Sucesso', 'Usuário cadastrado com sucesso!');
+      navigation.navigate('Login');
     } catch (error) {
       console.log('Erro ao registrar:', error);
       showAlert('Erro', 'Erro ao registrar. Tente novamente mais tarde.');
