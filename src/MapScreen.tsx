@@ -61,12 +61,13 @@ export default function MapScreen() {
 }*/}
 
 {/*  Codigo usando a api base do google, pode aparecer alguns erros mas se as dependencias ja instalaram ta tudo bem  */}
-import React, { useEffect, useState } from "react";
-import { View, StyleSheet, ActivityIndicator, Alert, Text, TouchableOpacity, ScrollView, PanResponder } from "react-native";
+
+import React, { useEffect, useState, useRef } from "react";
+import { View, StyleSheet, ActivityIndicator, Alert, Text, TouchableOpacity, ScrollView, PanResponder, TextInput } from "react-native";
 import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
 import * as Location from "expo-location";
 import { db } from '../firebaseConfig';
-import { collection, getDocs } from "firebase/firestore"; 
+import { collection, getDocs, query, where } from "firebase/firestore";
 
 const MapScreen = () => {
     const [location, setLocation] = useState(null);
@@ -74,7 +75,22 @@ const MapScreen = () => {
     const [markers, setMarkers] = useState([]);
     const [selectedMarker, setSelectedMarker] = useState(null);
     const [isVisible, setIsVisible] = useState(false);
-    const [panelHeight, setPanelHeight] = useState(300); // Altura inicial da aba
+    const [panelHeight, setPanelHeight] = useState(300);
+    const [searchQuery, setSearchQuery] = useState("");
+    const [suggestions, setSuggestions] = useState([]);
+    const mapRef = useRef(null);
+
+    const mapStyle = [
+        {
+            "featureType": "poi.business",
+            "elementType": "all",
+            "stylers": [
+                {
+                    "visibility": "off"
+                }
+            ]
+        }
+    ];
 
     const fetchMarkersFromFirebase = async () => {
         try {
@@ -84,6 +100,30 @@ const MapScreen = () => {
         } catch (error) {
             console.error("Erro ao buscar marcadores: ", error);
             Alert.alert("Erro", "Não foi possível carregar os marcadores.");
+        }
+    };
+
+    const fetchNeighborhoodSuggestions = async (queryText) => {
+        const trimmedQuery = queryText.trim();
+        if (!trimmedQuery) {
+            setSuggestions([]);
+            return;
+        }
+
+        const capitalizedQuery = trimmedQuery.charAt(0).toUpperCase() + trimmedQuery.slice(1).toLowerCase();
+        
+        try {
+            const neighborhoodsQuery = query(
+                collection(db, "neighborhood"), 
+                where("name", ">=", capitalizedQuery), 
+                where("name", "<=", capitalizedQuery + '\uf8ff')
+            );
+
+            const querySnapshot = await getDocs(neighborhoodsQuery);
+            const neighborhoods = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+            setSuggestions(neighborhoods);
+        } catch (error) {
+            console.error("Erro ao buscar sugestões de bairros: ", error);
         }
     };
 
@@ -108,6 +148,10 @@ const MapScreen = () => {
         fetchMarkersFromFirebase();
     }, []);
 
+    useEffect(() => {
+        fetchNeighborhoodSuggestions(searchQuery);
+    }, [searchQuery]);
+
     if (loading) {
         return <ActivityIndicator size="large" color="#0000ff" />;
     }
@@ -120,28 +164,53 @@ const MapScreen = () => {
     const handleMarkerPress = (marker) => {
         setSelectedMarker(marker);
         setIsVisible(true);
+        mapRef.current.animateToRegion({
+            latitude: marker.latitude,
+            longitude: marker.longitude,
+            latitudeDelta: 0.0922 * 0.15,
+            longitudeDelta: 0.0421 * 0.15,
+        }, 1000);
+    };
+
+    const handleSearchSubmit = (suggestion) => {
+        if (suggestion && suggestion.latitude && suggestion.longitude) {
+            setLocation({
+                coords: {
+                    latitude: suggestion.latitude,
+                    longitude: suggestion.longitude,
+                },
+            });
+            mapRef.current.animateToRegion({
+                latitude: suggestion.latitude,
+                longitude: suggestion.longitude,
+                latitudeDelta: 0.0922 * 0.15,
+                longitudeDelta: 0.0421 * 0.15,
+            }, 1000);
+            setSearchQuery(""); // Limpa a barra de pesquisa
+            setSuggestions([]); // Limpa sugestões
+            setSelectedMarker(null); // Reseta o marcador selecionado
+            setIsVisible(false); // Oculta a aba após pesquisa
+        } else {
+            Alert.alert("Nenhuma sugestão encontrada", "Tente outro nome de bairro.");
+        }
     };
 
     const panResponder = PanResponder.create({
         onStartShouldSetPanResponder: () => true,
         onMoveShouldSetPanResponder: () => true,
-        onPanResponderGrant: () => {
-            // Set initial height if needed
-        },
         onPanResponderMove: (evt, gestureState) => {
             const newHeight = Math.max(200, Math.min(700, panelHeight - gestureState.dy));
             setPanelHeight(newHeight);
-        },
-        onPanResponderRelease: () => {
-            // Handle release if needed
         },
     });
 
     return (
         <View style={{ flex: 1 }}>
             <MapView
+                ref={mapRef}
                 provider={PROVIDER_GOOGLE}
                 style={styles.map}
+                customMapStyle={mapStyle}
                 initialRegion={{
                     latitude: location.coords.latitude,
                     longitude: location.coords.longitude,
@@ -150,7 +219,7 @@ const MapScreen = () => {
                 }}
                 showsUserLocation={true}
                 followsUserLocation={true}
-                onPress={() => setIsVisible(false)} // Fecha a aba ao clicar fora
+                onPress={() => setIsVisible(false)} // Oculta a aba ao tocar no mapa
             >
                 {markers.map((marker) => (
                     <Marker
@@ -163,6 +232,21 @@ const MapScreen = () => {
                     />
                 ))}
             </MapView>
+
+            <View style={styles.searchContainer}>
+                <TextInput
+                    style={styles.searchInput}
+                    placeholder="Buscar por bairro"
+                    value={searchQuery}
+                    onChangeText={setSearchQuery}
+                    onSubmitEditing={() => {
+                        if (suggestions.length > 0) {
+                            handleSearchSubmit(suggestions[0]); // Seleciona a primeira sugestão ao submeter
+                        }
+                    }}
+                />
+            </View>
+
             {isVisible && selectedMarker && (
                 <View style={[styles.infoContainer, { height: panelHeight }]} {...panResponder.panHandlers}>
                     <TouchableOpacity style={styles.closeButton} onPress={() => setIsVisible(false)}>
@@ -174,6 +258,20 @@ const MapScreen = () => {
                     </ScrollView>
                 </View>
             )}
+
+            {suggestions.length > 0 && (
+                <View style={styles.suggestionsContainer}>
+                    {suggestions.map((suggestion) => (
+                        <TouchableOpacity
+                            key={suggestion.id}
+                            onPress={() => handleSearchSubmit(suggestion)}
+                            style={styles.suggestionItem}
+                        >
+                            <Text style={styles.suggestionText}>{suggestion.name}</Text>
+                        </TouchableOpacity>
+                    ))}
+                </View>
+            )}
         </View>
     );
 };
@@ -182,16 +280,32 @@ const styles = StyleSheet.create({
     map: {
         flex: 1,
     },
+    searchContainer: {
+        position: 'absolute',
+        top: 10,
+        left: 10,
+        right: 10,
+        flexDirection: 'row',
+        backgroundColor: '#fff',
+        borderRadius: 8,
+        padding: 8,
+        elevation: 5,
+    },
+    searchInput: {
+        flex: 1,
+        paddingLeft: 10,
+        fontSize: 16,
+    },
     infoContainer: {
         position: 'absolute',
         bottom: 0,
         left: 0,
         right: 0,
-        backgroundColor: 'white',
+        backgroundColor: '#f8f8f8',
         borderTopLeftRadius: 20,
         borderTopRightRadius: 20,
         elevation: 5,
-        padding: 15,
+        padding: 20,
         overflow: 'hidden',
     },
     closeButton: {
@@ -211,16 +325,35 @@ const styles = StyleSheet.create({
         fontSize: 18,
     },
     scrollContainer: {
-        marginTop: 40, // Espaço para o botão de fechar
+        marginTop: 40,
     },
     infoTitle: {
-        fontSize: 16,
+        fontSize: 17,
         fontWeight: 'bold',
         marginBottom: 5,
     },
     infoDescription: {
-        fontSize: 16,
+        fontSize: 15,
         lineHeight: 24,
+    },
+    suggestionsContainer: {
+        position: 'absolute',
+        top: 60,
+        left: 10,
+        right: 10,
+        backgroundColor: '#fff',
+        borderRadius: 8,
+        elevation: 5,
+        maxHeight: 150,
+        overflow: 'hidden',
+    },
+    suggestionItem: {
+        padding: 10,
+        borderBottomWidth: 1,
+        borderBottomColor: '#eee',
+    },
+    suggestionText: {
+        fontSize: 16,
     },
 });
 
