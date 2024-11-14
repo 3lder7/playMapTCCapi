@@ -22,7 +22,7 @@ const mapIcon = require('./src/icons/Maps.png');
 const groupsIcon = require('./src/icons/Groups.png');
 const eventsIcon = require('./src/icons/Events.png');
 const profileIcon = require('./src/icons/User.png');
-const homeIcon = require('./src/icons/Home.png'); // Ícone para a futura página "Home"
+const homeIcon = require('./src/icons/Home.png');
 
 function MainTabNavigator() {
   return (
