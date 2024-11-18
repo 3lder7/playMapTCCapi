@@ -3,109 +3,201 @@ import { View, Text, Image, TouchableOpacity, StyleSheet, ScrollView } from 'rea
 
 export default function ProfileScreen() {
   return (
-    <ScrollView contentContainerStyle={styles.container}>
-      <TouchableOpacity style={styles.backButton}>
-        <Text style={styles.backText}>←</Text>
-      </TouchableOpacity>
-      <View style={styles.header}>
-        <Text style={styles.title}>Editar Perfil</Text>
-      </View>
-      <View style={styles.profileSection}>
-        <Image
-           source={require('./img/perfil-img.png')}
-          style={styles.profileImage}
-        />
-        <Text style={styles.changePhotoText}>Alterar Foto</Text>
-        <Text style={styles.emailText}>AlexVasquez.@gmail.com</Text>
-      </View>
+    <View style={styles.container}>
+      <ScrollView contentContainerStyle={styles.scrollContainer}>
+      
+        <View style={styles.header}>
+          <Image
+            source={{ uri: 'https://via.placeholder.com/400x200' }}
+            style={styles.headerBackground}
+          />
+          <View style={styles.profileInfo}>
+            <Image
+              source={{ uri: 'https://via.placeholder.com/80' }}
+              style={styles.profileImage}
+            />
+            <Text style={styles.nameText}>Alex Vasquez</Text>
+            <Text style={styles.pronounText}>Ela/Dela</Text>
+            <Text style={styles.locationText}>Salvador-BA</Text>
+          </View>
+        </View>
 
-      <View style={styles.optionList}>
-        {[
-          { label: 'Nome', value: 'Alex VAsquez' },
-          { label: 'Pronomes', value: 'Ela/Dela' },
-          { label: 'Privacidade', value: 'Público' },
-          { label: 'Bio', value: '22 anos - Vol...' },
-          { label: 'Status', value: 'O esporte é a fé' },
-          { label: 'Instagram', value: 'Alex.VS' },
-          { label: 'Tiktok', value: 'Alex.VS' },
-        ].map((item, index) => (
-          <TouchableOpacity key={index} style={styles.option}>
-            <Text style={styles.optionLabel}>{item.label}</Text>
-            <Text style={styles.optionValue}>{item.value}</Text>
+        <View style={styles.socialMediaContainer}>
+          {[
+            { name: 'Instagram', icon: 'https://via.placeholder.com/40' },
+            { name: 'TikTok', icon: 'https://via.placeholder.com/40' },
+            { name: 'Outro', icon: 'https://via.placeholder.com/40' },
+          ].map((social, index) => (
+            <Image
+              key={index}
+              source={{ uri: social.icon }}
+              style={styles.socialIcon}
+            />
+          ))}
+        </View>
+
+       
+        <View style={styles.section}>
+          <Text style={styles.sectionTitle}>Esporte que prática</Text>
+          <View style={styles.sportsContainer}>
+            {[
+              'https://via.placeholder.com/40',
+              'https://via.placeholder.com/40',
+              'https://via.placeholder.com/40',
+              'https://via.placeholder.com/40',
+            ].map((sport, index) => (
+              <View key={index} style={styles.sportCard}>
+                <Image source={{ uri: sport }} style={styles.sportIcon} />
+                <Text style={styles.sportName}>Esporte {index + 1}</Text>
+              </View>
+            ))}
+          </View>
+        </View>
+
+       
+        <View style={styles.section}>
+          <Text style={styles.sectionTitle}>Grupos</Text>
+          {[
+            { name: 'Perna Longa', image: 'https://via.placeholder.com/40' },
+            { name: 'Pedala pra frente', image: 'https://via.placeholder.com/40' },
+            { name: 'Músculos de Titan', image: 'https://via.placeholder.com/40' },
+          ].map((group, index) => (
+            <TouchableOpacity key={index} style={styles.groupCard}>
+              <Image source={{ uri: group.image }} style={styles.groupImage} />
+              <Text style={styles.groupName}>{group.name}</Text>
+              <Text style={styles.groupArrow}>→</Text>
+            </TouchableOpacity>
+          ))}
+        </View>
+      </ScrollView>
+
+   
+      <View style={styles.bottomNav}>
+        {['Início', 'Grupos', 'Eventos', 'Perfil'].map((label, index) => (
+          <TouchableOpacity key={index} style={styles.navButton}>
+            <Text style={styles.navText}>{label}</Text>
           </TouchableOpacity>
         ))}
       </View>
-    </ScrollView>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flexGrow: 1,
+    flex: 1,
     backgroundColor: '#fff',
+  },
+  scrollContainer: {
     padding: 16,
   },
   header: {
-    justifyContent: 'center',
-    alignItems: 'center',
     marginBottom: 20,
   },
-  backButton: {
-    marginRight: 10,
+  headerBackground: {
+    width: '100%',
+    height: 200,
+    borderRadius: 10,
   },
-  backText: {
-    fontSize: 18,
-    color: '#000',
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    textAlign: 'center',
-  },
-  profileSection: {
+  profileInfo: {
     alignItems: 'center',
-    marginBottom: 30,
+    marginTop: -40, // Para ajustar em relação à imagem de fundo
   },
   profileImage: {
-    width: 100,
-    height: 100,
-    borderRadius: 50,
-    borderWidth: 7,
-    borderColor: '#f58742',
+    width: 80,
+    height: 80,
+    borderRadius: 40,
+    borderWidth: 3.5,
+    borderColor: '#fff',
   },
-  changePhotoText: {
-    color: '#000000',
-    marginTop: 8,
+  nameText: {
+    fontSize: 18,
     fontWeight: 'bold',
+    marginTop: 10,
   },
-  emailText: {
+  pronounText: {
+    fontSize: 14,
     color: '#666',
-    marginTop: 4,
   },
-  optionList: {
-    marginTop: 20,
-    borderRadius: 18,
+  locationText: {
+    fontSize: 14,
+    color: '#666',
+    marginBottom: 10,
   },
-  option: {
+  socialMediaContainer: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingVertical: 12,
-    paddingHorizontal: 20,
-    backgroundColor: '#f58742',
-    borderRadius: 25,
-    marginBottom: 20, 
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.2,
-    shadowRadius: 2,
-    elevation: 5, 
+    justifyContent: 'center',
+    marginVertical: 5,
+    marginBottom: 20,
+    marginTop: -20,
   },
-  optionLabel: {
-    color: '#fff',
+  socialIcon: {
+    width: 40,
+    height: 40,
+    marginHorizontal: 10,
+  },
+  section: {
+    marginBottom: 20,
+  },
+  sectionTitle: {
+    fontSize: 16,
     fontWeight: 'bold',
+    marginBottom: 10,
   },
-  optionValue: {
-    color: '#fff',
+  sportsContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    flexWrap: 'wrap',
+  },
+  sportCard: {
+    alignItems: 'center',
+    width: 70,
+    marginBottom: 10,
+  },
+  sportIcon: {
+    width: 40,
+    height: 40,
+    marginBottom: 5,
+  },
+  sportName: {
+    fontSize: 12,
+    textAlign: 'center',
+  },
+  groupCard: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: 10,
+    backgroundColor: '#fff',
+    borderRadius: 10,
+    elevation: 3,
+    marginBottom: 10,
+  },
+  groupImage: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    marginRight: 10,
+  },
+  groupName: {
+    flex: 1,
+    fontSize: 14,
+  },
+  groupArrow: {
+    fontSize: 18,
+    color: '#f58742',
+  },
+  bottomNav: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    paddingVertical: 10,
+    borderTopWidth: 1,
+    borderColor: '#ddd',
+  },
+  navButton: {
+    alignItems: 'center',
+  },
+  navText: {
+    fontSize: 12,
+    color: '#666',
   },
 });
