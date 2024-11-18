@@ -48,9 +48,9 @@ function MainTabNavigator() {
             <Image
               source={iconSource}
               style={{
-                width: focused ? 28 : 24, // Aumenta o tamanho quando está focado
+                width: focused ? 28 : 24, 
                 height: focused ? 28 : 24,
-                tintColor: focused ? '#007AFF' : '#8E8E93', // Azul quando focado, cinza quando não
+                tintColor: focused ? '#007AFF' : '#8E8E93',
               }}
             />
           );
