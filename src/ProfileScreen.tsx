@@ -8,25 +8,25 @@ export default function ProfileScreen() {
       
         <View style={styles.header}>
           <Image
-            source={{ uri: 'https://via.placeholder.com/400x200' }}
+            source={{ uri: 'https://imply.com/wp-content/uploads/composite-image-mid-section-sportsman-holding-volleyball.jpg' }}
             style={styles.headerBackground}
           />
           <View style={styles.profileInfo}>
             <Image
-              source={{ uri: 'https://via.placeholder.com/80' }}
+              source={require('./img/perfil-img.png')}
               style={styles.profileImage}
             />
             <Text style={styles.nameText}>Alex Vasquez</Text>
             <Text style={styles.pronounText}>Ela/Dela</Text>
-            <Text style={styles.locationText}>Salvador-BA</Text>
+            <Text style={styles.locationText}>🚩 Salvador - BA</Text>
           </View>
         </View>
 
         <View style={styles.socialMediaContainer}>
           {[
-            { name: 'Instagram', icon: 'https://via.placeholder.com/40' },
-            { name: 'TikTok', icon: 'https://via.placeholder.com/40' },
-            { name: 'Outro', icon: 'https://via.placeholder.com/40' },
+            { name: 'X', icon: 'https://freepnglogo.com/images/all_img/1691832581twitter-x-icon-png.png' },
+            { name: 'Instagram', icon: 'https://logodownload.org/wp-content/uploads/2017/04/instagram-logo.png' },
+            { name: '', icon: 'https://static.vecteezy.com/system/resources/thumbnails/016/716/485/small_2x/tiktok-icon-free-png.png' },
           ].map((social, index) => (
             <Image
               key={index}
@@ -38,29 +38,28 @@ export default function ProfileScreen() {
 
        
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Esporte que prática</Text>
+          <Text style={styles.sectionTitle}>Esportes que pratica</Text>
           <View style={styles.sportsContainer}>
             {[
-              'https://via.placeholder.com/40',
-              'https://via.placeholder.com/40',
-              'https://via.placeholder.com/40',
-              'https://via.placeholder.com/40',
+              { name: "Futebol", image: "https://cdn-icons-png.flaticon.com/128/657/657648.png" },
+              { name: "Natação", image: "https://cdn-icons-png.flaticon.com/128/2264/2264829.png" },
+              { name: "Vôlei", image: "https://cdn-icons-png.flaticon.com/128/5496/5496293.png" },
+              { name: "Basquete", image: "https://cdn-icons-png.flaticon.com/128/4354/4354856.png" },
             ].map((sport, index) => (
               <View key={index} style={styles.sportCard}>
-                <Image source={{ uri: sport }} style={styles.sportIcon} />
-                <Text style={styles.sportName}>Esporte {index + 1}</Text>
+                <Image source={{ uri: sport.image }} style={styles.sportIcon} />
+                <Text style={styles.sportName}>{sport.name}</Text>
               </View>
             ))}
           </View>
         </View>
-
-       
+      
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Grupos</Text>
           {[
-            { name: 'Perna Longa', image: 'https://via.placeholder.com/40' },
-            { name: 'Pedala pra frente', image: 'https://via.placeholder.com/40' },
-            { name: 'Músculos de Titan', image: 'https://via.placeholder.com/40' },
+            { name: 'Perna Longa', image: 'https://i.pinimg.com/originals/78/12/a7/7812a76820f4d5269dadd571ff759174.jpg' },
+            { name: 'Pedala pra frente', image: 'https://www.anastra.com.br/wp-content/uploads/2022/07/Anastra-2022-Quinta-0443-1024x683.jpg' },
+            { name: 'Músculos de Titan', image: 'https://image.lexica.art/md2_webp/d370994d-3c60-4aa5-848c-16191aeec57f' },
           ].map((group, index) => (
             <TouchableOpacity key={index} style={styles.groupCard}>
               <Image source={{ uri: group.image }} style={styles.groupImage} />
@@ -96,12 +95,12 @@ const styles = StyleSheet.create({
   },
   headerBackground: {
     width: '100%',
-    height: 200,
+    height: 120,
     borderRadius: 10,
   },
   profileInfo: {
     alignItems: 'center',
-    marginTop: -40, // Para ajustar em relação à imagem de fundo
+    marginTop: -40, 
   },
   profileImage: {
     width: 80,
@@ -129,12 +128,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     marginVertical: 5,
     marginBottom: 20,
-    marginTop: -20,
+    marginTop: -8,
   },
   socialIcon: {
     width: 40,
     height: 40,
-    marginHorizontal: 10,
+    marginHorizontal: 25,
   },
   section: {
     marginBottom: 20,
@@ -181,10 +180,12 @@ const styles = StyleSheet.create({
   groupName: {
     flex: 1,
     fontSize: 14,
+    fontWeight: 'bold',
+    marginLeft: 20,
   },
   groupArrow: {
-    fontSize: 18,
-    color: '#f58742',
+    fontSize: 30,
+    color: '#000000',
   },
   bottomNav: {
     flexDirection: 'row',
