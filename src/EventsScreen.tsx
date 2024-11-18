@@ -20,7 +20,7 @@ export default function EventsScreen() {
       location: 'Salvador - BA',
       category: 'Sport',
       buttonText: 'Inscrições abertas',
-      image: 'https://via.placeholder.com/150',
+      image: 'https://cdn.ticketsports.com.br/ticketagora/images/FLYS63JBOKRFM60RQG3RHQWBA62HDTUK0I9MN1RP5WRUIAW1V9.png',
     },
     {
       id: '2',
@@ -29,7 +29,7 @@ export default function EventsScreen() {
       location: 'Feira de Santana - BA',
       category: 'Olimpio organização',
       buttonText: 'Inscrições abertas',
-      image: 'https://via.placeholder.com/150',
+      image: 'https://storage.googleapis.com/corridinhas-production/race-images%2Fab53586f-0e58-475b-88bf-61ccbc9f26e6.webp',
     },
   ];
 
@@ -40,21 +40,21 @@ export default function EventsScreen() {
         <Text style={styles.eventTitle}>{item.title}</Text>
         <View style={styles.eventRow}>
           <Image
-            source={{ uri: 'https://via.placeholder.com/24' }}
+            source={require('./img/imgEventos/001-calendar.png')}
             style={styles.icon}
           />
           <Text style={styles.eventText}>{item.date}</Text>
         </View>
         <View style={styles.eventRow}>
           <Image
-            source={{ uri: 'https://via.placeholder.com/24' }}
+            source={require('./img/imgEventos/002-pin.png')}
             style={styles.icon}
           />
           <Text style={styles.eventText}>{item.location}</Text>
         </View>
         <View style={styles.eventRow}>
           <Image
-            source={{ uri: 'https://via.placeholder.com/24' }}
+            source={require('./img/imgEventos/003-bandeiras.png')}
             style={styles.icon}
           />
           <Text style={styles.eventText}>{item.category}</Text>
