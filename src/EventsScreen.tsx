@@ -68,7 +68,7 @@ export default function EventsScreen() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.header}>Eventos</Text>
+      <Text style={styles.header}>Eventos Disponíveis</Text>
       <FlatList
         data={events}
         keyExtractor={(item) => item.id}

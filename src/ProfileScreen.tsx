@@ -39,20 +39,20 @@ export default function ProfileScreen() {
        
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Esportes que pratica</Text>
-          <View style={styles.sportsContainer}>
+          <View style={styles.sportsHorizontalContainer}>
             {[
-              { name: "Futebol", image: "https://cdn-icons-png.flaticon.com/128/657/657648.png" },
-              { name: "Natação", image: "https://cdn-icons-png.flaticon.com/128/2264/2264829.png" },
-              { name: "Vôlei", image: "https://cdn-icons-png.flaticon.com/128/5496/5496293.png" },
-              { name: "Basquete", image: "https://cdn-icons-png.flaticon.com/128/4354/4354856.png" },
+              { name: 'Vôlei', image: 'https://cdn-icons-png.flaticon.com/128/37/37680.png' },
+              { name: 'Corrida', image: 'https://cdn-icons-png.flaticon.com/128/763/763965.png' },
+              { name: 'Ciclismo', image: 'https://cdn-icons-png.flaticon.com/128/94/94203.png' },
             ].map((sport, index) => (
-              <View key={index} style={styles.sportCard}>
-                <Image source={{ uri: sport.image }} style={styles.sportIcon} />
-                <Text style={styles.sportName}>{sport.name}</Text>
+              <View key={index} style={styles.sportCardHorizontal}>
+                <Image source={{ uri: sport.image }} style={styles.sportIconHorizontal} />
+                <Text style={styles.sportNameHorizontal}>{sport.name}</Text>
               </View>
             ))}
           </View>
         </View>
+
       
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Grupos</Text>
@@ -201,4 +201,31 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: '#666',
   },
+  sportsHorizontalContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginHorizontal: 10,
+  },
+  sportCardHorizontal: {
+    flex: 1,
+    alignItems: 'center',
+    marginHorizontal: 5,
+    paddingVertical: 10,
+    backgroundColor: '#f8f9fa',
+    borderRadius: 10,
+    elevation: 2, 
+    shadowOpacity: 0.2,
+    shadowOffset: { width: 0, height: 2 },
+  },
+  sportIconHorizontal: {
+    width: 40,
+    height: 40,
+    marginBottom: 5,
+  },
+  sportNameHorizontal: {
+    fontSize: 14,
+    textAlign: 'center',
+    fontWeight: 'bold',
+  },
+  
 });
