@@ -50,7 +50,7 @@ function MainTabNavigator() {
               style={{
                 width: focused ? 28 : 24, 
                 height: focused ? 28 : 24,
-                tintColor: focused ? '#007AFF' : '#8E8E93',
+                tintColor: focused ? '#F58742' : '#8E8E93',
               }}
             />
           );
@@ -63,6 +63,8 @@ function MainTabNavigator() {
           elevation: 0,
           backgroundColor: '#fff',
         },
+        tabBarActiveTintColor: '#F58742', // Cor do texto ativo
+        tabBarInactiveTintColor: '#8E8E93', // Cor do texto inativo
         headerShown: true,
       })}
     >
