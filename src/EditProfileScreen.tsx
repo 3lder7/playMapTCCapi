@@ -1,12 +1,16 @@
 import React from 'react';
 import { View, Text, Image, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
 
-export default function ProfileScreen() {
+
+export default function ProfileScreen({navigation}) {
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <TouchableOpacity style={styles.backButton}>
-        <Text style={styles.backText}>←</Text>
+        <Text style={styles.backText} onPress={() => navigation.navigate('Perfil')}>←</Text>
+        
       </TouchableOpacity>
+
       <View style={styles.header}>
         <Text style={styles.title}>Editar Perfil</Text>
       </View>

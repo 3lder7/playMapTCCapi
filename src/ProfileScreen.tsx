@@ -1,7 +1,9 @@
 import React from 'react';
 import { View, Text, Image, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
 
-export default function ProfileScreen() {
+
+export default function ProfileScreen({navigation}) {
   return (
     <View style={styles.container}>
       <ScrollView contentContainerStyle={styles.scrollContainer}>
@@ -16,6 +18,19 @@ export default function ProfileScreen() {
               source={require('./img/perfil-img.png')}
               style={styles.profileImage}
             />
+
+          <TouchableOpacity
+              style={styles.settingsIconContainer}
+              onPress={() => navigation.navigate('Configurações')}
+            >
+              <Image
+                source={{
+                  uri: 'https://cdn-icons-png.flaticon.com/128/40/40031.png',
+                }}
+                style={styles.settingsIcon}
+              />
+          </TouchableOpacity>
+
             <Text style={styles.nameText}>Alex Vasquez</Text>
             <Text style={styles.pronounText}>Ela/Dela</Text>
             <Text style={styles.locationText}>🚩 Salvador - BA</Text>
@@ -58,8 +73,8 @@ export default function ProfileScreen() {
           <Text style={styles.sectionTitle}>Grupos</Text>
           {[
             { name: 'Perna Longa', image: 'https://i.pinimg.com/originals/78/12/a7/7812a76820f4d5269dadd571ff759174.jpg' },
-            { name: 'Pedala pra frente', image: 'https://www.anastra.com.br/wp-content/uploads/2022/07/Anastra-2022-Quinta-0443-1024x683.jpg' },
-            { name: 'Músculos de Titan', image: 'https://image.lexica.art/md2_webp/d370994d-3c60-4aa5-848c-16191aeec57f' },
+            { name: 'Pedala Pra Frente!!', image: 'https://www.anastra.com.br/wp-content/uploads/2022/07/Anastra-2022-Quinta-0443-1024x683.jpg' },
+            { name: 'Músculos of Titan', image: 'https://image.lexica.art/md2_webp/d370994d-3c60-4aa5-848c-16191aeec57f' },
           ].map((group, index) => (
             <TouchableOpacity key={index} style={styles.groupCard}>
               <Image source={{ uri: group.image }} style={styles.groupImage} />
@@ -108,6 +123,17 @@ const styles = StyleSheet.create({
     borderRadius: 40,
     borderWidth: 3.5,
     borderColor: '#fff',
+  },
+  settingsIconContainer: {
+    position: 'absolute',
+    top: 50,
+    right: 10,
+    width: 30,
+    height: 30,
+  },
+  settingsIcon: {
+    width: 30,
+    height: 30,
   },
   nameText: {
     fontSize: 18,

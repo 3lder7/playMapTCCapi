@@ -13,6 +13,7 @@ import GroupsScreen from './src/GroupsScreen';
 import EventsScreen from './src/EventsScreen';
 import ProfileScreen from './src/ProfileScreen';
 import HomeScreen from './src/HomeScreen';
+import EditProfileScreen from "./src/EditProfileScreen";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -23,7 +24,6 @@ const groupsIcon = require('./src/icons/Groups.png');
 const eventsIcon = require('./src/icons/Events.png');
 const profileIcon = require('./src/icons/User.png');
 const homeIcon = require('./src/icons/Home.png');
-
 function MainTabNavigator() {
   return (
     <Tab.Navigator
@@ -76,7 +76,6 @@ function MainTabNavigator() {
     </Tab.Navigator>
   );
 }
-
 export default function App(): React.JSX.Element {
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
@@ -85,6 +84,7 @@ export default function App(): React.JSX.Element {
           <Stack.Screen name="Login" component={LoginScreen} />
           <Stack.Screen name="Cadastro" component={CadastroScreen} />
           <Stack.Screen name="Main" component={MainTabNavigator} />
+          <Stack.Screen name="Configurações" component={EditProfileScreen}/>
         </Stack.Navigator>
       </NavigationContainer>
     </GestureHandlerRootView>
