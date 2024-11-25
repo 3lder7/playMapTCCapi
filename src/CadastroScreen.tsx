@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { NavigationProp } from '@react-navigation/native';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image, Alert, Platform } from 'react-native';
-import { db } from '../firebaseConfig'; 
 import { FontAwesome } from '@expo/vector-icons';
+import { db } from '../firebaseConfig'; //arquivo de configuração Firebase
 import { collection, addDoc } from 'firebase/firestore';
 
 interface Props {
@@ -28,7 +28,7 @@ export default function CadastroScreen({ navigation }: Props) {
       showAlert('Erro', 'Verifique se todos os campos estão preenchidos e se as senhas coincidem');
       return;
     }
-  
+
     try {
       await addDoc(collection(db, 'usuarios'), {
         nome,
@@ -38,11 +38,10 @@ export default function CadastroScreen({ navigation }: Props) {
       showAlert('Sucesso', 'Usuário cadastrado com sucesso!');
       navigation.navigate('Login');
     } catch (error) {
-      console.log('Erro ao registrar:', error);
+      console.error('Erro ao registrar:', error);
       showAlert('Erro', 'Erro ao registrar. Tente novamente mais tarde.');
     }
   };
-  
 
   return (
     <View style={styles.container}>
@@ -53,20 +52,20 @@ export default function CadastroScreen({ navigation }: Props) {
       <Text style={styles.header}>Novo Usuário</Text>
 
       <View style={styles.inputContainer}>
-        <FontAwesome name="user" size={24} color="black" style={styles.icon} />
-        <TextInput 
-          placeholder="Digite Seu Nome Completo" 
-          style={styles.input} 
+        <FontAwesome name="user" size={24} color="#333" style={styles.icon} />
+        <TextInput
+          placeholder="Digite seu nome completo"
+          style={styles.input}
           value={nome}
           onChangeText={setNome}
         />
       </View>
 
       <View style={styles.inputContainer}>
-        <FontAwesome name="envelope" size={24} color="black" style={styles.icon} />
-        <TextInput 
-          placeholder="Digite Seu Email" 
-          style={styles.input} 
+        <FontAwesome name="envelope" size={24} color="#333" style={styles.icon} />
+        <TextInput
+          placeholder="Digite seu email"
+          style={styles.input}
           keyboardType="email-address"
           value={email}
           onChangeText={setEmail}
@@ -74,10 +73,10 @@ export default function CadastroScreen({ navigation }: Props) {
       </View>
 
       <View style={styles.inputContainer}>
-        <FontAwesome name="lock" size={24} color="black" style={styles.icon} />
-        <TextInput 
-          placeholder="Digite Sua Senha" 
-          style={styles.input} 
+        <FontAwesome name="lock" size={24} color="#333" style={styles.icon} />
+        <TextInput
+          placeholder="Digite sua senha"
+          style={styles.input}
           secureTextEntry
           value={senha}
           onChangeText={setSenha}
@@ -85,10 +84,10 @@ export default function CadastroScreen({ navigation }: Props) {
       </View>
 
       <View style={styles.inputContainer}>
-        <FontAwesome name="lock" size={24} color="black" style={styles.icon} />
-        <TextInput 
-          placeholder="Confirme Sua Senha" 
-          style={styles.input} 
+        <FontAwesome name="lock" size={24} color="#333" style={styles.icon} />
+        <TextInput
+          placeholder="Confirme sua senha"
+          style={styles.input}
           secureTextEntry
           value={confirmarSenha}
           onChangeText={setConfirmarSenha}
@@ -101,10 +100,23 @@ export default function CadastroScreen({ navigation }: Props) {
 
       <Text style={styles.orText}>OU</Text>
 
-      
+      <View style={styles.socialContainer}>
+        <TouchableOpacity>
+          <Image source={require('./img/facebook.png')} style={styles.socialIcon} />
+        </TouchableOpacity>
+        <TouchableOpacity>
+          <Image source={require('./img/tiktok.png')} style={styles.socialIcon} />
+        </TouchableOpacity>
+        <TouchableOpacity>
+          <Image source={require('./img/google.png')} style={styles.socialIcon} />
+        </TouchableOpacity>
+      </View>
 
-      <Text style={styles.loginText}>
-        Já possui conta? <Text style={styles.loginLink} onPress={() => navigation.navigate('Login')}>Faça o login</Text>
+      <Text style={styles.footerText}>
+        Já possui conta?{' '}
+        <Text style={styles.footerLink} onPress={() => navigation.navigate('Login')}>
+          Faça o login
+        </Text>
       </Text>
     </View>
   );
@@ -113,23 +125,18 @@ export default function CadastroScreen({ navigation }: Props) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'white',
+    backgroundColor: '#fff',
     justifyContent: 'center',
     paddingHorizontal: 20,
   },
   logoContainer: {
-    alignItems: 'flex-start',
+    alignItems: 'center',
     marginBottom: 30,
   },
   logo: {
-    width: 150,
+    width: 120,
     height: 80,
-    marginBottom: 10,
-  },
-  title: {
-    fontSize: 28,
-    fontWeight: 'bold',
-    color: '#000',
+    marginBottom: 20,
   },
   header: {
     fontSize: 22,
@@ -156,7 +163,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   registerButton: {
-    backgroundColor: '#3b5998',
+    backgroundColor: '#FF5722', 
     borderRadius: 8,
     paddingVertical: 12,
     alignItems: 'center',
@@ -171,18 +178,23 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginVertical: 10,
     color: '#aaa',
+    padding:10,
   },
   socialContainer: {
     flexDirection: 'row',
-    justifyContent: 'space-around',
+    justifyContent: 'space-between',
     marginBottom: 20,
   },
-  loginText: {
+  socialIcon: {
+    width: 50,
+    height: 50,
+  },
+  footerText: {
     textAlign: 'center',
     color: '#333',
   },
-  loginLink: {
-    color: '#3b5998',
+  footerLink: {
+    color: '#FF5722',
     fontWeight: 'bold',
   },
 });
