@@ -50,7 +50,7 @@ function MainTabNavigator() {
               style={{
                 width: focused ? 28 : 24, 
                 height: focused ? 28 : 24,
-                tintColor: focused ? '#F58742' : '#8E8E93',
+                tintColor: focused ? '#FF5722' : '#8E8E93',
               }}
             />
           );

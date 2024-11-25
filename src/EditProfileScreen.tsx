@@ -81,7 +81,7 @@ const styles = StyleSheet.create({
     height: 100,
     borderRadius: 50,
     borderWidth: 4,
-    borderColor: '#f58742',
+    borderColor: '#FF5722',
   },
   optionList: {
     marginTop: 10,
