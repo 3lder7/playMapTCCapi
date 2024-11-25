@@ -2,8 +2,12 @@ import React from 'react';
 import { View, Text, Image, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 
+type RootStackParamList = {
+  Perfil: undefined;
+};
+type ProfileScreenProps = NativeStackScreenProps<RootStackParamList, 'Perfil'>;
 
-export default function ProfileScreen({navigation}) {
+export default function ProfileScreen({ navigation }: ProfileScreenProps) {
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <TouchableOpacity style={styles.backButton}>
