@@ -1,16 +1,17 @@
+// EditProfileScreen.tsx
+
 import React from 'react';
 import { View, Text, Image, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { RootStackParamList } from './navigation/types';  // Importando os tipos do arquivo de navegação
 
-type RootStackParamList = {
-  Perfil: undefined;
-};
-type ProfileScreenProps = NativeStackScreenProps<RootStackParamList, 'Perfil'>;
+// Tipando a navegação para a tela de Configurações (EditProfileScreen)
+type EditProfileScreenProps = NativeStackScreenProps<RootStackParamList, 'Configurações'>;
 
-export default function ProfileScreen({ navigation }: ProfileScreenProps) {
+export default function EditProfileScreen({ navigation }: EditProfileScreenProps) {
   return (
     <ScrollView contentContainerStyle={styles.container}>
-      <TouchableOpacity style={styles.backButton} onPress={() => navigation.navigate('Perfil')}>
+      <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
         <Text style={styles.backText}>←</Text>
       </TouchableOpacity>
 
@@ -26,7 +27,7 @@ export default function ProfileScreen({ navigation }: ProfileScreenProps) {
       </View>
 
       <View style={styles.optionList}>
-        {[
+        {[ // Exemplo de opções do perfil
           { label: 'Nome' },
           { label: 'Pronomes' },
           { label: 'Privacidade' },
@@ -85,7 +86,6 @@ const styles = StyleSheet.create({
   },
   optionList: {
     marginTop: 10,
-    
   },
   option: {
     flexDirection: 'row',
