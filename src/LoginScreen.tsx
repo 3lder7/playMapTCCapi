@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { NavigationProp } from '@react-navigation/native';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image, Alert, Platform } from 'react-native';
+import { FontAwesome } from '@expo/vector-icons';
 
 interface Props {
   navigation: NavigationProp<any, any>;
@@ -34,6 +35,7 @@ export default function LoginScreen({ navigation }: Props) {
       <Text style={styles.header}>Entrar</Text>
 
       <View style={styles.inputContainer}>
+        <FontAwesome name="envelope" size={24} color="#333" style={styles.icon} />
         <TextInput
           placeholder="Digite seu email"
           style={styles.input}
@@ -45,6 +47,7 @@ export default function LoginScreen({ navigation }: Props) {
       </View>
 
       <View style={styles.inputContainer}>
+        <FontAwesome name="lock" size={28} color="#333" style={styles.icon} />
         <TextInput
           placeholder="Digite sua senha"
           style={styles.input}
@@ -107,13 +110,18 @@ const styles = StyleSheet.create({
     marginBottom: 30,
     color: '#333',
   },
-  inputContainer: {
-    width: '100%',
+  icon: {
+    marginRight: 10,
+  },
+   inputContainer: {
+    width: "100%",
+    flexDirection: 'row',
     borderWidth: 1,
     borderColor: '#ccc',
     borderRadius: 8,
-    paddingHorizontal: 10,
     marginBottom: 15,
+    paddingLeft: 15,
+    alignItems: 'center',
   },
   input: {
     height: 50,
