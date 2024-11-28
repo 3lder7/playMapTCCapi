@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TextInput, StyleSheet, TouchableOpacity, FlatList, StatusBar } from 'react-native';
-import { MaterialIcons } from '@expo/vector-icons';
+import { View, Text, TextInput, StyleSheet, TouchableOpacity, FlatList, StatusBar, Image } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { collection, getDocs, query, where } from "firebase/firestore";
 import { db } from '../firebaseConfig';
@@ -46,7 +45,7 @@ const SearchScreen = () => {
       style={styles.recentItem}
       onPress={() => navigation.navigate("Mapa", { selectedNeighborhood: item })}
     >
-      <MaterialIcons name="location-on" size={24} color="black" />
+      <Image source={require('./icons/Maps.png')} style={styles.locationIcon} />
       <View style={styles.recentInfo}>
         <Text style={styles.locationName}>{item.name}</Text>
       </View>
@@ -57,7 +56,7 @@ const SearchScreen = () => {
     <View style={styles.container}>
       <View style={styles.header}>
         <TouchableOpacity onPress={() => navigation.goBack()}>
-          <MaterialIcons name="arrow-back" size={24} color="black" />
+          <Image source={require('./icons/Back.png')}  />
         </TouchableOpacity>
         <TextInput
           style={styles.searchInput}
@@ -128,6 +127,11 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
     color: '#000',
+  },
+  locationIcon: {
+    width: 24,
+    height: 24,
+    resizeMode: 'contain',
   },
   noSuggestions: {
     textAlign: 'center',

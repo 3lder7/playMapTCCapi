@@ -15,7 +15,7 @@ import GpsIcon from "./icons/GPS.png"; // Ícone da barra de pesquisa
 
 const MapScreen = () => {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>(); // Tipando a navegação
-  const [location, setLocation] = useState(null);
+  const [location, setLocation] = useState<Location.LocationObject | null>(null);
   const [loading, setLoading] = useState(true);
   const [markers, setMarkers] = useState<any[]>([]);
   const [selectedMarker, setSelectedMarker] = useState<any>(null);
@@ -63,26 +63,36 @@ const MapScreen = () => {
       Alert.alert("Erro", "Não foi possível carregar os marcadores.");
     }
   };
-
-  // Fetch neighborhood suggestions based on query
+  
   const fetchNeighborhoodSuggestions = async (queryText: string) => {
     const trimmedQuery = queryText.trim();
     if (!trimmedQuery) {
       setSuggestions([]);
       return;
     }
-
-    const capitalizedQuery = trimmedQuery.charAt(0).toUpperCase() + trimmedQuery.slice(1).toLowerCase();
-
+  
+    const capitalizedQuery = 
+      trimmedQuery.charAt(0).toUpperCase() + trimmedQuery.slice(1).toLowerCase();
+  
     try {
       const neighborhoodsQuery = query(
-        collection(db, "neighborhood"), 
-        where("name", ">=", capitalizedQuery), 
-        where("name", "<=", capitalizedQuery + '\uf8ff')
+        collection(db, "neighborhood"),
+        where("name", ">=", capitalizedQuery),
+        where("name", "<=", capitalizedQuery + "\uf8ff")
       );
-
+  
       const querySnapshot = await getDocs(neighborhoodsQuery);
-      const neighborhoods = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+  
+      const neighborhoods: Neighborhood[] = querySnapshot.docs.map(doc => {
+        const data = doc.data();
+        return {
+          id: doc.id,
+          name: data.name,
+          latitude: data.latitude,
+          longitude: data.longitude
+        };
+      });
+  
       setSuggestions(neighborhoods);
     } catch (error) {
       console.error("Erro ao buscar sugestões de bairros: ", error);
@@ -150,31 +160,6 @@ const MapScreen = () => {
     }
   };
 
-  const handleSearchSubmit = (suggestion: Neighborhood) => {
-    if (suggestion && suggestion.latitude && suggestion.longitude) {
-      setLocation({
-        coords: {
-          latitude: suggestion.latitude,
-          longitude: suggestion.longitude,
-        },
-      });
-      if (mapRef.current) {
-        mapRef.current.animateToRegion({
-          latitude: suggestion.latitude,
-          longitude: suggestion.longitude,
-          latitudeDelta: 0.0922 * 0.15,
-          longitudeDelta: 0.0421 * 0.15,
-        }, 1000);
-      }
-      setSearchQuery("");
-      setSuggestions([]);
-      setSelectedMarker(null);
-      setIsVisible(false);
-    } else {
-      Alert.alert("Nenhuma sugestão encontrada", "Tente outro nome de bairro.");
-    }
-  };
-
   const panResponder = PanResponder.create({
     onStartShouldSetPanResponder: () => true,
     onMoveShouldSetPanResponder: () => true,
@@ -199,6 +184,7 @@ const MapScreen = () => {
         }}
         showsUserLocation={true}
         followsUserLocation={true}
+        showsMyLocationButton={false}
         onPress={() => setIsVisible(false)}
       >
         {markers.map((marker) => (
@@ -241,20 +227,6 @@ const MapScreen = () => {
             <Text style={styles.infoTitle}>{selectedMarker.title}</Text>
             <Text style={styles.infoDescription}>{selectedMarker.description}</Text>
           </ScrollView>
-        </View>
-      )}
-
-      {suggestions.length > 0 && (
-        <View style={styles.suggestionsContainer}>
-          {suggestions.map((suggestion) => (
-            <TouchableOpacity
-              key={suggestion.id}
-              onPress={() => handleSearchSubmit(suggestion)}
-              style={styles.suggestionItem}
-            >
-              <Text style={styles.suggestionText}>{suggestion.name}</Text>
-            </TouchableOpacity>
-          ))}
         </View>
       )}
     </View>
