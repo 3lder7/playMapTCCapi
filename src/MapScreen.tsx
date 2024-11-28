@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
-import { View, StyleSheet, Alert, Text, TouchableOpacity, ScrollView, TextInput, PanResponder } from "react-native";
+import { View, StyleSheet, Alert, Text, TouchableOpacity, ScrollView, TextInput, PanResponder, Image } from "react-native";
 import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
 import * as Location from "expo-location";
 import { db } from '../firebaseConfig';
@@ -8,6 +8,9 @@ import { useNavigation, useRoute } from "@react-navigation/native";
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList, Neighborhood } from './navigation/types'; // Importando os tipos corretos
 import SportIcon from "./icons/Sport.png";
+import MapsIcon from "./icons/Maps.png"; // Ícone da barra de pesquisa
+import SearchIcon from "./icons/Search.png"; // Ícone da barra de pesquisa
+import GpsIcon from "./icons/GPS.png"; // Ícone da barra de pesquisa
 
 
 const MapScreen = () => {
@@ -83,6 +86,22 @@ const MapScreen = () => {
       setSuggestions(neighborhoods);
     } catch (error) {
       console.error("Erro ao buscar sugestões de bairros: ", error);
+    }
+  };
+
+  const centerUserLocation = async () => {
+    if (!location || !location.coords) {
+      Alert.alert("Erro", "Localização não disponível.");
+      return;
+    }
+
+    if (mapRef.current) {
+      mapRef.current.animateToRegion({
+        latitude: location.coords.latitude,
+        longitude: location.coords.longitude,
+        latitudeDelta: 0.015,
+        longitudeDelta: 0.0121,
+      }, 1000);
     }
   };
 
@@ -195,15 +214,23 @@ const MapScreen = () => {
         ))}
       </MapView>
 
-      <View style={styles.searchContainer}>
+      {/* Barra de Pesquisa Estilizada */}
+      <View style={styles.searchBar}>
+        <Image source={MapsIcon} style={styles.icon} />
         <TextInput
-          style={styles.searchInput}
+          style={styles.input}
           placeholder="Buscar por bairro"
+          placeholderTextColor="#999"
           onFocus={() => navigation.navigate("SearchScreen")}
           value={searchQuery}
           onChangeText={setSearchQuery}
         />
+        <Image source={SearchIcon} style={styles.icon} />
       </View>
+
+      <TouchableOpacity style={styles.gpsButton} onPress={centerUserLocation}>
+        <Image source={GpsIcon} style={styles.gpsIcon} />
+      </TouchableOpacity>
 
       {isVisible && selectedMarker && (
         <View style={[styles.infoContainer, { height: panelHeight }]} {...panResponder.panHandlers}>
@@ -236,17 +263,54 @@ const MapScreen = () => {
 
 const styles = StyleSheet.create({
   map: { flex: 1 },
-  searchContainer: {
+  searchBar: {
     position: 'absolute',
-    top: 10,
+    top: 20,
     left: 10,
     right: 10,
-    backgroundColor: '#fff',
-    borderRadius: 8,
-    padding: 8,
-    elevation: 5,
+    zIndex: 1,  // Isso garante que a barra de pesquisa fique sobre o mapa
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#f5f5f5',
+    borderRadius: 100,
+    paddingHorizontal: 15,
+    paddingVertical: 2,
+    elevation: 3,
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
   },
-  searchInput: { flex: 1, paddingLeft: 10, fontSize: 16 },
+  input: {
+    flex: 1,
+    marginHorizontal: 10,
+    fontSize: 16,
+    color: '#333',
+  },
+  icon: {
+    width: 20,
+    height: 20,
+    resizeMode: 'contain',
+  },
+  gpsButton: {
+    position: 'absolute',
+    bottom: 70,
+    right: 20,
+    backgroundColor: '#fff',
+    borderRadius: 50,
+    padding: 10,
+    elevation: 3,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 3 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    zIndex: 10, // Adicionar zIndex para garantir que fique acima de outros elementos
+  },
+  
+  gpsIcon: {
+    width: 30,
+    height: 30,
+    resizeMode: 'contain',
+  },
   infoContainer: {
     position: 'absolute',
     bottom: 0,
