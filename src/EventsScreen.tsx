@@ -11,7 +11,7 @@ type Event = {
   image: string;
 };
 
-export default function EventsScreen() {
+export default function EventsScreen({ navigation }: { navigation: any }) {
   const events: Event[] = [
     {
       id: '1',
@@ -59,7 +59,10 @@ export default function EventsScreen() {
           />
           <Text style={styles.eventText}>{item.category}</Text>
         </View>
-        <TouchableOpacity style={styles.eventButton}>
+        <TouchableOpacity
+          style={styles.eventButton}
+          onPress={() => navigation.navigate('CadastroEvento')} 
+        >
           <Text style={styles.eventButtonText}>{item.buttonText}</Text>
         </TouchableOpacity>
       </View>
