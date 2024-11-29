@@ -3,65 +3,64 @@ import { View, Text, FlatList, StyleSheet, Image, TouchableOpacity } from 'react
 
 const BlueRunCard = () => {
   return (
-    <View style={styles.card}>
-      {/* Header */}
-      <View style={styles.header}>
-        <Text style={styles.date}>02/NOV</Text>
-        <Text style={styles.title}>NO RITMO DA PREVENÇÃO</Text>
-      </View>
-
-      {/* Image and Title */}
-      <View style={styles.imageContainer}>
-        {/* Insira a URL de uma imagem se necessário */}
-        <Image
-          source={{ uri: 'https://via.placeholder.com/300x150' }} 
-          style={styles.image}
-        />
-        <Text style={styles.subtitle}>BLUE RUN</Text>
-        <Text style={styles.location}>SALVADOR</Text>
-      </View>
+    <View style={styles.imageContainer}>
+      <Image
+        source={require('./img/bluerun.png')}
+        style={styles.image}
+      />
+      <View></View>
 
       {/* Details */}
       <View style={styles.details}>
-        <Text style={styles.description}>
-          Inscrições até <Text style={styles.bold}>30/10/2024 00:00</Text> ou até o limite de vagas.
-        </Text>
+        <View style={styles.card}>
+          <Text style={styles.description}>
+            Inscrições até <Text style={styles.bold}>30/10/2024 23:59</Text> ou <Text style={styles.bold}>até o limite de vagas.</Text>
+          </Text>
 
-        <FlatList
-          data={[
-            { id: '1', icon: '📅', text: '02/11/2024' },
-            { id: '2', icon: '📍', text: 'Jardim de Alah: Avenida Octávio Mangabeira, Salvador-BA' },
-            { id: '3', icon: '🏃‍♂️', text: 'Sport' },
-          ]}
-          keyExtractor={(item) => item.id}
-          renderItem={({ item }) => (
-            <View style={styles.iconWithText}>
-              <Text style={styles.icon}>{item.icon}</Text>
-              <Text style={styles.infoText}>{item.text}</Text>
-            </View>
-          )}
-        />
+          <FlatList
+            data={[
+              {
+                id: '1',
+                icon: require('./img/imgEventos/001-calendar.png'), 
+                text: '02/11/2024',
+              },
+              {
+                id: '2',
+                icon: require('./img/imgEventos/002-pin.png'),
+                text: 'Jardim de Alah: Avenida Octávio Mangabeira, Salvador-BA',
+              },
+              {
+                id: '3',
+                icon: require('./img/imgEventos/003-bandeiras.png'),
+                text: 'Sport',
+              },
+            ]}
+            keyExtractor={(item) => item.id}
+            renderItem={({ item }) => (
+              <View style={styles.iconWithText}>
+                <Image source={item.icon} style={styles.icon} />
+                <Text style={styles.infoText}>{item.text}</Text>
+              </View>
+            )}
+          />
+
+            <TouchableOpacity style={styles.button}>
+              <Text style={styles.buttonText}>✅  Inscreva-se</Text>
+            </TouchableOpacity>
+        </View>
       </View>
-
-      {/* Button */}
-      <TouchableOpacity style={styles.button}>
-        <Text style={styles.buttonText}>Inscreva-se</Text>
-      </TouchableOpacity>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   card: {
-    backgroundColor: '#f5f5f5',
-    borderRadius: 8,
-    padding: 16,
-    margin: 16,
-    elevation: 3, // sombra para Android
-    shadowColor: '#000', // sombra para iOS
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.2,
-    shadowRadius: 4,
+    fontFamily: 'Arial, sans-serif',
+    borderRadius: 10,
+    elevation: 5,
+    marginTop: -10,
+    width: 420,
+    height: '58%',
   },
   header: {
     alignItems: 'center',
@@ -72,37 +71,25 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#0073e6',
   },
-  title: {
-    fontSize: 20,
-    color: '#333',
-    textAlign: 'center',
-  },
   imageContainer: {
     alignItems: 'center',
-    marginVertical: 16,
+    marginVertical: 20,
   },
   image: {
-    width: 300,
-    height: 150,
-    borderRadius: 8,
-    marginBottom: 8,
-  },
-  subtitle: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: '#0073e6',
-  },
-  location: {
-    fontSize: 16,
-    color: '#555',
+    width: '93%',
+    height: 400,
+    borderRadius: 10,
+    elevation: 3,
+    marginTop: 30,
   },
   details: {
     marginVertical: 16,
   },
   description: {
-    fontSize: 14,
+    fontSize: 12,
     color: '#333',
-    marginBottom: 16,
+    marginTop: 13,
+    textAlign: 'center',
   },
   bold: {
     fontWeight: 'bold',
@@ -111,24 +98,33 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     marginBottom: 8,
+    marginTop: 10,
+    marginLeft: 15,
   },
   icon: {
-    fontSize: 18,
+    width: 40,
+    height: 28, 
     marginRight: 8,
+    resizeMode: 'contain', // Ajusta o ícone ao tamanho especificado
   },
   infoText: {
-    fontSize: 14,
+    fontSize: 17,
     color: '#555',
+    marginTop: 5,
   },
   button: {
+    width: '50%',
     backgroundColor: '#ff5722',
     paddingVertical: 12,
-    borderRadius: 8,
+    borderRadius: 10,
     alignItems: 'center',
+    marginLeft: '25%',
+    marginBottom: 28,
+    elevation: 3
   },
   buttonText: {
     color: '#fff',
-    fontSize: 16,
+    fontSize: 20,
     fontWeight: 'bold',
   },
 });
