@@ -1,16 +1,15 @@
 import React from 'react';
-import { View, Text, FlatList, StyleSheet, Image, TouchableOpacity } from 'react-native';
+import { View, Text, FlatList, StyleSheet, Image, TouchableOpacity, ScrollView } from 'react-native';
 
 const BlueRunCard = () => {
   return (
-    <View style={styles.imageContainer}>
-      <Image
-        source={require('./img/bluerun.png')}
-        style={styles.image}
-      />
-      <View></View>
+    <ScrollView contentContainerStyle={styles.container}>
+      {/* Imagem principal */}
+      <View style={styles.imageContainer}>
+        <Image source={require('./img/bluerun.png')} style={styles.image} />
+      </View>
 
-      {/* Details */}
+      {/* Detalhes */}
       <View style={styles.details}>
         <View style={styles.card}>
           <Text style={styles.description}>
@@ -19,21 +18,9 @@ const BlueRunCard = () => {
 
           <FlatList
             data={[
-              {
-                id: '1',
-                icon: require('./img/imgEventos/001-calendar.png'), 
-                text: '02/11/2024',
-              },
-              {
-                id: '2',
-                icon: require('./img/imgEventos/002-pin.png'),
-                text: 'Jardim de Alah: Avenida Octávio Mangabeira, Salvador-BA',
-              },
-              {
-                id: '3',
-                icon: require('./img/imgEventos/003-bandeiras.png'),
-                text: 'Sport',
-              },
+              { id: '1', icon: require('./img/imgEventos/001-calendar.png'), text: '02/11/2024' },
+              { id: '2', icon: require('./img/imgEventos/002-pin.png'), text: 'Jardim de Alah: Avenida Octávio Mangabeira, Salvador-BA' },
+              { id: '3', icon: require('./img/imgEventos/003-bandeiras.png'), text: 'Sport' },
             ]}
             keyExtractor={(item) => item.id}
             renderItem={({ item }) => (
@@ -44,51 +31,120 @@ const BlueRunCard = () => {
             )}
           />
 
-            <TouchableOpacity style={styles.button}>
-              <Text style={styles.buttonText}>✅  Inscreva-se</Text>
-            </TouchableOpacity>
+          <TouchableOpacity style={styles.button}>
+            <Text style={styles.buttonText}>✅ Inscreva-se</Text>
+          </TouchableOpacity>
+        </View>
+
+        {/* Informações sobre o evento */}
+        <View style={styles.card2}>
+          <Text style={styles.card2Text}>O Evento</Text>
+          <Text style={styles.card2Text2}>
+            Há dois anos, o Dr. Nilo Jorge, juntamente com sua equipe da Uroclínica da Bahia, idealizou uma corrida no mês de novembro com o
+            objetivo de promover muito mais do que conhecimento e cuidado sobre o câncer de próstata. A iniciativa busca transmitir uma
+            mensagem sobre a importância de os homens, bem como toda a sociedade, estarem atentos aos cuidados com a própria saúde e com a
+            saúde daqueles que amamos.
+          </Text>
+        </View>
+
+        {/* Percurso */}
+        <View style={styles.card3}>
+          <Text style={styles.card2Text}>Percurso</Text>
+          <Image source={require('./img/imgEventos/Percurso.png')} style={styles.imagePercurso} />
+        </View>
+
+        {/* Redes sociais */}
+        <View style={styles.card4}>
+          <Text style={styles.text}>Compartilhe nas redes sociais</Text>
+          <View style={styles.socialIcons}>
+            {[
+              { uri: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Instagram_icon.png/1200px-Instagram_icon.png' },
+              { uri: 'https://static.vecteezy.com/system/resources/previews/016/716/467/non_2x/twitter-icon-free-png.png' },
+              { uri: 'https://cdn-icons-png.flaticon.com/512/174/174857.png' },
+              { uri: 'https://cdn-icons-png.flaticon.com/512/3116/3116491.png' },
+            ].map((icon, index) => (
+              <TouchableOpacity key={index} style={styles.iconWrapper}>
+                <Image source={{ uri: icon.uri }} style={styles.icon2} />
+              </TouchableOpacity>
+            ))}
+          </View>
         </View>
       </View>
-    </View>
+    </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
-  card: {
-    fontFamily: 'Arial, sans-serif',
-    borderRadius: 10,
-    elevation: 5,
-    marginTop: -10,
-    width: 420,
-    height: '58%',
-  },
-  header: {
-    alignItems: 'center',
-    marginBottom: 16,
-  },
-  date: {
-    fontSize: 14,
-    fontWeight: 'bold',
-    color: '#0073e6',
+  container: {
+    padding: 15,
+    paddingBottom: 20,
   },
   imageContainer: {
+    marginTop: 20,
     alignItems: 'center',
-    marginVertical: 20,
-  },
-  image: {
-    width: '93%',
-    height: 400,
-    borderRadius: 10,
-    elevation: 3,
-    marginTop: 30,
+    marginBottom: 20,
   },
   details: {
     marginVertical: 16,
   },
+  infoText: {
+    fontSize: 17,
+    color: '#555',
+  },
+  image: {
+    width: '100%',
+    height: 400,
+    borderRadius: 10,
+    elevation: 3,
+  },
+  card: {
+    borderRadius: 10,
+    elevation: 5,
+    padding: 16,
+    backgroundColor: '#fff',
+    marginBottom: 16,
+  },
+  card2: {
+    borderRadius: 10,
+    padding: 16,
+    backgroundColor: '#fff',
+    elevation: 5,
+    marginBottom: 16,
+  },
+  card3: {
+    borderRadius: 10,
+    padding: 16,
+    backgroundColor: '#fff',
+    elevation: 5,
+    marginBottom: 16,
+  },
+  card4: {
+    borderRadius: 10,
+    padding: 16,
+    backgroundColor: '#fff',
+    elevation: 5,
+    flexDirection: 'column',
+    alignItems: 'center',
+  },
+  card2Text: {
+    fontSize: 20,
+    color: '#000',
+    marginBottom: 8,
+  },
+  card2Text2: {
+    textAlign: 'justify',
+    letterSpacing: 1,
+    color: '#555',
+  },
+  imagePercurso: {
+    width: '100%',
+    height: 200,
+    resizeMode: 'contain',
+    borderRadius: 10,
+  },
   description: {
-    fontSize: 12,
+    fontSize: 14,
     color: '#333',
-    marginTop: 13,
     textAlign: 'center',
   },
   bold: {
@@ -97,35 +153,50 @@ const styles = StyleSheet.create({
   iconWithText: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 8,
-    marginTop: 10,
-    marginLeft: 15,
+    marginBottom: 10,
   },
   icon: {
     width: 40,
-    height: 28, 
+    height: 28,
     marginRight: 8,
-    resizeMode: 'contain', // Ajusta o ícone ao tamanho especificado
+    resizeMode: 'contain',
   },
-  infoText: {
-    fontSize: 17,
-    color: '#555',
-    marginTop: 5,
+  icon2: {
+    width: 40,
+    height: 40,
+    resizeMode: 'contain',
+  },
+  socialIcons: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    width: '100%',
+    marginTop: 10,
+  },
+  iconWrapper: {
+    backgroundColor: '#fff',
+    borderRadius: 50,
+    padding: 10,
+    elevation: 3,
   },
   button: {
-    width: '50%',
     backgroundColor: '#ff5722',
     paddingVertical: 12,
     borderRadius: 10,
     alignItems: 'center',
-    marginLeft: '25%',
-    marginBottom: 28,
-    elevation: 3
+    marginTop: 16,
+    elevation: 3,
   },
   buttonText: {
     color: '#fff',
     fontSize: 20,
     fontWeight: 'bold',
+  },
+  text: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#000',
+    textAlign: 'center',
+    marginBottom: 10,
   },
 });
 
