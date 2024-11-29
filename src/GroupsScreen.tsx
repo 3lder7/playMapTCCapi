@@ -1,14 +1,11 @@
 import React from 'react';
 import { View, Text, Image, TextInput, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
 
-export default function GroupsScreen() {
+{/*ERRO NAVIGATION A SER CORRIGIDO*/}
+export default function GroupsScreen({ navigation }) { 
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <Image
-          source={require('./img/playmap.png')}
-          style={styles.logo}
-        />
         <Text style={styles.title}>PlayMap</Text>
       </View>
       <View style={styles.searchContainer}>
@@ -24,7 +21,6 @@ export default function GroupsScreen() {
       </View>
       <ScrollView style={styles.groupList}>
         {[
-          //members para simbolizar mensagens recebidas enquanto não tem implementação de chat
           { name: 'Perna Longa', members: '104', image: 'https://i.pinimg.com/originals/78/12/a7/7812a76820f4d5269dadd571ff759174.jpg' },
           { name: 'Pedala pra frente', members: '95', image: 'https://www.anastra.com.br/wp-content/uploads/2022/07/Anastra-2022-Quinta-0443-1024x683.jpg' },
           { name: 'Músculos de Titan', members: '80', image: 'https://image.lexica.art/md2_webp/d370994d-3c60-4aa5-848c-16191aeec57f' },
@@ -33,7 +29,15 @@ export default function GroupsScreen() {
           { name: 'Vôlei no CEFE', members: '46', image: 'https://www.animeac.com.br/wp-content/uploads/2024/06/anime-haikyuu-10.webp' },
           { name: 'Saitama Workout', members: '55', image: 'https://i.pinimg.com/736x/04/b7/c0/04b7c03aebf75630a5c02af2129bc165.jpg' },
         ].map((group, index) => (
-          <TouchableOpacity key={index} style={styles.groupItem}>
+          <TouchableOpacity
+            key={index}
+            style={styles.groupItem}
+            onPress={() => {
+              if (group.name === 'JOJO Workout') {
+                navigation.navigate('Chat'); // Navega para a tela de chat
+              }
+            }}
+          >
             <Image source={{ uri: group.image }} style={styles.groupImage} />
             <Text style={styles.groupName}>{group.name}</Text>
             <View style={styles.memberBadge}>

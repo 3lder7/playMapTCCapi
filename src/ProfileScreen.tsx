@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, Image, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 
-
+{/*ERRO NAVIGATION A SER CORRIGIDO*/}
 export default function ProfileScreen({navigation}) {
   return (
     <View style={styles.container}>
