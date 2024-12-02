@@ -1,7 +1,8 @@
 import React from 'react';
 import { View, Text, FlatList, StyleSheet, TouchableOpacity, SafeAreaView } from 'react-native';
-import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { useNavigation } from '@react-navigation/native';
 import { RootStackParamList } from './navigation/types'; // Importando os tipos de navegação
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
 type SettingsScreenNavigationProp = NativeStackNavigationProp<RootStackParamList, 'CentralConta'>;
 
@@ -12,6 +13,7 @@ interface Option {
 }
 
 const AccountCenter = () => {
+    const navigation = useNavigation<SettingsScreenNavigationProp>();//navegação tipada
   const options: Option[] = [
     { id: '1', title: 'Gerenciamento de Conta' },
     { id: '2', title: 'Visibilidade do perfil' },
@@ -28,7 +30,7 @@ const AccountCenter = () => {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
-        <TouchableOpacity style={styles.backButton}>
+        <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
           <Text style={styles.backArrow}>←</Text>
         </TouchableOpacity>
         <Text style={styles.headerTitle}>Central de Conta</Text>
@@ -60,10 +62,10 @@ const styles = StyleSheet.create({
   backButton: {
     position: 'absolute',
     left: 16,
-    top: -30, // Sobe a seta para ficar destacada
+    top: -60, // Seta de voltar bem mais para cima
   },
   backArrow: {
-    fontSize: 18,
+    fontSize: 40,
     color: '#000',
   },
   headerTitle: {
