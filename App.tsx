@@ -18,6 +18,7 @@ import EditProfileScreen from './src/EditProfileScreen';
 import SearchScreen from './src/SearchScreen';
 import CadastroEventoScreen from './src/CadastroEventoScreen'
 import ChatScreen from './src/TelaChatGrupo';
+import ConfigGeralScreen from './src/ConfigGeralScreen';
 
 // Criando os navegadores
 const Stack = createNativeStackNavigator<RootStackParamList>();  // Tipando o Stack
@@ -92,6 +93,7 @@ export default function App(): React.JSX.Element {
           <Stack.Screen name="SearchScreen" component={SearchScreen} options={{ title: "Buscar Bairro" }}/>
           <Stack.Screen name="CadastroEvento" component={CadastroEventoScreen} options={{title: "Cadastro Eventos"}}/>
           <Stack.Screen name="Chat" component={ChatScreen} options={{ title: 'JOJO Workout' }} />
+          <Stack.Screen name="ConfigGeral" component={ConfigGeralScreen} options={{ title: 'Configurações Geral' }} />
         </Stack.Navigator>
       </NavigationContainer>
     </GestureHandlerRootView>

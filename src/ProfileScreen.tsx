@@ -24,7 +24,7 @@ export default function ProfileScreen({navigation}: Props) {
 
           <TouchableOpacity
               style={styles.settingsIconContainer}
-              onPress={() => navigation.navigate('Configurações')}
+              onPress={() => navigation.navigate('ConfigGeral')}
             >
               <Image
                 source={{
