@@ -1,8 +1,12 @@
 import React from 'react';
 import { View, Text, Image, TextInput, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { MainTabParamList } from './navigation/types';
+
+type Props = NativeStackScreenProps<MainTabParamList, 'Grupos'>;
 
 {/*ERRO NAVIGATION A SER CORRIGIDO*/}
-export default function GroupsScreen({ navigation }) { 
+export default function GroupsScreen({ navigation }: Props) { 
   return (
     <View style={styles.container}>
       <View style={styles.header}>

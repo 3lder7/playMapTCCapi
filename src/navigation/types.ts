@@ -6,7 +6,10 @@ export type RootStackParamList = {
     Configurações: undefined;
     Perfil: undefined;  
     SearchScreen: undefined;   
-    Mapa: { selectedNeighborhood: Neighborhood };
+    CadastroEvento: undefined;
+    Chat: undefined;
+    Grupos: undefined;
+    Mapa: { selectedNeighborhood: Neighborhood }
   };
 
   export type MainTabParamList = {
@@ -14,6 +17,8 @@ export type RootStackParamList = {
     Grupos: undefined;
     Eventos: undefined;
     Perfil: undefined;
+    Configurações: undefined;
+    Chat: undefined;
   };
   
   // Interface que define os dados de um bairro

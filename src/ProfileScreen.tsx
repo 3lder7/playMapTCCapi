@@ -1,9 +1,12 @@
 import React from 'react';
 import { View, Text, Image, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { MainTabParamList } from './navigation/types'; 
+
+type Props = NativeStackScreenProps<MainTabParamList, 'Perfil'>;
 
 {/*ERRO NAVIGATION A SER CORRIGIDO*/}
-export default function ProfileScreen({navigation}) {
+export default function ProfileScreen({navigation}: Props) {
   return (
     <View style={styles.container}>
       <ScrollView contentContainerStyle={styles.scrollContainer}>
