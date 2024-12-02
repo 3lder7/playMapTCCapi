@@ -1,16 +1,16 @@
 import React from 'react';
 import { View, Text, FlatList, StyleSheet, TouchableOpacity } from 'react-native';
-import { useNavigation } from '@react-navigation/native'; // Importando useNavigation
+import { useNavigation } from '@react-navigation/native';
+import { RootStackParamList } from './navigation/types'; // Importando os tipos de navegação
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
-type Option = {
-  id: string;
-  title: string;
-};
+// Tipando a navegação com o RootStackParamList
+type SettingsScreenNavigationProp = NativeStackNavigationProp<RootStackParamList, 'ConfigGeral'>;
 
 const SettingsScreen = () => {
-  const navigation = useNavigation(); // Usando o hook para navegação
+  const navigation = useNavigation<SettingsScreenNavigationProp>(); // Usando a navegação tipada
 
-  const options: Option[] = [
+  const options = [
     { id: '1', title: 'Central de Conta' },
     { id: '2', title: 'Editar Perfil' },
     { id: '3', title: 'Geral' },
@@ -18,8 +18,15 @@ const SettingsScreen = () => {
     { id: '5', title: 'Central de ajuda' },
   ];
 
-  const renderOption = ({ item }: { item: Option }) => (
-    <TouchableOpacity style={styles.option}>
+  const renderOption = ({ item }: { item: { title: string } }) => (
+    <TouchableOpacity
+      style={styles.option}
+      onPress={() => {
+        if (item.title === 'Editar Perfil') {
+          navigation.navigate('Configurações'); // Navega para a tela de "Configurações de Perfil"
+        }
+      }}
+    >
       <Text style={styles.optionText}>{item.title}</Text>
       <Text style={styles.arrow}>➔</Text>
     </TouchableOpacity>
@@ -29,7 +36,7 @@ const SettingsScreen = () => {
     <View style={styles.container}>
       {/* Header */}
       <View style={styles.header}>
-        <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}> {/* Função de voltar */}
+        <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
           <Text style={styles.backArrow}>←</Text>
         </TouchableOpacity>
         <Text style={styles.headerTitle}>Configuração</Text>

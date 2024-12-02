@@ -89,7 +89,7 @@ export default function App(): React.JSX.Element {
           <Stack.Screen name="Login" component={LoginScreen} />
           <Stack.Screen name="Cadastro" component={CadastroScreen} />
           <Stack.Screen name="Main" component={MainTabNavigator} />
-          <Stack.Screen name="Configurações" component={EditProfileScreen} />
+          <Stack.Screen name="Configurações" component={EditProfileScreen}  options={{ title: "Editar Perfil" }} />
           <Stack.Screen name="SearchScreen" component={SearchScreen} options={{ title: "Buscar Bairro" }}/>
           <Stack.Screen name="CadastroEvento" component={CadastroEventoScreen} options={{title: "Cadastro Eventos"}}/>
           <Stack.Screen name="Chat" component={ChatScreen} options={{ title: 'JOJO Workout' }} />
