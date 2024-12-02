@@ -9,6 +9,7 @@ export type RootStackParamList = {
     CadastroEvento: undefined;
     ConfigGeral: undefined;
     Chat: undefined;
+    CentralConta:undefined;
     Grupos: undefined;
     Mapa: { selectedNeighborhood: Neighborhood }
   };
@@ -21,6 +22,7 @@ export type RootStackParamList = {
     Configurações: undefined;
     Chat: undefined;
     ConfigGeral: undefined;
+    CentralConta:undefined;
   };
   
   // Interface que define os dados de um bairro

@@ -24,6 +24,8 @@ const SettingsScreen = () => {
       onPress={() => {
         if (item.title === 'Editar Perfil') {
           navigation.navigate('Configurações'); // Navega para a tela de "Configurações de Perfil"
+        }else if (item.title === 'Central de Conta'){
+          navigation.navigate('CentralConta')
         }
       }}
     >
