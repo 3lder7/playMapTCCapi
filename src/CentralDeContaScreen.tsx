@@ -22,7 +22,12 @@ const AccountCenter = () => {
 
   // Tipando a função renderOption
   const renderOption = ({ item }: { item: Option }) => (
-    <TouchableOpacity style={styles.option}>
+    <TouchableOpacity style={styles.option}
+    onPress={() => {
+        if(item.title === 'Gerenciamento de Conta'){
+            navigation.navigate('GerenciaConta');
+        }
+    }}>
       <Text style={styles.optionText}>{item.title}</Text>
     </TouchableOpacity>
   );

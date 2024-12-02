@@ -19,8 +19,7 @@ const SettingsScreen = () => {
   ];
 
   const renderOption = ({ item }: { item: { title: string } }) => (
-    <TouchableOpacity
-      style={styles.option}
+    <TouchableOpacity style={styles.option}
       onPress={() => {
         if (item.title === 'Editar Perfil') {
           navigation.navigate('Configurações'); // Navega para a tela de "Configurações de Perfil"
