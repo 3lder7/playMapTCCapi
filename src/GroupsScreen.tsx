@@ -37,7 +37,7 @@ export default function GroupsScreen({ navigation }: Props) {
             key={index}
             style={styles.groupItem}
             onPress={() => {
-              if (group.name === 'JOJO Workout') {
+              if (group.name === 'Perna Longa') {
                 navigation.navigate('Chat'); // Navega para a tela de chat
               }
             }}

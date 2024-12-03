@@ -27,7 +27,7 @@ export default function App() {
           }}
         />
         <View style={styles.headerTextContainer}>
-          <Text style={styles.groupName}>JOJO Workout</Text>
+          <Text style={styles.groupName}>Perna Longa</Text>
           <Text style={styles.groupInfo}>Membro | 6 membros</Text>
         </View>
         <TouchableOpacity>

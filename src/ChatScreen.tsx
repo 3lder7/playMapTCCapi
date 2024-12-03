@@ -12,11 +12,11 @@ const ChatScreen = () => {
           <Text style={styles.backArrow}>←</Text>
         </TouchableOpacity>
         <Image
-          source={{ uri: 'https://static.wikia.nocookie.net/jjba/images/9/9e/Sports_Maxx_Anime.png/revision/latest?cb=20221202205133&path-prefix=pt-br' }}
+          source={{ uri: 'https://i.pinimg.com/originals/78/12/a7/7812a76820f4d5269dadd571ff759174.jpg' }}
           style={styles.groupImage}
         />
-        <TouchableOpacity onPress={() => navigation.navigate('DetalheGrupo')}>
-          <Text style={styles.groupName}>JOJO Workout</Text>
+        <TouchableOpacity onPress={() => navigation.navigate('DetalhesGrupo')}>
+          <Text style={styles.groupName}>Perna Longa</Text>
         </TouchableOpacity>
       </View>
 
@@ -53,7 +53,7 @@ const ChatScreen = () => {
         <View style={styles.messageContainer}>
           <Text style={[styles.senderName, { color: '#FFA500' }]}>Rebbeca</Text>
           <Image
-            source={{ uri: 'https://www.acidadeon.com/ribeiraopreto/wp-content/uploads/sites/3/2023/08/grupo_poderosas_1200x675_04062022153222.jpg' }}
+            source={{ uri: 'https://i.pinimg.com/736x/15/4a/22/154a2223e76a53a98df408158e3b781d.jpg' }}
             style={styles.messageImage}
           />
           <Text style={styles.messageTime}>10:21</Text>
