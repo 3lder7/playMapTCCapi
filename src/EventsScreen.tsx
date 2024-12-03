@@ -19,7 +19,7 @@ export default function EventsScreen({ navigation }: { navigation: any }) {
       date: '02/11/2014',
       location: 'Salvador - BA',
       category: 'Sport',
-      buttonText: 'Inscrições abertas',
+      buttonText: 'Inscrições Abertas',
       image: 'https://cdn.ticketsports.com.br/ticketagora/images/FLYS63JBOKRFM60RQG3RHQWBA62HDTUK0I9MN1RP5WRUIAW1V9.png',
     },
     {
@@ -28,12 +28,48 @@ export default function EventsScreen({ navigation }: { navigation: any }) {
       date: '03/11/2014',
       location: 'Feira de Santana - BA',
       category: 'Olimpio organização',
-      buttonText: 'Inscrições abertas',
+      buttonText: 'Inscrições Abertas',
       image: 'https://storage.googleapis.com/corridinhas-production/race-images%2Fab53586f-0e58-475b-88bf-61ccbc9f26e6.webp',
     },
+    {
+      id: '3',
+      title: 'AMARIDER DESAFIO XCM - 5° EDIÇÃO 2024',
+      date: '06/11/2014',
+      location: 'Armagosa - BA',
+      category: 'Amarider',
+      buttonText: 'Inscrições Abertas',
+      image: 'https://www.costasulfm.com.br/listas/posts/198005.png',
+    },
+    {
+    id: '4',
+    title: '13° VOLTA DOS 3 FARÓIS',
+    date: '01/12/2024',
+    location: 'Salvador - BA',
+    category: 'Mural de AVENTURAS',
+    buttonText: 'Inscrições Abertas',
+    image: 'https://cdn.ticketsports.com.br/ticketagora/images/thumb/6W8KBKQ2LI43SCUJ22F0DZAM7TEYGY3ZYL127739OL651OIG59.png',
+    },
+    {
+    id: '5',
+    title: '4° Corrida da FAI',
+    date: '20/10/2024',
+    location: 'Irecê - BA',
+    category: 'Mega Eventos',
+    buttonText: 'Inscrições Fechadas',
+    image: 'https://storage.googleapis.com/corridinhas-production/race-images%2Fc9be49cc-45b5-4d9d-b47d-724f17f73c70.webp',
+    },
+    {
+      id: '6',
+      title: 'CIRCUITO ASSAÍ 50 ANOS - SALVADOR',
+      date: '17/11/2024',
+      location: 'Salvador - BA',
+      category: 'Assaí',
+      buttonText: 'Inscrições Abertas',
+      image: 'https://storage.googleapis.com/corridinhas-production/race-images%2Fff625cb0-758b-4545-b441-146403d6d75b.webp',
+      },
   ];
 
-  const renderEvent = ({ item }: { item: Event }) => (
+  const renderEvent = ({ item, index }: { item: Event; index: number }) => (
     <View style={styles.eventCard}>
       <Image source={{ uri: item.image }} style={styles.eventImage} />
       <View style={styles.eventInfoContainer}>
@@ -60,14 +96,30 @@ export default function EventsScreen({ navigation }: { navigation: any }) {
           <Text style={styles.eventText}>{item.category}</Text>
         </View>
         <TouchableOpacity
-          style={styles.eventButton}
-          onPress={() => navigation.navigate('CadastroEvento')} 
+          style={[
+            styles.eventButton,
+            item.buttonText === 'Inscrições Fechadas' && styles.eventButtonClosed,
+          ]}
+          onPress={() => {
+            if (index === 0) {
+              navigation.navigate('CadastroEvento');
+            }
+          }}
         >
-          <Text style={styles.eventButtonText}>{item.buttonText}</Text>
+          <Text
+            style={[
+              styles.eventButtonText,
+              item.buttonText === 'Inscrições Fechadas' && styles.eventButtonTextClosed,
+              index !== 0 && styles.eventButtonTextDisabled, // Estilo para texto desabilitado
+            ]}
+          >
+            {item.buttonText}
+          </Text>
         </TouchableOpacity>
       </View>
     </View>
   );
+  
 
   return (
     <View style={styles.container}>
@@ -83,6 +135,15 @@ export default function EventsScreen({ navigation }: { navigation: any }) {
 }
 
 const styles = StyleSheet.create({
+  eventButtonClosed: {
+    backgroundColor: '#dc3545', // Vermelho para "Inscrições Fechadas"
+  },
+  eventButtonTextDisabled: {
+    color: '#fff', // Cor mais clara para texto desabilitado
+  },
+  eventButtonTextClosed: {
+    color: '#fff', 
+  },
   container: {
     flex: 1,
     backgroundColor: '#fff',

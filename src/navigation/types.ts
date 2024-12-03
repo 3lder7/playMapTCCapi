@@ -28,6 +28,7 @@ export type RootStackParamList = {
     Chat: undefined;
     ConfigGeral: undefined;
     CentralConta:undefined;
+    CadastroEvento: undefined;
     VisibiPerfil: undefined;
     GerenciaConta:undefined;
     Notificacao: undefined;

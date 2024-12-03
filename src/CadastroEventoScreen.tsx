@@ -1,76 +1,94 @@
 import React from 'react';
-import { View, Text, FlatList, StyleSheet, Image, TouchableOpacity, ScrollView } from 'react-native';
+import { View, Text, FlatList, StyleSheet, Image, TouchableOpacity } from 'react-native';
+import { Ionicons } from '@expo/vector-icons'; 
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { MainTabParamList } from './navigation/types'; 
 
-const BlueRunCard = () => {
-  return (
-    <ScrollView contentContainerStyle={styles.container}>
+type Props = NativeStackScreenProps<MainTabParamList, 'CadastroEvento'>;
+
+const BlueRunCard = ({navigation}: Props) => {
+  const data = [
+    { id: '1', icon: require('./img/imgEventos/001-calendar.png'), text: '02/11/2024' },
+    { id: '2', icon: require('./img/imgEventos/002-pin.png'), text: 'Jardim de Alah: Avenida Octávio Mangabeira, Salvador-BA' },
+    { id: '3', icon: require('./img/imgEventos/003-bandeiras.png'), text: 'Sport' },
+  ];
+
+  const renderHeader = () => (
+    <View style={styles.container}>
+        <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
+          <Text style={styles.backArrow}>←</Text>
+        </TouchableOpacity>
       {/* Imagem principal */}
       <View style={styles.imageContainer}>
         <Image source={require('./img/bluerun.png')} style={styles.image} />
       </View>
 
       {/* Detalhes */}
-      <View style={styles.details}>
-        <View style={styles.card}>
-          <Text style={styles.description}>
-            Inscrições até <Text style={styles.bold}>30/10/2024 23:59</Text> ou <Text style={styles.bold}>até o limite de vagas.</Text>
-          </Text>
+      <View style={styles.card}>
+        <Text style={styles.description}>
+          Inscrições até <Text style={styles.bold}>30/10/2024 23:59</Text> ou <Text style={styles.bold}>até o limite de vagas.</Text>
+        </Text>
 
-          <FlatList
-            data={[
-              { id: '1', icon: require('./img/imgEventos/001-calendar.png'), text: '02/11/2024' },
-              { id: '2', icon: require('./img/imgEventos/002-pin.png'), text: 'Jardim de Alah: Avenida Octávio Mangabeira, Salvador-BA' },
-              { id: '3', icon: require('./img/imgEventos/003-bandeiras.png'), text: 'Sport' },
-            ]}
-            keyExtractor={(item) => item.id}
-            renderItem={({ item }) => (
-              <View style={styles.iconWithText}>
-                <Image source={item.icon} style={styles.icon} />
-                <Text style={styles.infoText}>{item.text}</Text>
-              </View>
-            )}
-          />
+        <FlatList
+          data={data}
+          keyExtractor={(item) => item.id}
+          renderItem={({ item }) => (
+            <View style={styles.iconWithText}>
+              <Image source={item.icon} style={styles.icon} />
+              <Text style={styles.infoText}>{item.text}</Text>
+            </View>
+          )}
+          scrollEnabled={false} // Desabilitar rolagem no FlatList interno
+        />
 
-          <TouchableOpacity style={styles.button}>
-            <Text style={styles.buttonText}>✅ Inscreva-se</Text>
-          </TouchableOpacity>
-        </View>
+        <TouchableOpacity style={styles.button}>
+          <Text style={styles.buttonText}>✅ Inscreva-se</Text>
+        </TouchableOpacity>
+      </View>
 
-        {/* Informações sobre o evento */}
-        <View style={styles.card2}>
-          <Text style={styles.card2Text}>O Evento</Text>
-          <Text style={styles.card2Text2}>
-            Há dois anos, o Dr. Nilo Jorge, juntamente com sua equipe da Uroclínica da Bahia, idealizou uma corrida no mês de novembro com o
-            objetivo de promover muito mais do que conhecimento e cuidado sobre o câncer de próstata. A iniciativa busca transmitir uma
-            mensagem sobre a importância de os homens, bem como toda a sociedade, estarem atentos aos cuidados com a própria saúde e com a
-            saúde daqueles que amamos.
-          </Text>
-        </View>
+      {/* Informações sobre o evento */}
+      <View style={styles.card2}>
+        <Text style={styles.card2Text}>O Evento</Text>
+        <Text style={styles.card2Text2}>
+          Há dois anos, o Dr. Nilo Jorge, juntamente com sua equipe da Uroclínica da Bahia, idealizou uma corrida no mês de novembro com o
+          objetivo de promover muito mais do que conhecimento e cuidado sobre o câncer de próstata. A iniciativa busca transmitir uma
+          mensagem sobre a importância de os homens, bem como toda a sociedade, estarem atentos aos cuidados com a própria saúde e com a
+          saúde daqueles que amamos.
+        </Text>
+      </View>
 
-        {/* Percurso */}
-        <View style={styles.card3}>
-          <Text style={styles.card2Text}>Percurso</Text>
-          <Image source={require('./img/imgEventos/Percurso.png')} style={styles.imagePercurso} />
-        </View>
+      {/* Percurso */}
+      <View style={styles.card3}>
+        <Text style={styles.card2Text}>Percurso</Text>
+        <Image source={require('./img/imgEventos/Percurso.png')} style={styles.imagePercurso} />
+      </View>
 
-        {/* Redes sociais */}
-        <View style={styles.card4}>
-          <Text style={styles.text}>Compartilhe nas redes sociais</Text>
-          <View style={styles.socialIcons}>
-            {[
-              { uri: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Instagram_icon.png/1200px-Instagram_icon.png' },
-              { uri: 'https://static.vecteezy.com/system/resources/previews/016/716/467/non_2x/twitter-icon-free-png.png' },
-              { uri: 'https://cdn-icons-png.flaticon.com/512/174/174857.png' },
-              { uri: 'https://cdn-icons-png.flaticon.com/512/3116/3116491.png' },
-            ].map((icon, index) => (
-              <TouchableOpacity key={index} style={styles.iconWrapper}>
-                <Image source={{ uri: icon.uri }} style={styles.icon2} />
-              </TouchableOpacity>
-            ))}
-          </View>
+      {/* Redes sociais */}
+      <View style={styles.card4}>
+        <Text style={styles.text}>Compartilhe nas redes sociais</Text>
+        <View style={styles.socialIcons}>
+          {[
+            { uri: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Instagram_icon.png/1200px-Instagram_icon.png' },
+            { uri: 'https://static.vecteezy.com/system/resources/previews/016/716/467/non_2x/twitter-icon-free-png.png' },
+            { uri: 'https://cdn-icons-png.flaticon.com/512/174/174857.png' },
+            { uri: 'https://cdn-icons-png.flaticon.com/512/3116/3116491.png' },
+          ].map((icon, index) => (
+            <TouchableOpacity key={index} style={styles.iconWrapper}>
+              <Image source={{ uri: icon.uri }} style={styles.icon2} />
+            </TouchableOpacity>
+          ))}
         </View>
       </View>
-    </ScrollView>
+    </View>
+  );
+
+  return (
+    <FlatList
+      data={[]}
+      ListHeaderComponent={renderHeader}
+      keyExtractor={() => 'header'}
+      renderItem={() => null} // Não exibe itens, apenas usa o header
+    />
   );
 };
 
@@ -78,6 +96,16 @@ const styles = StyleSheet.create({
   container: {
     padding: 15,
     paddingBottom: 20,
+  },
+  backButton: {
+    position: 'absolute',
+    top: 20, 
+    left: -8,
+    zIndex: 1,
+  },
+  backArrow: {
+    fontSize: 50,
+    color: '#ff5722',
   },
   imageContainer: {
     marginTop: 20,
@@ -145,6 +173,7 @@ const styles = StyleSheet.create({
   description: {
     fontSize: 14,
     color: '#333',
+    marginBottom: 15,
     textAlign: 'center',
   },
   bold: {
