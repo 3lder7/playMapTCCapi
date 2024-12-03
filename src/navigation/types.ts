@@ -11,6 +11,7 @@ export type RootStackParamList = {
     Chat: undefined;
     CentralConta:undefined;
     GerenciaConta: undefined;
+    VisibiPerfil: undefined;
     Grupos: undefined;
     Mapa: { selectedNeighborhood: Neighborhood }
   };
@@ -24,6 +25,7 @@ export type RootStackParamList = {
     Chat: undefined;
     ConfigGeral: undefined;
     CentralConta:undefined;
+    VisibiPerfil: undefined;
     GerenciaConta:undefined;
   };
   

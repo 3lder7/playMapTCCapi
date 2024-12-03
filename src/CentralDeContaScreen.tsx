@@ -26,6 +26,8 @@ const AccountCenter = () => {
     onPress={() => {
         if(item.title === 'Gerenciamento de Conta'){
             navigation.navigate('GerenciaConta');
+        }else if(item.title === 'Visibilidade do perfil'){
+          navigation.navigate('VisibiPerfil');
         }
     }}>
       <Text style={styles.optionText}>{item.title}</Text>
