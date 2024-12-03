@@ -13,6 +13,7 @@ export type RootStackParamList = {
     GerenciaConta: undefined;
     VisibiPerfil: undefined;
     Notificacao: undefined;
+    AlterarTema: undefined;
     Grupos: undefined;
     Mapa: { selectedNeighborhood: Neighborhood }
   };
@@ -29,6 +30,7 @@ export type RootStackParamList = {
     VisibiPerfil: undefined;
     GerenciaConta:undefined;
     Notificacao: undefined;
+    AlterarTema: undefined;
   };
   
   // Interface que define os dados de um bairro

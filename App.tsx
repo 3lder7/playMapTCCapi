@@ -19,14 +19,14 @@ import SearchScreen from './src/SearchScreen';
 import CadastroEventoScreen from './src/CadastroEventoScreen'
 import ChatScreen from './src/TelaChatGrupo';
 import ConfigGeralScreen from './src/ConfigGeralScreen';
-import CentralDeContaScreen from './src/CentralDeContaScreen'
-import VisibilidadePerfilScreen from './src/VisibilidadePerfilScreen'
-import GerenciamentoDeContaScreen from './src/GerenciamentoDeContaScreen'
+import CentralDeContaScreen from './src/CentralDeContaScreen';
+import VisibilidadePerfilScreen from './src/VisibilidadePerfilScreen';
+import GerenciamentoDeContaScreen from './src/GerenciamentoDeContaScreen';
 import NotificacoesScreen from './src/NotificacoesScreen';
-
+import AlterarTemaScreen from './src/AlterarTemaScreen';
 // Criando os navegadores
-const Stack = createNativeStackNavigator<RootStackParamList>();  // Tipando o Stack
-const Tab = createBottomTabNavigator<MainTabParamList>();  // Tipando o Tab
+const Stack = createNativeStackNavigator<RootStackParamList>();  
+const Tab = createBottomTabNavigator<MainTabParamList>(); 
 
 // Importando os ícones personalizados
 const mapIcon = require('./src/icons/Maps.png');
@@ -102,6 +102,7 @@ export default function App(): React.JSX.Element {
           <Stack.Screen name="GerenciaConta" component={GerenciamentoDeContaScreen} options={{ title: 'Gerenciamento de Conta' }} />
           <Stack.Screen name="VisibiPerfil" component={VisibilidadePerfilScreen} options={{ title: 'Visibilidade do Perfil' }} />
           <Stack.Screen name="Notificacao" component={NotificacoesScreen} options={{ title: 'Notificações do Perfil' }} />
+          <Stack.Screen name="AlterarTema" component={AlterarTemaScreen} options={{ title: 'Alterar Tema' }} />
         </Stack.Navigator>
       </NavigationContainer>
     </GestureHandlerRootView>
