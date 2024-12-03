@@ -1,16 +1,18 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
 const ThemeAccessibilityScreen = () => {
   // Estado para o tema selecionado
   const [selectedTheme, setSelectedTheme] = useState('default');
   // Estado para o tamanho da fonte
   const [fontSize, setFontSize] = useState(18);
+  const navigation = useNavigation(); // Inicializa o hook de navegação
 
   return (
     <View style={styles.container}>
       <TouchableOpacity style={styles.backButton}>
-        <Text style={styles.backArrow}>←</Text>
+        <Text style={styles.backArrow} onPress={() => navigation.goBack()}>←</Text>
       </TouchableOpacity>
       <Text style={styles.header}>Alterar Tema</Text>
 
@@ -104,7 +106,7 @@ const styles = StyleSheet.create({
     top: 30,
   },
   backArrow: {
-    fontSize: 20,
+    fontSize: 40,
     color: '#000',
   },
   header: {
