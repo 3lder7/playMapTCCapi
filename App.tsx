@@ -22,6 +22,7 @@ import ConfigGeralScreen from './src/ConfigGeralScreen';
 import CentralDeContaScreen from './src/CentralDeContaScreen'
 import VisibilidadePerfilScreen from './src/VisibilidadePerfilScreen'
 import GerenciamentoDeContaScreen from './src/GerenciamentoDeContaScreen'
+import NotificacoesScreen from './src/NotificacoesScreen';
 
 // Criando os navegadores
 const Stack = createNativeStackNavigator<RootStackParamList>();  // Tipando o Stack
@@ -100,6 +101,7 @@ export default function App(): React.JSX.Element {
           <Stack.Screen name="CentralConta" component={CentralDeContaScreen} options={{ title: 'Central De Conta' }} />
           <Stack.Screen name="GerenciaConta" component={GerenciamentoDeContaScreen} options={{ title: 'Gerenciamento de Conta' }} />
           <Stack.Screen name="VisibiPerfil" component={VisibilidadePerfilScreen} options={{ title: 'Visibilidade do Perfil' }} />
+          <Stack.Screen name="Notificacao" component={NotificacoesScreen} options={{ title: 'Notificações do Perfil' }} />
         </Stack.Navigator>
       </NavigationContainer>
     </GestureHandlerRootView>

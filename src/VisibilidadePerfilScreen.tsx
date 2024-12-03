@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
-import { Ionicons } from '@expo/vector-icons'; // Certifique-se de instalar esta biblioteca
+import { Ionicons } from '@expo/vector-icons'; 
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { MainTabParamList } from './navigation/types'; 
 
 type Props = NativeStackScreenProps<MainTabParamList, 'VisibiPerfil'>;
 
 const ProfileVisibilityScreen = ({ navigation }: Props) => {
-  const [selectedOption, setSelectedOption] = useState('public'); // Estado para controlar a opção selecionada
+  const [selectedOption, setSelectedOption] = useState('public'); 
 
   return (
     <View style={styles.container}>

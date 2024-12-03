@@ -17,7 +17,7 @@ const AccountCenter = () => {
   const options: Option[] = [
     { id: '1', title: 'Gerenciamento de Conta' },
     { id: '2', title: 'Visibilidade do perfil' },
-    { id: '3', title: 'Notificações' },
+    { id: '3', title: 'Notificacoes' },
   ];
 
   // Tipando a função renderOption
@@ -28,6 +28,8 @@ const AccountCenter = () => {
             navigation.navigate('GerenciaConta');
         }else if(item.title === 'Visibilidade do perfil'){
           navigation.navigate('VisibiPerfil');
+        }else if(item.title === 'Notificacoes'){
+          navigation.navigate('Notificacao');
         }
     }}>
       <Text style={styles.optionText}>{item.title}</Text>
