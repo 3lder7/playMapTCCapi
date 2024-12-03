@@ -24,6 +24,8 @@ import VisibilidadePerfilScreen from './src/VisibilidadePerfilScreen';
 import GerenciamentoDeContaScreen from './src/GerenciamentoDeContaScreen';
 import NotificacoesScreen from './src/NotificacoesScreen';
 import AlterarTemaScreen from './src/AlterarTemaScreen';
+import DetalhesGruposScreen from './src/DetalhesGrupoScreen';
+
 // Criando os navegadores
 const Stack = createNativeStackNavigator<RootStackParamList>();  
 const Tab = createBottomTabNavigator<MainTabParamList>(); 
@@ -103,6 +105,7 @@ export default function App(): React.JSX.Element {
           <Stack.Screen name="VisibiPerfil" component={VisibilidadePerfilScreen} options={{ title: 'Visibilidade do Perfil' }} />
           <Stack.Screen name="Notificacao" component={NotificacoesScreen} options={{ title: 'Notificações do Perfil' }} />
           <Stack.Screen name="AlterarTema" component={AlterarTemaScreen} options={{ title: 'Alterar Tema' }} />
+          <Stack.Screen name="DetalheGrupo" component={DetalhesGruposScreen} options={{ title: 'Detalhes do Grupo' }} />
         </Stack.Navigator>
       </NavigationContainer>
     </GestureHandlerRootView>

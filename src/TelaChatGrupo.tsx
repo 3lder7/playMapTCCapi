@@ -1,19 +1,27 @@
 import React from 'react';
 import { View, Text, Image, TextInput, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
 const ChatScreen = () => {
+  const navigation = useNavigation(); // Hook para navegação
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>
+        <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
+          <Text style={styles.backArrow}>←</Text>
+        </TouchableOpacity>
         <Image
           source={{ uri: 'https://static.wikia.nocookie.net/jjba/images/9/9e/Sports_Maxx_Anime.png/revision/latest?cb=20221202205133&path-prefix=pt-br' }}
           style={styles.groupImage}
         />
-        <Text style={styles.groupName}>JOJO Workout</Text>
+        <TouchableOpacity onPress={() => navigation.navigate('DetalheGrupo')}>
+          <Text style={styles.groupName}>JOJO Workout</Text>
+        </TouchableOpacity>
       </View>
 
+      {/* Conteúdo principal do chat */}
       <ScrollView contentContainerStyle={styles.chatContainer}>
-        
         <View style={styles.messageContainer}>
           <Text style={[styles.senderName, { color: '#0000FF' }]}>Giovane</Text>
           <Text style={styles.messageText}>Gente, cadê a foto da corrida de hoje?</Text>
@@ -21,31 +29,31 @@ const ChatScreen = () => {
         </View>
 
         <View style={[styles.messageContainer, styles.userMessage]}>
-          <Text style={styles.messageText}>Acho que ficou com a chat da Mandy 😜</Text>
+          <Text style={styles.messageText}>Acho que ficou com a chat da Marie 😜</Text>
           <Text style={styles.messageTime}>10:12</Text>
         </View>
 
         <View style={styles.messageContainer}>
-          <Text style={[styles.senderName, { color: '#FF00FF' }]}>Mista</Text>
+          <Text style={[styles.senderName, { color: '#FF00FF' }]}>Marie</Text>
           <Text style={styles.messageText}>Não</Text>
           <Text style={styles.messageTime}>10:14</Text>
         </View>
 
         <View style={styles.messageContainer}>
-          <Text style={[styles.senderName, { color: '#FFA500' }]}>Bucciarati</Text>
+          <Text style={[styles.senderName, { color: '#FFA500' }]}>Rebbeca</Text>
           <Text style={styles.messageText}>A foto está comigo, daqui a pouco eu envio</Text>
           <Text style={styles.messageTime}>10:16</Text>
         </View>
 
         <View style={[styles.messageContainer, styles.userMessage]}>
-          <Text style={styles.messageText}>Manda logo Sam 😂</Text>
+          <Text style={styles.messageText}>Manda logo Beca 😂</Text>
           <Text style={styles.messageTime}>10:20</Text>
         </View>
 
         <View style={styles.messageContainer}>
-          <Text style={[styles.senderName, { color: '#FFA500' }]}>Bucciarati</Text>
+          <Text style={[styles.senderName, { color: '#FFA500' }]}>Rebbeca</Text>
           <Image
-             source={{ uri: 'https://www.acidadeon.com/ribeiraopreto/wp-content/uploads/sites/3/2023/08/grupo_poderosas_1200x675_04062022153222.jpg' }}
+            source={{ uri: 'https://www.acidadeon.com/ribeiraopreto/wp-content/uploads/sites/3/2023/08/grupo_poderosas_1200x675_04062022153222.jpg' }}
             style={styles.messageImage}
           />
           <Text style={styles.messageTime}>10:21</Text>
@@ -76,16 +84,24 @@ const styles = StyleSheet.create({
     backgroundColor: '#FF5722',
     padding: 15,
   },
-  groupImage: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
+  backButton: {
+    marginRight: 10,
+  },
+  backArrow: {
+    fontSize: 40,
+    color: '#FFF',
   },
   groupName: {
     fontSize: 18,
     fontWeight: 'bold',
     color: '#FFF',
-    marginLeft: 10,
+  },
+  groupImage: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    marginTop: 5,
+    marginRight: 15,
   },
   chatContainer: {
     padding: 10,

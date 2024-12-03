@@ -15,6 +15,7 @@ export type RootStackParamList = {
     Notificacao: undefined;
     AlterarTema: undefined;
     Grupos: undefined;
+    DetalheGrupo: undefined;
     Mapa: { selectedNeighborhood: Neighborhood }
   };
 
@@ -31,6 +32,7 @@ export type RootStackParamList = {
     GerenciaConta:undefined;
     Notificacao: undefined;
     AlterarTema: undefined;
+    DetalheGrupo: undefined;
   };
   
   // Interface que define os dados de um bairro
