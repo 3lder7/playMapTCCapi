@@ -11,6 +11,8 @@ import SportIcon from "./icons/Sport.png";
 import MapsIcon from "./icons/Maps.png"; // Ícone da barra de pesquisa
 import SearchIcon from "./icons/Search.png"; // Ícone da barra de pesquisa
 import GpsIcon from "./icons/GPS.png"; // Ícone da barra de pesquisa
+import LocationIcon from "./icons/Location.png";
+import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 
 
 const MapScreen = () => {
@@ -200,7 +202,6 @@ const MapScreen = () => {
         ))}
       </MapView>
 
-      {/* Barra de Pesquisa Estilizada */}
       <View style={styles.searchBar}>
         <Image source={MapsIcon} style={styles.icon} />
         <TextInput
@@ -219,22 +220,53 @@ const MapScreen = () => {
       </TouchableOpacity>
 
       {isVisible && selectedMarker && (
-        <View style={[styles.infoContainer, { height: panelHeight }]} {...panResponder.panHandlers}>
-          <TouchableOpacity style={styles.closeButton} onPress={() => setIsVisible(false)}>
-            <Text style={styles.closeText}>✖</Text>
-          </TouchableOpacity>
-          <ScrollView style={styles.scrollContainer}>
-            <Text style={styles.infoTitle}>{selectedMarker.title}</Text>
-            <Text style={styles.infoDescription}>{selectedMarker.description}</Text>
-          </ScrollView>
-        </View>
+        <View 
+          style={[styles.infoContainer, { height: panelHeight }]} 
+        >
+          <TouchableWithoutFeedback>
+            <View {...panResponder.panHandlers} style={styles.dragHandle}>
+              <Image source={require("./icons/Rectangle.png")} style={styles.dragIcon}/>
+            </View>
+          </TouchableWithoutFeedback>
+            <View style={styles.contentContainer}>
+              {selectedMarker.imageUrls && selectedMarker.imageUrls.length > 0 ? (
+                <ScrollView
+                  horizontal
+                  style={styles.imageCarousel}
+                  showsHorizontalScrollIndicator={false}
+                >
+                  {selectedMarker.imageUrls.map((url: string, index: number) => (
+                    <Image
+                      key={index}
+                      source={{ uri: url }}
+                      style={styles.image}
+                      resizeMode="cover"
+                    />
+                  ))}
+                </ScrollView>
+              ) : (
+                <Text style={styles.noImagesText}>
+                  Nenhuma imagem disponível para esta quadra.
+                </Text>
+              )}
+              <View style={styles.textContainer}>
+                <Text style={styles.infoTitle}>{selectedMarker.title}</Text>
+                <View style={styles.row}>
+                  <Image source={LocationIcon} style={styles.locationIcon} />
+                  <Text style={styles.infoDescription}>{selectedMarker.description}</Text>
+                </View>
+              </View>
+            </View>
+          </View>
       )}
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  map: { flex: 1 },
+  map: { 
+    flex: 1, 
+  },
   searchBar: {
     position: 'absolute',
     top: 20,
@@ -263,6 +295,15 @@ const styles = StyleSheet.create({
     height: 20,
     resizeMode: 'contain',
   },
+  contentContainer: {
+    flex: 1, // Ajuste proporcional
+    padding: 10, // Espaçamento consistente
+    backgroundColor: '#fff', // Cor base
+  },
+  textContainer: {
+    marginTop: 10,
+  },
+  
   gpsButton: {
     position: 'absolute',
     bottom: 70,
@@ -277,10 +318,9 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
     zIndex: 10, // Adicionar zIndex para garantir que fique acima de outros elementos
   },
-  
   gpsIcon: {
-    width: 30,
-    height: 30,
+    width: 24,
+    height: 24,
     resizeMode: 'contain',
   },
   infoContainer: {
@@ -294,11 +334,67 @@ const styles = StyleSheet.create({
     padding: 16,
     elevation: 8,
   },
-  closeButton: { alignSelf: 'flex-end' },
-  closeText: { fontSize: 20, color: '#666' },
-  scrollContainer: { marginTop: 10 },
-  infoTitle: { fontWeight: 'bold', fontSize: 16, marginBottom: 8 },
-  infoDescription: { fontSize: 14, color: '#666' },
+  closeButton: { 
+    alignSelf: 'flex-end', 
+  },
+  closeText: { 
+    fontSize: 20,
+    color: '#666', 
+  },
+  scrollContainer: { 
+    marginTop: 10, 
+  },
+  imageCarousel: {
+    marginTop: 10,
+    marginBottom: 10,
+    flexGrow: 0, // Evita que o carrossel ocupe mais espaço do que precisa
+    marginVertical: 10, // Adiciona um espaçamento consistente
+    paddingHorizontal: 10,
+  },
+  image: {
+    width: 250,  // Largura de cada imagem
+    height: 150, // Altura de cada imagem
+    borderRadius: 10, // Bordas arredondadas
+    marginRight: 10,  // Espaçamento entre as imagens
+  },
+  noImagesText: {
+    textAlign: 'center',
+    color: '#999',
+    marginVertical: 10,
+    fontSize: 14,
+  },
+  dragHandle: {
+    alignItems: "center",
+    justifyContent: "center",
+    height: 50,
+  },
+  dragIcon: {
+    width: 40,
+    height: 5,
+    borderRadius: 2.5,
+    backgroundColor: "#f5f5f5",
+  },
+  infoTitle: {
+    fontWeight: 'bold',
+    fontSize: 18,
+    color: '#333',
+    marginBottom: 4,
+  },
+  infoDescription: {
+    fontSize: 14,
+    color: '#555',
+  },
+  row: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 8,
+  },
+  locationIcon: {
+    width: 20,
+    height: 20,
+    marginRight: 8,
+    resizeMode: "contain",
+  },
   suggestionsContainer: {
     position: 'absolute',
     top: 60,
@@ -309,8 +405,14 @@ const styles = StyleSheet.create({
     padding: 8,
     elevation: 5,
   },
-  suggestionItem: { padding: 8, borderBottomWidth: 0.5, borderBottomColor: '#ddd' },
-  suggestionText: { fontSize: 16 },
+  suggestionItem: { 
+    padding: 8,
+    borderBottomWidth: 0.5,
+    borderBottomColor: '#ddd', 
+  },
+  suggestionText: { 
+    fontSize: 16, 
+  },
 });
 
 export default MapScreen;
