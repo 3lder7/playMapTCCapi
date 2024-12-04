@@ -82,7 +82,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: '#FF5722',
-    padding: 15,
+    padding: 11,
   },
   backButton: {
     marginRight: 10,
@@ -95,6 +95,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
     color: '#FFF',
+    marginTop: 8,
   },
   groupImage: {
     width: 40,

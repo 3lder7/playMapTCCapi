@@ -62,11 +62,11 @@ export default function App({navigation}: Props) {
 
         <View style={styles.solidBackground}>
           <View style={styles.buttonContainer}>
-            <TouchableOpacity style={styles.buttonWhite}>
-              <Text style={styles.buttonWhiteText} onPress={() => navigation.navigate('Login')}>Entrar</Text>
+            <TouchableOpacity style={styles.buttonWhite} onPress={() => navigation.navigate('Login')}>
+              <Text style={styles.buttonWhiteText} >Entrar</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.buttonBlack}>
-              <Text style={styles.buttonBlackText} onPress={() => navigation.navigate('Cadastro')}>Cadastre-se</Text>
+            <TouchableOpacity style={styles.buttonBlack} onPress={() => navigation.navigate('Cadastro')}>
+              <Text style={styles.buttonBlackText} >Cadastre-se</Text>
             </TouchableOpacity>
           </View>
         </View>

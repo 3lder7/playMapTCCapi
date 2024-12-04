@@ -1,4 +1,9 @@
 import React, { useState } from 'react';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { RootStackParamList } from './navigation/types'; 
+
+type Props = NativeStackScreenProps<RootStackParamList, 'DetalhesGrupo'>;
+
 import {
   View,
   Text,
@@ -51,12 +56,15 @@ const allEvents: Events = {
   ],
 };
 
-export default function App() {
+export default function App({ navigation }: Props) {
   const [selectedDate, setSelectedDate] = useState<keyof Events>('TER 26');
   const dates: (keyof Events)[] = ['SEG 25', 'TER 26', 'QUA 30', 'QUI 31', 'SEX 01', 'SÁB 02'];
   return (
     <View style={styles.container}>
       <View style={styles.header}>
+        <TouchableOpacity style={styles.backButton}>
+          <Text style={styles.backText} onPress={() => navigation.goBack()}>←</Text>
+        </TouchableOpacity>
         <Image
           style={styles.groupImage}
           source={{
@@ -76,10 +84,10 @@ export default function App() {
       </View>
 
       <View style={styles.buttonContainer}>
-        <TouchableOpacity style={styles.button}>
+        <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Chat')}>
           <Text style={styles.buttonText}>Conversas</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.button}>
+        <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('MembrosGrupo')}>
           <Text style={styles.buttonText}>Membros</Text>
         </TouchableOpacity>
       </View>
@@ -112,6 +120,15 @@ export default function App() {
 }
 
 const styles = StyleSheet.create({
+  backButton: {
+    marginRight: -5,
+    marginTop: -10,
+    marginLeft: 15,
+  },
+  backText: {
+    fontSize: 40,
+    color: '#000',
+  },
   container: {
     marginTop: 20,
     flex: 1,
@@ -181,6 +198,7 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     paddingHorizontal: 20,
     borderRadius: 12,
+    elevation: 4,
   },
   buttonText: {
     fontSize: 16,

@@ -26,6 +26,8 @@ import NotificacoesScreen from './src/NotificacoesScreen';
 import AlterarTemaScreen from './src/AlterarTemaScreen';
 import DetalhesGruposScreen from './src/DetalhesGrupoScreen';
 import TelaInicialScreen from './src/TelaInicialScreen';
+import MembrosGrupoScreen from './src/MembrosGrupoScreen'
+
 
 // Criando os navegadores
 const Stack = createNativeStackNavigator<RootStackParamList>();  
@@ -108,6 +110,7 @@ export default function App(): React.JSX.Element {
           <Stack.Screen name="Notificacao" component={NotificacoesScreen} options={{ title: 'Notificações do Perfil' }} />
           <Stack.Screen name="AlterarTema" component={AlterarTemaScreen} options={{ title: 'Alterar Tema' }} />
           <Stack.Screen name="DetalhesGrupo" component={DetalhesGruposScreen} options={{ title: 'Detalhes do Grupo' }} />
+          <Stack.Screen name="MembrosGrupo" component={MembrosGrupoScreen} options={{ title: 'Membros do Grupo' }} />
         </Stack.Navigator>
       </NavigationContainer>
     </GestureHandlerRootView>

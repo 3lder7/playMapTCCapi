@@ -1,9 +1,7 @@
-// EditProfileScreen.tsx
-
 import React from 'react';
 import { View, Text, Image, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { RootStackParamList } from './navigation/types';  // Importando os tipos do arquivo de navegação
+import { RootStackParamList } from './navigation/types'; 
 
 // Tipando a navegação para a tela de Configurações (EditProfileScreen)
 type EditProfileScreenProps = NativeStackScreenProps<RootStackParamList, 'Configurações'>;
@@ -27,7 +25,7 @@ export default function EditProfileScreen({ navigation }: EditProfileScreenProps
       </View>
 
       <View style={styles.optionList}>
-        {[ // Exemplo de opções do perfil
+        {[
           { label: 'Nome' },
           { label: 'Pronomes' },
           { label: 'Privacidade' },
