@@ -1,32 +1,73 @@
-import React from 'react';
-import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
+import React, { useState } from 'react';
+import { StyleSheet, View, Text, TouchableOpacity, TouchableWithoutFeedback, GestureResponderEvent, Dimensions } from 'react-native';
 
 export default function App() {
-  return (
-    <View style={styles.container}>
-      <View style={styles.textContainer}>
-        <Text style={styles.title}>Localize sua área esportiva</Text>
-        <Text style={styles.subtitle}>
-          Encontre os melhores lugares para praticar sua atividade física favorita.
-        </Text>
-        <View style={styles.pagination}>
-          <View style={styles.dot} />
-          <View style={styles.dot} />
-          <View style={styles.dot} />
-        </View>
-      </View>
+  const [currentIndex, setCurrentIndex] = useState(0);
 
-      <View style={styles.solidBackground}>
-        <View style={styles.buttonContainer}>
-          <TouchableOpacity style={styles.buttonWhite}>
-            <Text style={styles.buttonWhiteText}>Entrar</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.buttonBlack}>
-            <Text style={styles.buttonBlackText}>Cadastre-se</Text>
-          </TouchableOpacity>
+  const windowWidth = Dimensions.get('window').width;
+
+  // Informações para serem exibidas em cada slide
+  const slides = [
+    {
+      title: 'Localize sua área esportiva',
+      subtitle: 'Encontre os melhores lugares para praticar sua atividade física favorita.',
+    },
+    {
+      title: 'Pratique esportes com seus amigos',
+      subtitle: 'Crie grupos para fazer atividades físicas com as pessoas que você gosta.',
+    },
+    {
+      title: 'Fortalecendo Comunidades Através do Esporte',
+      subtitle: 'Formação de amizades e o desenvolvimento de uma rede de apoio local através do esporte.',
+    },
+  ];
+
+  // Função para alternar entre os slides
+  const changeSlide = (direction: 'left' | 'right') => {
+    if (direction === 'left' && currentIndex > 0) {
+      setCurrentIndex(currentIndex - 1);
+    } else if (direction === 'right' && currentIndex < slides.length - 1) {
+      setCurrentIndex(currentIndex + 1);
+    }
+  };
+
+  return (
+    <TouchableWithoutFeedback
+      onPress={(event: GestureResponderEvent) => {
+        const { locationX } = event.nativeEvent;
+        const isLeftSide = locationX < windowWidth / 2;
+        changeSlide(isLeftSide ? 'left' : 'right');
+      }}
+    >
+      <View style={styles.container}>
+        <View style={styles.textContainer}>
+          <Text style={styles.title}>{slides[currentIndex].title}</Text>
+          <Text style={styles.subtitle}>{slides[currentIndex].subtitle}</Text>
+          <View style={styles.pagination}>
+            {slides.map((_, index) => (
+              <View
+                key={index}
+                style={[
+                  styles.dot,
+                  index === currentIndex && styles.activeDot, // Muda a cor do dot ativo
+                ]}
+              />
+            ))}
+          </View>
+        </View>
+
+        <View style={styles.solidBackground}>
+          <View style={styles.buttonContainer}>
+            <TouchableOpacity style={styles.buttonWhite}>
+              <Text style={styles.buttonWhiteText}>Entrar</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.buttonBlack}>
+              <Text style={styles.buttonBlackText}>Cadastre-se</Text>
+            </TouchableOpacity>
+          </View>
         </View>
       </View>
-    </View>
+    </TouchableWithoutFeedback>
   );
 }
 
@@ -66,9 +107,12 @@ const styles = StyleSheet.create({
     backgroundColor: '#666666',
     marginHorizontal: 5,
   },
+  activeDot: {
+    backgroundColor: '#FF621F', // Cor do dot ativo
+  },
   solidBackground: {
     width: '100%',
-    backgroundColor: '#FF621F', // Cor sólida substituindo o LinearGradient
+    backgroundColor: '#FF621F',
     paddingHorizontal: 20,
     paddingBottom: 120,
     borderTopLeftRadius: 30,
