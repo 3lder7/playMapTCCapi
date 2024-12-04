@@ -8,18 +8,36 @@ import {
   TouchableOpacity,
 } from 'react-native';
 
-const allEvents = {
+type Event = { id: string; title: string; time: string };
+type Events = {
+  'SEG 25': Event[];
+  'TER 26': Event[];
+  'QUA 30': Event[];
+  'QUI 31': Event[];
+  'SEX 01': Event[];
+  'SÁB 02': Event[];
+};
+
+const allEvents: Events = {
   'SEG 25': [
     { id: '1', title: 'Treino de Ritmo', time: '12:20' },
-    { id: '2', title: 'Funcional', time: '14:40' },
+    { id: '2', title: 'Corrida Intervalada', time: '14:40' },
+    { id: '3', title: 'Corrida de Resistência', time: '15:30' },
+    { id: '4', title: 'Funcional', time: '16:00' },
+    { id: '5', title: 'Corrida em Subida', time: '16:30' },
+    { id: '6', title: 'Sprint 200m', time: '17:45' },
   ],
   'TER 26': [
-    { id: '3', title: 'Meia Maratona', time: '07:30' },
-    { id: '4', title: 'Treino de Salto', time: '11:00' },
+    { id: '7', title: 'Meia Maratona', time: '07:30' },
+    { id: '8', title: 'Treino de Salto', time: '11:00' },
+    { id: '9', title: 'Treino de Técnica de Passada', time: '12:00' },
+    { id: '10', title: 'Treino de Velocidade Progressiva ', time: '14:00' },
   ],
   'QUA 30': [
-    { id: '5', title: 'Aquecimento', time: '8:00' },
-    { id: '6', title: 'Corrida Longa', time: '11:00' },
+    { id: '11', title: 'Aquecimento', time: '8:00' },
+    { id: '12', title: 'Corrida Longa', time: '11:00' },
+    { id: '13', title: 'Corrida em Descanso Ativo (Pace Leve)', time: '14:00' },
+    { id: '14', title: 'Funcional com Elásticos', time: '18:00' },
   ],
   'QUI 31': [
     { id: '5', title: 'Posteriores', time: '10:00' },
@@ -34,8 +52,8 @@ const allEvents = {
 };
 
 export default function App() {
-  const [selectedDate, setSelectedDate] = useState('TER 26'); // Data inicial selecionada
-
+  const [selectedDate, setSelectedDate] = useState<keyof Events>('TER 26');
+  const dates: (keyof Events)[] = ['SEG 25', 'TER 26', 'QUA 30', 'QUI 31', 'SEX 01', 'SÁB 02'];
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -68,7 +86,7 @@ export default function App() {
 
       <Text style={styles.sectionTitle}>Eventos do Grupo</Text>
       <View style={styles.dateScroll}>
-        {['SEG 25', 'TER 26', 'QUA 30', 'QUI 31', 'SEX 01', 'SÁB 02', 'DOM 03'].map((date, index) => (
+        {dates.map((date, index) => (
           <TouchableOpacity
             key={index}
             style={[styles.dateItem, date === selectedDate && styles.activeDate]}
@@ -104,76 +122,65 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     marginBottom: 16,
-    elevation: 1,
-    paddingBottom: 25,
+    paddingBottom: 15,
     marginLeft: -18,
     marginRight: -18,
     marginTop: 30,
-    borderBottomColor: '#000',
+    borderBottomWidth: 1,
+    borderBottomColor: '#ddd',
   },
   groupImage: {
     width: 60,
     height: 60,
     borderRadius: 30,
-    marginTop: 10,
     marginLeft: 15,
   },
   headerTextContainer: {
     flex: 1,
-    marginLeft: 1,
-    flexDirection: 'column',
+    marginLeft: 12,
   },
   caixaInfos: {
     marginTop: 10,
     flexDirection: 'row',
   },
   groupName: {
-    fontSize: 18,
+    fontSize: 20,
     fontWeight: 'bold',
     color: '#000',
-    marginLeft: 10,
   },
   groupInfo1: {
     fontSize: 14,
-    color: '#000',
-    width: '18%',
-    padding: 2,
-    borderRadius: 5,
-    elevation: 1,
-    borderWidth: 0.5,
-    marginLeft: 10,
+    color: '#fff',
+    paddingVertical: 2,
+    paddingHorizontal: 8,
+    borderRadius: 8,
     backgroundColor: '#22BE0E',
+    marginRight: 8,
   },
   groupInfo2: {
     fontSize: 14,
-    width: '25.5%',
-    padding: 2,
-    elevation: 1,
-    borderWidth: 0.5,
-    borderRadius: 5,
-    backgroundColor: '#f5f5f5',
+    color: '#000',
+    paddingVertical: 2,
     paddingHorizontal: 8,
-    paddingVertical: 4,
-    marginLeft: 10,
+    borderRadius: 8,
+    backgroundColor: '#f5f5f5',
   },
   optionsIcon: {
-    fontSize: 29,
+    fontSize: 24,
     color: '#000',
-    marginRight: 25,
+    marginRight: 15,
   },
   buttonContainer: {
     flexDirection: 'row',
     justifyContent: 'space-around',
-    marginBottom: '10%',
-    marginTop: 35,
+    marginBottom: 16,
+    marginTop: 10,
   },
   button: {
-    backgroundColor: '#ff5722',
-    paddingVertical: 12,
-    paddingHorizontal: 24,
-    borderRadius: 8,
-    elevation: 6,
-    borderWidth: 0.5,
+    backgroundColor: '#FF621F',
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 12,
   },
   buttonText: {
     fontSize: 16,
@@ -181,19 +188,19 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   sectionTitle: {
-    fontSize: 28,
+    fontSize: 24,
     fontWeight: 'bold',
-    marginBottom: 18,
+    marginBottom: 12,
   },
   dateScroll: {
     flexDirection: 'row',
-    marginBottom: 25,
+    marginBottom: 16,
   },
   dateItem: {
-    padding: 8,
-    borderRadius: 8,
-    marginHorizontal: 4,
-    backgroundColor: '#C6C2C2',
+    padding: 10,
+    borderRadius: 12,
+    marginHorizontal: 6,
+    backgroundColor: '#E0E0E0',
   },
   activeDate: {
     backgroundColor: '#000',
@@ -204,24 +211,33 @@ const styles = StyleSheet.create({
   },
   activeDateText: {
     color: '#fff',
+    fontWeight: 'bold',
   },
   eventItem: {
     flexDirection: 'row',
     justifyContent: 'space-between',
+    alignItems: 'center',
     padding: 16,
-    borderBottomWidth: 4,
-    borderBottomColor: '#ddd',
-    borderTopColor: '#ddd',
-    borderTopWidth: 1.5,
-    borderRadius: 5,
+    marginBottom: 10,
+    backgroundColor: '#E0E0E0', // Botão destacado
+    borderRadius: 12,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 4,
+    elevation: 3, 
   },
   eventTitle: {
-    fontSize: 20,
-    color: '#000',
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#2c2c2c', // Texto branco para contraste
   },
   eventTime: {
-    fontSize: 20,
-    color: '#000',
-    marginRight: 30,
+    fontSize: 16,
+    color: 'gray', // Texto branco
+  },
+  eventItemPressed: {
+    backgroundColor: '#D5531A', // Cor ao pressionar
   },
 });
+
