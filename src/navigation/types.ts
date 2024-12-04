@@ -15,6 +15,7 @@ export type RootStackParamList = {
     Notificacao: undefined;
     AlterarTema: undefined;
     Grupos: undefined;
+    MembrosGrupo: undefined;
     DetalhesGrupo: undefined;
     Mapa: { selectedNeighborhood: Neighborhood }
   };
@@ -22,6 +23,7 @@ export type RootStackParamList = {
   export type MainTabParamList = {
     Mapa: undefined;
     Grupos: undefined;
+    MembrosGrupo: undefined;
     Eventos: undefined;
     Perfil: undefined;
     Configurações: undefined;
