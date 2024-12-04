@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   View,
   Text,
@@ -8,39 +8,55 @@ import {
   TouchableOpacity,
 } from 'react-native';
 
-const groupEvents = [
-  { id: '1', title: 'Treino de superior', time: '14:20' },
-  { id: '2', title: 'Treino costa', time: '14:40' },
-  { id: '3', title: 'Treino Inferior', time: '07:00' },
-  { id: '4', title: 'Treino superior', time: '07:00' },
-];
+const allEvents = {
+  'SEG 25': [
+    { id: '1', title: 'Treino de Ritmo', time: '12:20' },
+    { id: '2', title: 'Funcional', time: '14:40' },
+  ],
+  'TER 26': [
+    { id: '3', title: 'Meia Maratona', time: '07:30' },
+    { id: '4', title: 'Treino de Salto', time: '11:00' },
+  ],
+  'QUA 30': [
+    { id: '5', title: 'Aquecimento', time: '8:00' },
+    { id: '6', title: 'Corrida Longa', time: '11:00' },
+  ],
+  'QUI 31': [
+    { id: '5', title: 'Posteriores', time: '10:00' },
+    { id: '6', title: 'Salto na praia', time: '13:00' },
+  ],
+  'SEX 01': [
+    { id: '7', title: 'Em Breve', time: '' },
+  ],
+  'SÁB 02': [
+    { id: '8', title: 'Em Breve', time: '' },
+  ],
+};
 
 export default function App() {
+  const [selectedDate, setSelectedDate] = useState('TER 26'); // Data inicial selecionada
+
   return (
     <View style={styles.container}>
-      {/* Header */}
       <View style={styles.header}>
         <Image
           style={styles.groupImage}
           source={{
-            uri: 'https://via.placeholder.com/60', // Insira a URL da imagem desejada
+            uri: 'https://i.pinimg.com/originals/78/12/a7/7812a76820f4d5269dadd571ff759174.jpg', 
           }}
         />
         <View style={styles.headerTextContainer}>
           <Text style={styles.groupName}>Perna Longa</Text>
-          <Text style={styles.groupInfo}>Membro | 6 membros</Text>
+          <View style={styles.caixaInfos}>
+            <Text style={styles.groupInfo1}>Membro</Text>
+            <Text style={styles.groupInfo2}>Corrida 🏃‍♀️</Text>
+          </View>
         </View>
         <TouchableOpacity>
           <Text style={styles.optionsIcon}>⋮</Text>
         </TouchableOpacity>
       </View>
 
-      {/* Group Tag */}
-      <View style={styles.tagContainer}>
-        <Text style={styles.tagText}>Musculação</Text>
-      </View>
-
-      {/* Buttons */}
       <View style={styles.buttonContainer}>
         <TouchableOpacity style={styles.button}>
           <Text style={styles.buttonText}>Conversas</Text>
@@ -50,18 +66,21 @@ export default function App() {
         </TouchableOpacity>
       </View>
 
-      {/* Event List */}
       <Text style={styles.sectionTitle}>Eventos do Grupo</Text>
       <View style={styles.dateScroll}>
         {['SEG 25', 'TER 26', 'QUA 30', 'QUI 31', 'SEX 01', 'SÁB 02', 'DOM 03'].map((date, index) => (
-          <TouchableOpacity key={index} style={[styles.dateItem, date === 'QUA 30' && styles.activeDate]}>
-            <Text style={[styles.dateText, date === 'QUA 30' && styles.activeDateText]}>{date}</Text>
+          <TouchableOpacity
+            key={index}
+            style={[styles.dateItem, date === selectedDate && styles.activeDate]}
+            onPress={() => setSelectedDate(date)}
+          >
+            <Text style={[styles.dateText, date === selectedDate && styles.activeDateText]}>{date}</Text>
           </TouchableOpacity>
         ))}
       </View>
 
       <FlatList
-        data={groupEvents}
+        data={allEvents[selectedDate] || []}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
           <TouchableOpacity style={styles.eventItem}>
@@ -76,6 +95,7 @@ export default function App() {
 
 const styles = StyleSheet.create({
   container: {
+    marginTop: 20,
     flex: 1,
     backgroundColor: '#fff',
     padding: 16,
@@ -84,51 +104,76 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     marginBottom: 16,
+    elevation: 1,
+    paddingBottom: 25,
+    marginLeft: -18,
+    marginRight: -18,
+    marginTop: 30,
+    borderBottomColor: '#000',
   },
   groupImage: {
     width: 60,
     height: 60,
     borderRadius: 30,
+    marginTop: 10,
+    marginLeft: 15,
   },
   headerTextContainer: {
     flex: 1,
-    marginLeft: 12,
+    marginLeft: 1,
+    flexDirection: 'column',
+  },
+  caixaInfos: {
+    marginTop: 10,
+    flexDirection: 'row',
   },
   groupName: {
     fontSize: 18,
     fontWeight: 'bold',
     color: '#000',
+    marginLeft: 10,
   },
-  groupInfo: {
+  groupInfo1: {
     fontSize: 14,
-    color: '#666',
-  },
-  optionsIcon: {
-    fontSize: 24,
     color: '#000',
+    width: '18%',
+    padding: 2,
+    borderRadius: 5,
+    elevation: 1,
+    borderWidth: 0.5,
+    marginLeft: 10,
+    backgroundColor: '#22BE0E',
   },
-  tagContainer: {
-    alignSelf: 'flex-start',
+  groupInfo2: {
+    fontSize: 14,
+    width: '25.5%',
+    padding: 2,
+    elevation: 1,
+    borderWidth: 0.5,
+    borderRadius: 5,
     backgroundColor: '#f5f5f5',
     paddingHorizontal: 8,
     paddingVertical: 4,
-    borderRadius: 8,
-    marginBottom: 16,
+    marginLeft: 10,
   },
-  tagText: {
-    fontSize: 14,
+  optionsIcon: {
+    fontSize: 29,
     color: '#000',
+    marginRight: 25,
   },
   buttonContainer: {
     flexDirection: 'row',
     justifyContent: 'space-around',
-    marginBottom: 16,
+    marginBottom: '10%',
+    marginTop: 35,
   },
   button: {
     backgroundColor: '#ff5722',
     paddingVertical: 12,
     paddingHorizontal: 24,
     borderRadius: 8,
+    elevation: 6,
+    borderWidth: 0.5,
   },
   buttonText: {
     fontSize: 16,
@@ -136,22 +181,22 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   sectionTitle: {
-    fontSize: 16,
+    fontSize: 28,
     fontWeight: 'bold',
-    marginBottom: 8,
+    marginBottom: 18,
   },
   dateScroll: {
     flexDirection: 'row',
-    marginBottom: 16,
+    marginBottom: 25,
   },
   dateItem: {
     padding: 8,
     borderRadius: 8,
     marginHorizontal: 4,
-    backgroundColor: '#f5f5f5',
+    backgroundColor: '#C6C2C2',
   },
   activeDate: {
-    backgroundColor: '#ff5722',
+    backgroundColor: '#000',
   },
   dateText: {
     fontSize: 14,
@@ -164,15 +209,19 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     padding: 16,
-    borderBottomWidth: 1,
+    borderBottomWidth: 4,
     borderBottomColor: '#ddd',
+    borderTopColor: '#ddd',
+    borderTopWidth: 1.5,
+    borderRadius: 5,
   },
   eventTitle: {
-    fontSize: 16,
+    fontSize: 20,
     color: '#000',
   },
   eventTime: {
-    fontSize: 16,
-    color: '#666',
+    fontSize: 20,
+    color: '#000',
+    marginRight: 30,
   },
 });
