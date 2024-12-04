@@ -1,5 +1,6 @@
 // Tipo de parâmetros passados entre as telas na navegação
 export type RootStackParamList = {
+    TelaInicial:undefined;
     Login: undefined;
     Cadastro: undefined;
     Main: undefined;

@@ -25,6 +25,7 @@ import GerenciamentoDeContaScreen from './src/GerenciamentoDeContaScreen';
 import NotificacoesScreen from './src/NotificacoesScreen';
 import AlterarTemaScreen from './src/AlterarTemaScreen';
 import DetalhesGruposScreen from './src/DetalhesGrupoScreen';
+import TelaInicialScreen from './src/TelaInicialScreen';
 
 // Criando os navegadores
 const Stack = createNativeStackNavigator<RootStackParamList>();  
@@ -91,7 +92,8 @@ export default function App(): React.JSX.Element {
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="Login" screenOptions={{ headerShown: false }}>
+        <Stack.Navigator initialRouteName="TelaInicial" screenOptions={{ headerShown: false }}>
+          <Stack.Screen name="TelaInicial" component={TelaInicialScreen} />
           <Stack.Screen name="Login" component={LoginScreen} />
           <Stack.Screen name="Cadastro" component={CadastroScreen} />
           <Stack.Screen name="Main" component={MainTabNavigator} />
