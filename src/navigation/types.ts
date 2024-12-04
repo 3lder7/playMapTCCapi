@@ -22,6 +22,9 @@ export type RootStackParamList = {
   };
 
   export type MainTabParamList = {
+    TelaInicial:undefined;
+    Login: undefined;
+    Cadastro: undefined;
     Mapa: undefined;
     Grupos: undefined;
     MembrosGrupo: undefined;

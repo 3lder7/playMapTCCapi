@@ -1,7 +1,11 @@
 import React, { useState } from 'react';
 import { StyleSheet, View, Text, TouchableOpacity, TouchableWithoutFeedback, GestureResponderEvent, Dimensions } from 'react-native';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { MainTabParamList } from './navigation/types'; 
 
-export default function App() {
+type Props = NativeStackScreenProps<MainTabParamList, 'TelaInicial'>;
+
+export default function App({navigation}: Props) {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const windowWidth = Dimensions.get('window').width;
@@ -59,10 +63,10 @@ export default function App() {
         <View style={styles.solidBackground}>
           <View style={styles.buttonContainer}>
             <TouchableOpacity style={styles.buttonWhite}>
-              <Text style={styles.buttonWhiteText}>Entrar</Text>
+              <Text style={styles.buttonWhiteText} onPress={() => navigation.navigate('Login')}>Entrar</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.buttonBlack}>
-              <Text style={styles.buttonBlackText}>Cadastre-se</Text>
+              <Text style={styles.buttonBlackText} onPress={() => navigation.navigate('Cadastro')}>Cadastre-se</Text>
             </TouchableOpacity>
           </View>
         </View>
