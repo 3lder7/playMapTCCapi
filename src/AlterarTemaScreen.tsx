@@ -3,91 +3,185 @@ import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
 const ThemeAccessibilityScreen = () => {
-  // Estado para o tema selecionado
   const [selectedTheme, setSelectedTheme] = useState('default');
-  // Estado para o tamanho da fonte
   const [fontSize, setFontSize] = useState(18);
-  const navigation = useNavigation(); // Inicializa o hook de navegação
+  const navigation = useNavigation();
 
   return (
-    <View style={styles.container}>
+    <View
+      style={[
+        styles.container,
+        selectedTheme === 'dark' && { backgroundColor: '#000' },
+      ]}
+    >
       <TouchableOpacity style={styles.backButton}>
-        <Text style={styles.backArrow} onPress={() => navigation.goBack()}>←</Text>
+        <Text
+          style={[
+            styles.backArrow,
+            selectedTheme === 'dark' && { color: '#fff' },
+          ]}
+          onPress={() => navigation.goBack()}
+        >
+          ←
+        </Text>
       </TouchableOpacity>
-      <Text style={styles.header}>Alterar Tema</Text>
+      <Text
+        style={[
+          styles.header,
+          selectedTheme === 'dark' && { color: '#fff' },
+        ]}
+      >
+        Alterar Tema
+      </Text>
 
       <View style={styles.section}>
-        {/* Opção: Tema padrão */}
         <TouchableOpacity
-          style={styles.option}
+          style={[
+            styles.option,
+            selectedTheme === 'dark' && { backgroundColor: '#333' },
+          ]}
           onPress={() => setSelectedTheme('default')}
         >
-          <Text style={styles.optionTextLarge}>Tema padrão do dispositivo</Text>
+          <Text
+            style={[
+              styles.optionTextLarge,
+              selectedTheme === 'dark' && { color: '#fff' },
+            ]}
+          >
+            Tema padrão do dispositivo
+          </Text>
           <View
             style={
-              selectedTheme === 'default' ? styles.radioSelected : styles.radio
+              selectedTheme === 'default'
+                ? styles.radioSelected
+                : styles.radio
             }
           />
         </TouchableOpacity>
 
-        {/* Opção: Tema claro */}
         <TouchableOpacity
-          style={styles.option}
+          style={[
+            styles.option,
+            selectedTheme === 'dark' && { backgroundColor: '#333' },
+          ]}
           onPress={() => setSelectedTheme('light')}
         >
-          <Text style={styles.optionTextLarge}>Tema claro</Text>
+          <Text
+            style={[
+              styles.optionTextLarge,
+              selectedTheme === 'dark' && { color: '#fff' },
+            ]}
+          >
+            Tema claro
+          </Text>
           <View
             style={
-              selectedTheme === 'light' ? styles.radioSelected : styles.radio
+              selectedTheme === 'light'
+                ? styles.radioSelected
+                : styles.radio
             }
           />
         </TouchableOpacity>
 
-        {/* Opção: Tema escuro */}
         <TouchableOpacity
-          style={styles.option}
+          style={[
+            styles.option,
+            selectedTheme === 'dark' && { backgroundColor: '#333' },
+          ]}
           onPress={() => setSelectedTheme('dark')}
         >
-          <Text style={styles.optionTextLarge}>Tema escuro</Text>
+          <Text
+            style={[
+              styles.optionTextLarge,
+              selectedTheme === 'dark' && { color: '#fff' },
+            ]}
+          >
+            Tema escuro
+          </Text>
           <View
             style={
-              selectedTheme === 'dark' ? styles.radioSelected : styles.radio
+              selectedTheme === 'dark'
+                ? styles.radioSelected
+                : styles.radio
             }
           />
         </TouchableOpacity>
       </View>
 
       <View style={styles.accessibilitySection}>
-        <Text style={styles.accessibilityTitle}>Acessibilidade</Text>
+        <Text
+          style={[
+            styles.accessibilityTitle,
+            selectedTheme === 'dark' && { color: '#fff' },
+          ]}
+        >
+          Acessibilidade
+        </Text>
         <View style={styles.accessibilityHeader}>
-          <Text style={styles.accessibilitySubtitle}>Tamanho de Texto</Text>
-          <Text style={styles.accessibilityDescription}>
+          <Text
+            style={[
+              styles.accessibilitySubtitle,
+              selectedTheme === 'dark' && { color: '#fff' },
+            ]}
+          >
+            Tamanho de Texto
+          </Text>
+          <Text
+            style={[
+              styles.accessibilityDescription,
+              selectedTheme === 'dark' && { color: '#ccc' },
+            ]}
+          >
             Ajuste o tamanho da fonte para garantir uma leitura confortável e personalizada à sua preferência.
           </Text>
         </View>
 
         <View style={styles.fontSizeAdjuster}>
-          {/* Botão para diminuir o tamanho da fonte */}
           <TouchableOpacity
             style={styles.adjustButton}
             onPress={() => setFontSize((prev) => Math.max(12, prev - 1))}
           >
-            <Text style={styles.adjustText}>-</Text>
+            <Text
+              style={[
+                styles.adjustText,
+                selectedTheme === 'dark' && { color: '#fff' },
+              ]}
+            >
+              -
+            </Text>
           </TouchableOpacity>
-
-          {/* Valor atual do tamanho da fonte */}
-          <Text style={styles.fontSizeValue}>{fontSize}</Text>
-
-          {/* Botão para aumentar o tamanho da fonte */}
+          <Text
+            style={[
+              styles.fontSizeValue,
+              selectedTheme === 'dark' && { color: '#fff' },
+            ]}
+          >
+            {fontSize}
+          </Text>
           <TouchableOpacity
             style={styles.adjustButton}
             onPress={() => setFontSize((prev) => Math.min(30, prev + 1))}
           >
-            <Text style={styles.adjustText}>+</Text>
+            <Text
+              style={[
+                styles.adjustText,
+                selectedTheme === 'dark' && { color: '#fff' },
+              ]}
+            >
+              +
+            </Text>
           </TouchableOpacity>
         </View>
 
-        <Text style={[styles.exampleText, { fontSize }]}>TEXTO EXEMPLO</Text>
+        <Text
+          style={[
+            styles.exampleText,
+            { fontSize },
+            selectedTheme === 'dark' && { color: '#fff' },
+          ]}
+        >
+          TEXTO EXEMPLO
+        </Text>
       </View>
     </View>
   );
@@ -178,16 +272,16 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   adjustButton: {
-    width: 60, 
-    height: 60, 
-    borderRadius: 30, 
+    width: 60,
+    height: 60,
+    borderRadius: 30,
     backgroundColor: '#f0f0f0',
     alignItems: 'center',
     justifyContent: 'center',
-    marginHorizontal: 15, 
+    marginHorizontal: 15,
   },
   adjustText: {
-    fontSize: 24, 
+    fontSize: 24,
     fontWeight: 'bold',
     color: '#000',
   },
