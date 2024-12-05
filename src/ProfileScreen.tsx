@@ -5,7 +5,6 @@ import { MainTabParamList } from './navigation/types';
 
 type Props = NativeStackScreenProps<MainTabParamList, 'Perfil'>;
 
-{/*ERRO NAVIGATION A SER CORRIGIDO*/}
 export default function ProfileScreen({navigation}: Props) {
   return (
     <View style={styles.container}>
@@ -73,19 +72,38 @@ export default function ProfileScreen({navigation}: Props) {
 
       
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Grupos</Text>
+          <Text style={styles.sectionTitle}>Grupos que participa</Text>
           {[
-            { name: 'Perna Longa', image: 'https://i.pinimg.com/originals/78/12/a7/7812a76820f4d5269dadd571ff759174.jpg' },
-            { name: 'Pedala Pra Frente!!', image: 'https://www.anastra.com.br/wp-content/uploads/2022/07/Anastra-2022-Quinta-0443-1024x683.jpg' },
-            { name: 'Músculos of Titan', image: 'https://image.lexica.art/md2_webp/d370994d-3c60-4aa5-848c-16191aeec57f' },
+            {
+              name: 'Perna Longa',
+              image: 'https://i.pinimg.com/originals/78/12/a7/7812a76820f4d5269dadd571ff759174.jpg',
+              screen: 'PernaLongaScreen',
+            },
+            {
+              name: 'Pedala Pra Frente!!',
+              image: 'https://www.anastra.com.br/wp-content/uploads/2022/07/Anastra-2022-Quinta-0443-1024x683.jpg',
+            },
+            {
+              name: 'Músculos of Titan',
+              image: 'https://image.lexica.art/md2_webp/d370994d-3c60-4aa5-848c-16191aeec57f',
+            },
           ].map((group, index) => (
-            <TouchableOpacity key={index} style={styles.groupCard}>
+            <TouchableOpacity
+              key={index}
+              style={styles.groupCard}
+              onPress={() => {
+                if (group.name === 'Perna Longa') {
+                  navigation.navigate('DetalhesGrupo');
+                }
+              }}
+            >
               <Image source={{ uri: group.image }} style={styles.groupImage} />
               <Text style={styles.groupName}>{group.name}</Text>
               <Text style={styles.groupArrow}>→</Text>
             </TouchableOpacity>
           ))}
         </View>
+
       </ScrollView>
 
    
@@ -168,7 +186,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   sectionTitle: {
-    fontSize: 16,
+    fontSize: 18,
     fontWeight: 'bold',
     marginBottom: 10,
   },
