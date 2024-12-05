@@ -3,6 +3,7 @@ export type RootStackParamList = {
     TelaInicial:undefined;
     Login: undefined;
     Cadastro: undefined;
+    InscConfirmada: undefined;
     Main: undefined;
     Configurações: undefined;
     Perfil: undefined;  
@@ -42,6 +43,7 @@ export type RootStackParamList = {
     Notificacao: undefined;
     AlterarTema: undefined;
     DetalhesGrupo: undefined;
+    InscConfirmada: undefined;
   };
   
   // Interface que define os dados de um bairro

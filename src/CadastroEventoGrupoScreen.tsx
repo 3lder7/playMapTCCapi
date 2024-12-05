@@ -1,23 +1,35 @@
-import React from 'react';
-import { View, Text, FlatList, StyleSheet, Image, TouchableOpacity } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, FlatList, StyleSheet, Image, TouchableOpacity, Modal } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import { BlurView } from 'expo-blur';
 import { useNavigation } from '@react-navigation/native';
 
 type Participant = {
-    id: string;
-    name: string;
-    avatar: string;
-  };
+  id: string;
+  name: string;
+  avatar: string;
+};
 
 const participants: Participant[] = [
-  { id: '1', name: 'Robin', avatar: 'https://i.pinimg.com/236x/fa/c0/43/fac04382be00644bcdb7282ea127de09.jpg' },
-  { id: '2', name: 'Sandy', avatar: 'https://i.pinimg.com/736x/8b/fb/8d/8bfb8db72030cce6c4c7505b8915e877.jpg' },
-  { id: '3', name: 'Jerry', avatar: 'https://i.pinimg.com/564x/d1/f4/ae/d1f4ae435543549c89ba8090a1a788b4.jpg' },
+  { id: '2', name: 'Robin', avatar: 'https://i.pinimg.com/236x/fa/c0/43/fac04382be00644bcdb7282ea127de09.jpg' },
+  { id: '3', name: 'Sandy', avatar: 'https://i.pinimg.com/736x/8b/fb/8d/8bfb8db72030cce6c4c7505b8915e877.jpg' },
+  { id: '4', name: 'Jerry', avatar: 'https://i.pinimg.com/564x/d1/f4/ae/d1f4ae435543549c89ba8090a1a788b4.jpg' },
 ];
 
 const App = () => {
-    const navigation = useNavigation();
-  const renderParticipant = ({ item }:{item: Participant}) => (
+  const [modalVisible, setModalVisible] = useState(false);
+  const navigation = useNavigation();
+  const [isRegistered, setIsRegistered] = useState(false); // Estado para controlar a inscrição
+
+  const handleParticipate = () => {
+    setModalVisible(true);
+    setTimeout(() => {
+      setModalVisible(false);
+      setIsRegistered(true); // Marca a inscrição como confirmada
+    }, 2000); // Fecha o modal após 2 segundos e confirma a inscrição
+  };
+
+  const renderParticipant = ({ item }: { item: Participant }) => (
     <View style={styles.participant}>
       <Image source={{ uri: item.avatar }} style={styles.avatar} />
       <Text style={styles.name}>{item.name}</Text>
@@ -27,12 +39,13 @@ const App = () => {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-      <TouchableOpacity style={styles.backButton}>
-          <Text style={styles.backText} onPress={() => navigation.goBack()}>←</Text>
+        <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
+          <Text style={styles.backText}>←</Text>
         </TouchableOpacity>
         <Text style={styles.title}>Treino de Salto</Text>
         <Text style={styles.time}>11:00</Text>
       </View>
+
       <View style={styles.info}>
         <Text style={styles.label}>Data</Text>
         <View style={styles.infoRow}>
@@ -42,32 +55,43 @@ const App = () => {
           />
           <Text style={styles.text}>Segunda 26/10/2024</Text>
         </View>
-        
       </View>
+
       <View style={styles.info}>
-      <Text style={styles.label}>Local</Text>
+        <Text style={styles.label}>Local</Text>
         <View style={styles.infoRow}>
           <Image
             source={require('./img/imgEventos/002-pin.png')}
             style={styles.icon}
           />
-          <Text style={styles.text}>Av. Milton Santos - ondina</Text>
+          <Text style={styles.text}>Av. Milton Santos - Ondina</Text>
         </View>
         <TouchableOpacity style={styles.mapButton}>
           <Ionicons name="map" size={20} color="#fff" />
           <Text style={styles.mapText}>Ver no mapa</Text>
         </TouchableOpacity>
       </View>
-      <TouchableOpacity style={styles.participateButton}>
+
+      <TouchableOpacity style={styles.participateButton} onPress={handleParticipate}>
         <Text style={styles.participateText}>Participar</Text>
       </TouchableOpacity>
+
       <Text style={styles.confirmedLabel}>Pessoas confirmadas ✅</Text>
       <FlatList
-        data={participants}
+        data={isRegistered ? [{ id: '1', name: 'Você', avatar: 'https://i.pinimg.com/736x/f7/91/0e/f7910e574c496611ebb30a88ee52e50c.jpg' }, ...participants] : participants} 
         renderItem={renderParticipant}
         keyExtractor={(item) => item.id}
         style={styles.participantsList}
       />
+
+      <Modal transparent visible={modalVisible} animationType="fade">
+        <BlurView intensity={50} style={styles.modalBackground}>
+          <View style={styles.modalContainer}>
+            <Ionicons name="checkmark-circle" size={60} color="#04A57F" />
+            <Text style={styles.modalText}>Inscrição Confirmada!</Text>
+          </View>
+        </BlurView>
+      </Modal>
     </View>
   );
 };
@@ -168,14 +192,13 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     padding: 5,
     marginBottom: 10,
-    backgroundColor: '#fff', // Botão destacado
+    backgroundColor: '#fff',
     borderRadius: 12,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.2,
     shadowRadius: 4,
-    elevation: 3, 
-    
+    elevation: 3,
   },
   avatar: {
     width: 60,
@@ -187,6 +210,27 @@ const styles = StyleSheet.create({
     fontSize: 20,
     marginLeft: 20,
     marginTop: 15,
+  },
+  modalBackground: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  modalContainer: {
+    backgroundColor: 'rgba(255, 255, 255, 0.9)',
+    borderRadius: 20,
+    padding: 20,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
+  },
+  modalText: {
+    marginTop: 10,
+    fontSize: 18,
+    fontWeight: 'bold',
+    textAlign: 'center',
   },
 });
 

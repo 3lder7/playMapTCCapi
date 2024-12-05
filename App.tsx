@@ -27,8 +27,7 @@ import AlterarTemaScreen from './src/AlterarTemaScreen';
 import DetalhesGruposScreen from './src/DetalhesGrupoScreen';
 import TelaInicialScreen from './src/TelaInicialScreen';
 import MembrosGrupoScreen from './src/MembrosGrupoScreen'
-import TelaCadastroEventoGrupo from './src/TelaCadastroEventoGrupo'
-
+import TelaCadastroEventoGrupo from './src/CadastroEventoGrupoScreen'
 
 // Criando os navegadores
 const Stack = createNativeStackNavigator<RootStackParamList>();  
