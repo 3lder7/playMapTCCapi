@@ -27,6 +27,7 @@ import AlterarTemaScreen from './src/AlterarTemaScreen';
 import DetalhesGruposScreen from './src/DetalhesGrupoScreen';
 import TelaInicialScreen from './src/TelaInicialScreen';
 import MembrosGrupoScreen from './src/MembrosGrupoScreen'
+import TelaCadastroEventoGrupo from './src/TelaCadastroEventoGrupo'
 
 
 // Criando os navegadores
@@ -111,6 +112,7 @@ export default function App(): React.JSX.Element {
           <Stack.Screen name="AlterarTema" component={AlterarTemaScreen} options={{ title: 'Alterar Tema' }} />
           <Stack.Screen name="DetalhesGrupo" component={DetalhesGruposScreen} options={{ title: 'Detalhes do Grupo' }} />
           <Stack.Screen name="MembrosGrupo" component={MembrosGrupoScreen} options={{ title: 'Membros do Grupo' }} />
+          <Stack.Screen name="TelaCadastroEventoGrupo" component={TelaCadastroEventoGrupo} options={{ title: 'Tela Cadastro Evento Grupo' }} />
         </Stack.Navigator>
       </NavigationContainer>
     </GestureHandlerRootView>

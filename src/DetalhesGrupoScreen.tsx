@@ -33,7 +33,6 @@ const allEvents: Events = {
     { id: '6', title: 'Sprint 200m', time: '17:45' },
   ],
   'TER 26': [
-    { id: '7', title: 'Meia Maratona', time: '07:30' },
     { id: '8', title: 'Treino de Salto', time: '11:00' },
     { id: '9', title: 'Treino de Técnica de Passada', time: '12:00' },
     { id: '10', title: 'Treino de Velocidade Progressiva ', time: '14:00' },
@@ -109,7 +108,14 @@ export default function App({ navigation }: Props) {
         data={allEvents[selectedDate] || []}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
-          <TouchableOpacity style={styles.eventItem}>
+          <TouchableOpacity
+            style={styles.eventItem}
+            onPress={() => {
+              if (item.title === 'Treino de Salto') {
+                navigation.navigate('TelaCadastroEventoGrupo');
+              }
+            }}
+          >
             <Text style={styles.eventTitle}>{item.title}</Text>
             <Text style={styles.eventTime}>{item.time}</Text>
           </TouchableOpacity>
