@@ -3,7 +3,7 @@ import { View, Text, Image, TextInput, StyleSheet, ScrollView, TouchableOpacity 
 import { useNavigation } from '@react-navigation/native';
 
 const ChatScreen = () => {
-  const navigation = useNavigation(); // Hook para navegação
+  const navigation = useNavigation();
 
   return (
     <View style={styles.container}>
@@ -15,43 +15,42 @@ const ChatScreen = () => {
           source={{ uri: 'https://i.pinimg.com/originals/78/12/a7/7812a76820f4d5269dadd571ff759174.jpg' }}
           style={styles.groupImage}
         />
-        <TouchableOpacity onPress={() => navigation.navigate('DetalhesGrupo')}>
           <Text style={styles.groupName}>Perna Longa</Text>
+        <TouchableOpacity onPress={() => navigation.navigate('DetalhesGrupo')}>
+          <Image 
+            source={{ uri: 'https://cdn-icons-png.flaticon.com/512/69/69544.png' } }
+            style={styles.infoIcon}
+          />
         </TouchableOpacity>
+
       </View>
 
-      {/* Conteúdo principal do chat */}
       <ScrollView contentContainerStyle={styles.chatContainer}>
         <View style={styles.messageContainer}>
-          <Text style={[styles.senderName, { color: '#0000FF' }]}>Giovane</Text>
+          <Text style={[styles.senderName, { color: '#0000FF' }]}>Sam</Text>
           <Text style={styles.messageText}>Gente, cadê a foto da corrida de hoje?</Text>
           <Text style={styles.messageTime}>10:12</Text>
         </View>
-
         <View style={[styles.messageContainer, styles.userMessage]}>
-          <Text style={styles.messageText}>Acho que ficou com a chat da Marie 😜</Text>
+          <Text style={styles.messageText}>Acho que ficou com a chata da Connie 😜</Text>
           <Text style={styles.messageTime}>10:12</Text>
         </View>
-
         <View style={styles.messageContainer}>
-          <Text style={[styles.senderName, { color: '#FF00FF' }]}>Marie</Text>
+          <Text style={[styles.senderName, { color: '#FF00FF' }]}>Connie</Text>
           <Text style={styles.messageText}>Não</Text>
           <Text style={styles.messageTime}>10:14</Text>
         </View>
-
         <View style={styles.messageContainer}>
-          <Text style={[styles.senderName, { color: '#FFA500' }]}>Rebbeca</Text>
+          <Text style={[styles.senderName, { color: '#FFA500' }]}>Clover</Text>
           <Text style={styles.messageText}>A foto está comigo, daqui a pouco eu envio</Text>
           <Text style={styles.messageTime}>10:16</Text>
         </View>
-
         <View style={[styles.messageContainer, styles.userMessage]}>
-          <Text style={styles.messageText}>Manda logo Beca 😂</Text>
+          <Text style={styles.messageText}>Manda logo Clo 😂</Text>
           <Text style={styles.messageTime}>10:20</Text>
         </View>
-
         <View style={styles.messageContainer}>
-          <Text style={[styles.senderName, { color: '#FFA500' }]}>Rebbeca</Text>
+          <Text style={[styles.senderName, { color: '#FFA500' }]}>Clover</Text>
           <Image
             source={{ uri: 'https://i.pinimg.com/736x/15/4a/22/154a2223e76a53a98df408158e3b781d.jpg' }}
             style={styles.messageImage}
@@ -83,6 +82,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#FF5722',
     padding: 11,
+    paddingTop: 30,
   },
   backButton: {
     marginRight: 10,
@@ -91,11 +91,22 @@ const styles = StyleSheet.create({
     fontSize: 40,
     color: '#FFF',
   },
+  groupInfoContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
   groupName: {
-    fontSize: 18,
+    fontSize: 20,
     fontWeight: 'bold',
     color: '#FFF',
     marginTop: 8,
+  },
+  infoIcon: {
+    width: 20,
+    height: 20,
+    marginLeft: '60%',
+    marginTop: 15,
+    tintColor: '#FFF',
   },
   groupImage: {
     width: 40,
