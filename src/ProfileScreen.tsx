@@ -41,7 +41,7 @@ export default function ProfileScreen({navigation}: Props) {
 
         <View style={styles.socialMediaContainer}>
           {[
-            { name: 'X', icon: 'https://freepnglogo.com/images/all_img/1691832581twitter-x-icon-png.png' },
+            { name: 'Twitter', icon: 'https://cdn4.iconfinder.com/data/icons/social-media-icons-the-circle-set/48/twitter_circle-512.png' },
             { name: 'Instagram', icon: 'https://logodownload.org/wp-content/uploads/2017/04/instagram-logo.png' },
             { name: '', icon: 'https://static.vecteezy.com/system/resources/thumbnails/016/716/485/small_2x/tiktok-icon-free-png.png' },
           ].map((social, index) => (
@@ -93,7 +93,7 @@ export default function ProfileScreen({navigation}: Props) {
               style={styles.groupCard}
               onPress={() => {
                 if (group.name === 'Perna Longa') {
-                  navigation.navigate('DetalhesGrupo');
+                  navigation.navigate('Chat');
                 }
               }}
             >
