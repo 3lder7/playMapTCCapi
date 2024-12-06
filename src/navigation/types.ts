@@ -20,6 +20,7 @@ export type RootStackParamList = {
     TelaCadastroEventoGrupo: undefined;
     MembrosGrupo: undefined;
     DetalhesGrupo: undefined;
+    TelaMembro: undefined;
     Mapa: { selectedNeighborhood: Neighborhood }
   };
 
@@ -38,6 +39,7 @@ export type RootStackParamList = {
     CentralConta:undefined;
     CadastroEvento: undefined;
     VisibiPerfil: undefined;
+    TelaMembro: undefined;
     TelaCadastroEventoGrupo: undefined;
     GerenciaConta:undefined;
     Notificacao: undefined;

@@ -3,7 +3,7 @@ import { View, Text, Image, TouchableOpacity, StyleSheet, ScrollView } from 'rea
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { MainTabParamList } from './navigation/types'; 
 
-type Props = NativeStackScreenProps<MainTabParamList, 'Perfil'>;
+type Props = NativeStackScreenProps<MainTabParamList, 'TelaMembro'>;
 
 export default function ProfileScreen({navigation}: Props) {
   return (
@@ -12,29 +12,17 @@ export default function ProfileScreen({navigation}: Props) {
       
         <View style={styles.header}>
           <Image
-            source={{ uri: 'https://imply.com/wp-content/uploads/composite-image-mid-section-sportsman-holding-volleyball.jpg' }}
+            source={{ uri: 'https://www.beartai.com/wp-content/uploads/2020/01/Captain-Tsubasa-Rise-of-New-Champions_2020_01-24-20_002.jpg' }}
             style={styles.headerBackground}
           />
           <View style={styles.profileInfo}>
             <Image
-              source={require('./img/perfil-img.png')}
+              source={{ uri: 'https://pics.craiyon.com/2023-10-04/ea1d7c2f085647cb812df273e091d6b3.webp' }}
               style={styles.profileImage}
             />
 
-          <TouchableOpacity
-              style={styles.settingsIconContainer}
-              onPress={() => navigation.navigate('ConfigGeral')}
-            >
-              <Image
-                source={{
-                  uri: 'https://cdn-icons-png.flaticon.com/128/40/40031.png',
-                }}
-                style={styles.settingsIcon}
-              />
-          </TouchableOpacity>
-
-            <Text style={styles.nameText}>Alex Vasquez</Text>
-            <Text style={styles.pronounText}>Ela/Dela</Text>
+            <Text style={styles.nameText}>Sam DyJunior</Text>
+            <Text style={styles.pronounText}>A número 10!</Text>
             <Text style={styles.locationText}>🚩 Salvador - BA</Text>
           </View>
         </View>
@@ -53,14 +41,13 @@ export default function ProfileScreen({navigation}: Props) {
           ))}
         </View>
 
-       
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Esportes que pratica</Text>
           <View style={styles.sportsHorizontalContainer}>
             {[
-              { name: 'Vôlei', image: 'https://cdn-icons-png.flaticon.com/128/37/37680.png' },
-              { name: 'Corrida', image: 'https://cdn-icons-png.flaticon.com/128/763/763965.png' },
-              { name: 'Ciclismo', image: 'https://cdn-icons-png.flaticon.com/128/94/94203.png' },
+              { name: 'Futsal', image: 'https://icons.iconarchive.com/icons/icons8/windows-8/512/Sports-Football-icon.png' },
+              { name: 'Tênis', image: 'https://cdn-icons-png.flaticon.com/512/72/72945.png' },
+              { name: 'Natação', image: 'https://cdn-icons-png.flaticon.com/512/50/50004.png' },
             ].map((sport, index) => (
               <View key={index} style={styles.sportCardHorizontal}>
                 <Image source={{ uri: sport.image }} style={styles.sportIconHorizontal} />
@@ -80,12 +67,12 @@ export default function ProfileScreen({navigation}: Props) {
               screen: 'PernaLongaScreen',
             },
             {
-              name: 'Pedala Pra Frente!!',
-              image: 'https://www.anastra.com.br/wp-content/uploads/2022/07/Anastra-2022-Quinta-0443-1024x683.jpg',
+              name: 'Saitama Workout',
+              image: 'https://cdn6.aptoide.com/imgs/b/e/f/befac7ddbe2bf46a1389d4c2592caf8f_icon.png',
             },
             {
-              name: 'Músculos of Titan',
-              image: 'https://image.lexica.art/md2_webp/d370994d-3c60-4aa5-848c-16191aeec57f',
+              name: 'JOJO Workout',
+              image: 'https://static.wikia.nocookie.net/jjba/images/9/9e/Sports_Maxx_Anime.png/revision/latest?cb=20221202205133&path-prefix=pt-br',
             },
           ].map((group, index) => (
             <TouchableOpacity
@@ -105,15 +92,6 @@ export default function ProfileScreen({navigation}: Props) {
         </View>
 
       </ScrollView>
-
-   
-      <View style={styles.bottomNav}>
-        {['Início', 'Grupos', 'Eventos', 'Perfil'].map((label, index) => (
-          <TouchableOpacity key={index} style={styles.navButton}>
-            <Text style={styles.navText}>{label}</Text>
-          </TouchableOpacity>
-        ))}
-      </View>
     </View>
   );
 }

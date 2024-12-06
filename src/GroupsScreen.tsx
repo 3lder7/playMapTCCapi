@@ -5,7 +5,6 @@ import { MainTabParamList } from './navigation/types';
 
 type Props = NativeStackScreenProps<MainTabParamList, 'Grupos'>;
 
-{/*ERRO NAVIGATION A SER CORRIGIDO*/}
 export default function GroupsScreen({ navigation }: Props) { 
   return (
     <View style={styles.container}>

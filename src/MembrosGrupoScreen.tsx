@@ -51,12 +51,19 @@ export default function App({ navigation }: Props) {
         data={members}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
-          <View style={styles.memberItem}>
-            <Image style={styles.memberAvatar} source={{ uri: item.avatar }} />
-            <Text style={styles.memberName}>{item.name}</Text>
-          </View>
-        )}
-      />
+          <TouchableOpacity
+              style={styles.memberItem}
+              onPress={() => {
+                if (item.name === 'Sam') {
+                  navigation.navigate('TelaMembro');
+                }
+              }}
+            >
+              <Image style={styles.memberAvatar} source={{ uri: item.avatar }} />
+              <Text style={styles.memberName}>{item.name}</Text>
+            </TouchableOpacity>
+          )}
+        />
     </View>
   );
 }

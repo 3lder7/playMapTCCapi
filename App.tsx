@@ -26,8 +26,9 @@ import NotificacoesScreen from './src/NotificacoesScreen';
 import AlterarTemaScreen from './src/AlterarTemaScreen';
 import DetalhesGruposScreen from './src/DetalhesGrupoScreen';
 import TelaInicialScreen from './src/TelaInicialScreen';
-import MembrosGrupoScreen from './src/MembrosGrupoScreen'
-import TelaCadastroEventoGrupo from './src/CadastroEventoGrupoScreen'
+import MembrosGrupoScreen from './src/MembrosGrupoScreen';
+import TelaCadastroEventoGrupo from './src/CadastroEventoGrupoScreen';
+import MembroTelaScress from './src/MembroTelaScreen';
 
 // Criando os navegadores
 const Stack = createNativeStackNavigator<RootStackParamList>();  
@@ -112,6 +113,7 @@ export default function App(): React.JSX.Element {
           <Stack.Screen name="DetalhesGrupo" component={DetalhesGruposScreen} options={{ title: 'Detalhes do Grupo' }} />
           <Stack.Screen name="MembrosGrupo" component={MembrosGrupoScreen} options={{ title: 'Membros do Grupo' }} />
           <Stack.Screen name="TelaCadastroEventoGrupo" component={TelaCadastroEventoGrupo} options={{ title: 'Tela Cadastro Evento Grupo' }} />
+          <Stack.Screen name="TelaMembro" component={MembroTelaScress} options={{ title: 'Tela de Perfil do Membro' }} />
         </Stack.Navigator>
       </NavigationContainer>
     </GestureHandlerRootView>
