@@ -56,3 +56,9 @@ export type RootStackParamList = {
     longitude: number;        // Longitude do bairro
   }
   
+  export interface Comment {
+    id: string; // ID do documento
+    username: string;
+    comment: string;
+    timestamp: Date; // Ou qualquer outro tipo que represente o tempo
+  };

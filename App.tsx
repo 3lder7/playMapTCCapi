@@ -1,21 +1,20 @@
-import 'react-native-gesture-handler';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import React from 'react';
 import { Image } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { RootStackParamList, MainTabParamList } from './src/navigation/types';  // Importando os tipos
 
 // Importando as telas
 import LoginScreen from './src/LoginScreen';
 import CadastroScreen from './src/CadastroScreen';
-import MapScreen from './src/MapScreen';
+import MapScreen from './src/Mapa/MapScreen';
 import GroupsScreen from './src/GroupsScreen';
 import EventsScreen from './src/EventsScreen';
 import ProfileScreen from './src/ProfileScreen';
 import EditProfileScreen from './src/EditProfileScreen';
-import SearchScreen from './src/SearchScreen';
+import SearchScreen from './src/Mapa/SearchScreen';
 import CadastroEventoScreen from './src/CadastroEventoScreen'
 import ChatScreen from './src/ChatScreen';
 import ConfigGeralScreen from './src/ConfigGeralScreen';
