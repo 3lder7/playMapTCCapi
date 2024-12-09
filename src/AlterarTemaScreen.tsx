@@ -144,7 +144,7 @@ const ThemeAccessibilityScreen = () => {
             <Text
               style={[
                 styles.adjustText,
-                selectedTheme === 'dark' && { color: '#fff' },
+                selectedTheme === 'dark' && { color: '#000' },
               ]}
             >
               -
@@ -165,7 +165,7 @@ const ThemeAccessibilityScreen = () => {
             <Text
               style={[
                 styles.adjustText,
-                selectedTheme === 'dark' && { color: '#fff' },
+                selectedTheme === 'dark' && { color: '#000' },
               ]}
             >
               +
