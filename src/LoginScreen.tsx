@@ -20,13 +20,29 @@ export default function LoginScreen({ navigation }: Props) {
   };
 
   const handleLogin = () => {
-    if (!email || !senha) {
-      showAlert('Erro', 'Por favor, preencha todos os campos');
+    if (!email && !senha) {
+      // se ambos os campos estiverem vazios, navega para a próxima página
+      navigation.navigate('Main');
       return;
     }
+  
+    // validação para entradas inadequadas
+    if (!validateEmail(email) || senha.length < 6) {
+      showAlert('Erro', 'Por favor, preencha os campos corretamente.');
+      return;
+    }
+  
+    // caso esteja tudo preenchido corretamente
     showAlert('Sucesso', 'Login bem-sucedido');
     navigation.navigate('Main');
   };
+  
+    // função para validar o email (simples)
+    const validateEmail = (email: string) => {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      return emailRegex.test(email);
+    };
+  
 
   return (
     <View style={styles.container}>
