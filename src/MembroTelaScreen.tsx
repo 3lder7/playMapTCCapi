@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, Image, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { MainTabParamList } from './navigation/types'; 
+import { FontAwesome } from '@expo/vector-icons'; 
 
 type Props = NativeStackScreenProps<MainTabParamList, 'TelaMembro'>;
 
@@ -15,12 +16,17 @@ export default function ProfileScreen({navigation}: Props) {
             source={{ uri: 'https://www.beartai.com/wp-content/uploads/2020/01/Captain-Tsubasa-Rise-of-New-Champions_2020_01-24-20_002.jpg' }}
             style={styles.headerBackground}
           />
+          <TouchableOpacity
+            style={styles.backButton}
+            onPress={() => navigation.goBack()}
+          >
+            <FontAwesome name="arrow-left" size={24} color="#fff" />
+          </TouchableOpacity>
           <View style={styles.profileInfo}>
             <Image
               source={{ uri: 'https://pics.craiyon.com/2023-10-04/ea1d7c2f085647cb812df273e091d6b3.webp' }}
               style={styles.profileImage}
             />
-
             <Text style={styles.nameText}>Sam DyJunior</Text>
             <Text style={styles.pronounText}>A número 10!</Text>
             <Text style={styles.locationText}>🚩 Salvador - BA</Text>
@@ -100,6 +106,17 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
+  },
+  backButton: {
+    position: 'absolute',
+    bottom: 65,
+    left: 10,
+    backgroundColor: '#FF5722',
+    borderRadius: 25,
+    padding: 9,
+    elevation: 4,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   scrollContainer: {
     padding: 16,
