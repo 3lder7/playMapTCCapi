@@ -8,18 +8,15 @@ type Props = NativeStackScreenProps<MainTabParamList, 'VisibiPerfil'>;
 
 const ProfileVisibilityScreen = ({ navigation }: Props) => {
   const [selectedOption, setSelectedOption] = useState('public'); 
-
+  
   return (
     <View style={styles.container}>
-      {/* Seta para voltar */}
       <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
-        <Ionicons name="arrow-back" size={24} color="black" />
+        <Text style={styles.backText}>←</Text>
       </TouchableOpacity>
 
-      {/* Título da tela */}
       <Text style={styles.title}>Visibilidade do perfil</Text>
 
-      {/* Opções de visibilidade */}
       <TouchableOpacity
         style={styles.optionContainer}
         onPress={() => setSelectedOption('public')}
@@ -51,10 +48,12 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
   },
   backButton: {
-    position: 'absolute',
-    top: 40, 
-    left: 10,
-    zIndex: 1,
+    marginBottom: 30,
+  },
+  backText: {
+    fontSize: 40,
+    color: '#000',
+    marginTop: -30,
   },
   title: {
     fontSize: 18,

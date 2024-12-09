@@ -15,7 +15,7 @@ const NotificationsScreen = ({ navigation }: Props) => {
   return (
     <View style={styles.container}>
       <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
-        <Ionicons name="arrow-back" size={24} color="black" />
+        <Text style={styles.backText}>←</Text>
       </TouchableOpacity>
 
       <Text style={styles.title}>Notificações</Text>
@@ -68,10 +68,12 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
   },
   backButton: {
-    position: 'absolute',
-    top: 40, 
-    left: 10,
-    zIndex: 1,
+    marginBottom: 30,
+  },
+  backText: {
+    fontSize: 40,
+    color: '#000',
+    marginTop: -30,
   },
   title: {
     fontSize: 18,

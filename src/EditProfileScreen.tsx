@@ -62,7 +62,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   backText: {
-    fontSize: 18,
+    fontSize: 40,
     color: '#000',
     marginTop: 30,
   },
