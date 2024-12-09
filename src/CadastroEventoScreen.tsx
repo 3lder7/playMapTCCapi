@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, FlatList, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons'; 
+import { FontAwesome } from '@expo/vector-icons'; 
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { MainTabParamList } from './navigation/types'; 
 
@@ -15,15 +16,17 @@ const BlueRunCard = ({navigation}: Props) => {
 
   const renderHeader = () => (
     <View style={styles.container}>
-        <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
-          <Text style={styles.backArrow}>←</Text>
-        </TouchableOpacity>
-      {/* Imagem principal */}
+          <TouchableOpacity
+            style={styles.backButton}
+            onPress={() => navigation.goBack()}
+          >
+            <FontAwesome name="arrow-left" size={24} color="#fff" />
+          </TouchableOpacity>
+      
       <View style={styles.imageContainer}>
         <Image source={require('./img/bluerun.png')} style={styles.image} />
       </View>
 
-      {/* Detalhes */}
       <View style={styles.card}>
         <Text style={styles.description}>
           Inscrições até <Text style={styles.bold}>30/10/2024 23:59</Text> ou <Text style={styles.bold}>até o limite de vagas.</Text>
@@ -46,7 +49,6 @@ const BlueRunCard = ({navigation}: Props) => {
         </TouchableOpacity>
       </View>
 
-      {/* Informações sobre o evento */}
       <View style={styles.card2}>
         <Text style={styles.card2Text}>O Evento</Text>
         <Text style={styles.card2Text2}>
@@ -57,13 +59,11 @@ const BlueRunCard = ({navigation}: Props) => {
         </Text>
       </View>
 
-      {/* Percurso */}
       <View style={styles.card3}>
         <Text style={styles.card2Text}>Percurso</Text>
         <Image source={require('./img/imgEventos/Percurso.png')} style={styles.imagePercurso} />
       </View>
 
-      {/* Redes sociais */}
       <View style={styles.card4}>
         <Text style={styles.text}>Compartilhe nas redes sociais</Text>
         <View style={styles.socialIcons}>
@@ -99,14 +99,18 @@ const styles = StyleSheet.create({
   },
   backButton: {
     position: 'absolute',
-    top: 20, 
-    left: -8,
-    zIndex: 1,
+    top: 70, 
+    left: 10, 
+    width: 40, 
+    height: 40, 
+    backgroundColor: '#FF5722',
+    borderRadius: 20,
+    justifyContent: 'center', 
+    alignItems: 'center', 
+    elevation: 2, 
+    zIndex: 10, 
   },
-  backArrow: {
-    fontSize: 50,
-    color: '#ff5722',
-  },
+
   imageContainer: {
     marginTop: 20,
     alignItems: 'center',

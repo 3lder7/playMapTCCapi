@@ -96,7 +96,10 @@ export default function ProfileScreen({navigation}: Props) {
             </TouchableOpacity>
           ))}
         </View>
-        <TouchableOpacity
+
+      </ScrollView>
+
+      <TouchableOpacity
           style={styles.addFriendButton}
           onPress={() => {
             console.log('Amigo adicionado!');
@@ -105,7 +108,6 @@ export default function ProfileScreen({navigation}: Props) {
           <FontAwesome name="user-plus" size={20} color="#fff" style={styles.addFriendIcon} />
           <Text style={styles.addFriendText}>Adicionar amigo</Text>
         </TouchableOpacity>
-      </ScrollView>
     </View>
   );
 }
@@ -128,6 +130,26 @@ const styles = StyleSheet.create({
   },
   scrollContainer: {
     padding: 16,
+  },
+  addFriendButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    position: 'absolute',
+    bottom: 5,
+    right: 10,
+    backgroundColor: '#4CAF50',
+    borderRadius: 25,
+    paddingVertical: 10,
+    paddingHorizontal: 15,
+    elevation: 2,
+  },
+  addFriendIcon: {
+    marginRight: 8,
+  },
+  addFriendText: {
+    color: '#fff',
+    fontSize: 16,
+    fontWeight: 'bold',
   },
   header: {
     marginBottom: 20,
@@ -275,26 +297,6 @@ const styles = StyleSheet.create({
   sportNameHorizontal: {
     fontSize: 14,
     textAlign: 'center',
-    fontWeight: 'bold',
-  },
-  addFriendButton: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    position: 'absolute',
-    bottom: 1,
-    right: 10,
-    backgroundColor: '#4CAF50',
-    borderRadius: 25,
-    paddingVertical: 10,
-    paddingHorizontal: 15,
-    elevation: 2,
-  },
-  addFriendIcon: {
-    marginRight: 8,
-  },
-  addFriendText: {
-    color: '#fff',
-    fontSize: 16,
     fontWeight: 'bold',
   },
   
