@@ -62,3 +62,9 @@ export type RootStackParamList = {
     comment: string;
     timestamp: Date; // Ou qualquer outro tipo que represente o tempo
   };
+
+  export interface EventDetails {
+    date: string;  // Data do evento
+    time: string;  // Horário do evento
+    other: string; // Detalhes adicionais
+  };

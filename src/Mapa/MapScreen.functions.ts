@@ -4,8 +4,8 @@ import { LocationObject } from "expo-location";
 import MapView from "react-native-maps";
 import { collection, getDocs, getDoc, doc, query, where } from "firebase/firestore";
 import { db } from "../../firebaseConfig";
-import { Neighborhood } from "../navigation/types";
-import { Comment } from "../navigation/types";
+import { Neighborhood, Comment, EventDetails } from "../navigation/types";
+
 
 
   // Solicita permissão de localização ao usuário
@@ -31,18 +31,36 @@ import { Comment } from "../navigation/types";
 
   // Captura os marcadores do Firebase
 
-  export const fetchMarkersFromFirebase = async (
-      setMarkers: React.Dispatch<React.SetStateAction<any[]>>
+  export const fetchMarkersWithEvents = async (
+    setMarkers: React.Dispatch<React.SetStateAction<any[]>>
   ) => {
-      try {
-        const querySnapshot = await getDocs(collection(db, "locations"));
-        const firebaseMarkers = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-        setMarkers(firebaseMarkers);
-      } catch (error) {
-        console.error("Erro ao buscar marcadores: ", error);
-        Alert.alert("Erro", "Não foi possível carregar os marcadores.");
-      }
-    };
+    try {
+      // Buscando quadras
+      const quadrasSnapshot = await getDocs(collection(db, "locations"));
+      const quadrasMarkers = quadrasSnapshot.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data(),
+        type: "quadra", // Identificando o tipo como "quadra"
+      }));
+  
+      // Buscando eventos
+      const eventsSnapshot = await getDocs(collection(db, "events"));
+      const eventsMarkers = eventsSnapshot.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data(),
+        type: "evento", // Identificando o tipo como "evento"
+      }));
+  
+      // Combinando marcadores de quadras e eventos
+      const allMarkers = [...quadrasMarkers, ...eventsMarkers];
+  
+      // Atualizando o estado
+      setMarkers(allMarkers);
+    } catch (error) {
+      console.error("Erro ao buscar marcadores: ", error);
+      Alert.alert("Erro", "Não foi possível carregar os marcadores.");
+    }
+  };
 
   // Busca sugestões de bairros no Firebase
 
@@ -143,13 +161,14 @@ import { Comment } from "../navigation/types";
   };
   
   // Função fetchComments ajustada
-  export const fetchCommentsForMarker = async (
-    markerId: string,
+  export const fetchCommentsForItem = async (
+    itemId: string,
+    collectionPath: string,
     setComments: React.Dispatch<React.SetStateAction<Comment[]>>
   ) => {
     try {
       // Caminho para a subcoleção de comentários
-      const commentsCollectionRef = collection(db, `locations/${markerId}/comments`);
+      const commentsCollectionRef = collection(db, `${collectionPath}/${itemId}/comments`);
       const snapshot = await getDocs(commentsCollectionRef);
   
       const fetchedComments = snapshot.docs.map((doc) => {
@@ -167,6 +186,37 @@ import { Comment } from "../navigation/types";
       console.error("Erro ao buscar comentários: ", error);
     }
   };
+
+  export const fetchEventDetails = async (
+    eventId: string,
+    setEventDetails: React.Dispatch<React.SetStateAction<EventDetails | null>>
+  ) => {
+    try {
+      // Referência ao documento do evento
+      const eventDocRef = doc(db, "events", eventId);
+      const eventDoc = await getDoc(eventDocRef);
+  
+      if (eventDoc.exists()) {
+        const data = eventDoc.data();
+        // Formata os dados do evento
+        const eventDetails: EventDetails = {
+          date: data.date || "Data não informada",
+          time: data.time || "Horário não informado",
+          other: data.other || "Detalhes adicionais não disponíveis",
+        };
+  
+        setEventDetails(eventDetails); // Atualiza o estado com os dados do evento
+      } else {
+        console.warn("Evento não encontrado no Firestore!");
+        setEventDetails(null);
+      }
+    } catch (error) {
+      console.error("Erro ao buscar detalhes do evento: ", error);
+      setEventDetails(null);
+    }
+  };
+  
+  
 
 
   

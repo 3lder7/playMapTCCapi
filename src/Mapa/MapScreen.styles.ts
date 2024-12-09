@@ -137,6 +137,40 @@ export const styles = StyleSheet.create({
     
   // fim dos estilos dos comentarios
 
+  // estilos para informações detalhadas de eventos
+  
+  eventDetailsContainer: {
+    padding: 16,
+    backgroundColor: "#ffffff",
+    borderRadius: 8,
+    marginTop: 16,
+  },
+  eventHeader: {
+    fontSize: 20,
+    fontWeight: "bold",
+    color: "#333333",
+    marginBottom: 8,
+  },
+  eventRow: {
+    fontSize: 16,
+    marginBottom: 4,
+    color: "#555555",
+  },
+  eventLabel: {
+    fontWeight: "bold",
+    color: "#000000",
+  },
+  textContainerEvent: {
+    marginTop: 20,
+    margin: 10,
+    marginBottom: 35,
+  },
+  infoDescriptionEvent: {
+      fontWeight: "bold",
+  },
+  
+  // fim dos estilos para informações detalhadas de eventos
+
   icon: {
     width: 20,
     height: 20,
@@ -294,6 +328,7 @@ export const styles = StyleSheet.create({
     height: 600,
     width: 500,
     alignItems:"center",
+    backgroundColor: "rgba(0, 0, 0, 0.7)",
   },
   fullscreenImage: {
     width: 400,

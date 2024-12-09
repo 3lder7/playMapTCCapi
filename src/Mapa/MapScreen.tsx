@@ -1,19 +1,16 @@
 import React, { useEffect, useState, useRef } from "react";
 import { View, Alert, Text, TouchableOpacity, ScrollView, TextInput, PanResponder, Image, Modal } from "react-native";
-import { GestureHandlerRootView, Gesture, GestureDetector } from "react-native-gesture-handler";
-import { useSharedValue, withTiming, useAnimatedStyle } from "react-native-reanimated";
-import Animated from 'react-native-reanimated';
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
 import { BlurView } from "expo-blur";
 import { styles } from "./MapScreen.styles";
-import { requestLocationPermission, fetchMarkersFromFirebase, fetchCommentsForMarker,
-fetchNeighborhoodSuggestions, centerUserLocation, fetchFeatureStatus
+import { requestLocationPermission, fetchMarkersWithEvents, fetchCommentsForItem,
+fetchNeighborhoodSuggestions, centerUserLocation, fetchFeatureStatus, fetchEventDetails
 } from "./MapScreen.functions";
 import * as Location from "expo-location";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { RootStackParamList, Neighborhood, Comment } from '../navigation/types'; // Importando os tipos corretos
-import SportIcon from "../icons/Sport.png";
+import { RootStackParamList, Neighborhood, Comment, EventDetails } from '../navigation/types'; // Importando os tipos corretos
 import MapsIcon from "../icons/Maps.png"; // Ícone da barra de pesquisa
 import SearchIcon from "../icons/Search.png"; // Ícone da barra de pesquisa
 import GpsIcon from "../icons/GPS.png"; // Ícone da barra de pesquisa
@@ -33,6 +30,9 @@ const MapScreen = () => {
   // Estados de marcadores
   const [markers, setMarkers] = useState<any[]>([]);
   const [selectedMarker, setSelectedMarker] = useState<any>(null);
+
+  // Estados de detalhes dos eventos
+  const [eventDetails, setEventDetails] = useState<EventDetails | null>(null);
  
   // Estados de interface
   const [isVisible, setIsVisible] = useState(false);
@@ -75,11 +75,22 @@ const MapScreen = () => {
   const [comments, setComments] = useState<Comment[]>([]);
 
   useEffect(() => {
-    if (selectedMarker?.id) {
-      fetchCommentsForMarker(selectedMarker.id, setComments);
+    if (selectedMarker?.id && selectedMarker.type === "evento") {
+      fetchCommentsForItem(selectedMarker.id, "events", setComments);
     }
   }, [selectedMarker]);
-
+  
+  useEffect(() => {
+    if (selectedMarker?.id && selectedMarker.type === "quadra") {
+      fetchCommentsForItem(selectedMarker.id, "locations", setComments);
+    }
+  }, [selectedMarker]);
+  
+  useEffect(() => {
+    if (selectedMarker?.id && selectedMarker.type === "evento") {
+      fetchEventDetails(selectedMarker.id, setEventDetails);
+    }
+  }, [selectedMarker]);
   
   // Referências
   const mapRef = useRef<MapView | null>(null);
@@ -96,8 +107,8 @@ const MapScreen = () => {
 
   useEffect(() => {
     requestLocationPermission(setLocation, setLoading);
-    fetchMarkersFromFirebase(setMarkers);
-  }, []);
+    fetchMarkersWithEvents(setMarkers); // Use a nova função aqui
+  }, []);  
 
   useEffect(() => {
     fetchNeighborhoodSuggestions(searchQuery, setSuggestions);
@@ -118,10 +129,11 @@ const MapScreen = () => {
   }, [route.params?.selectedNeighborhood]);
 
   useEffect(() => {
-    if (selectedMarker) {
+    if (selectedMarker?.id && selectedMarker.type === "quadra") {
       fetchFeatureStatus(selectedMarker.id, setFeatureStatus);
     }
-  }, [selectedMarker]);  
+  }, [selectedMarker]);
+  
 
 
   if (loading) {
@@ -199,7 +211,7 @@ const MapScreen = () => {
               longitude: marker.longitude,
             }}
             onPress={() => handleMarkerPress(marker)}
-            image={SportIcon}
+            image={marker.type === "evento" ? require("../icons/Event.png") : require("../icons/Sport.png")}
           />
         ))}
       </MapView>
@@ -224,118 +236,130 @@ const MapScreen = () => {
       </TouchableOpacity>
 
       {isVisible && selectedMarker && (
-        <View
-          style={[styles.infoContainer, { height: panelHeight }]}
-        >
-          <TouchableWithoutFeedback>
-            <View {...panResponder.panHandlers} style={styles.dragHandle}>
-              <Image source={require("../icons/Rectangle.png")} style={styles.dragIcon}/>
-            </View>
-          </TouchableWithoutFeedback>
-            <View style={styles.contentContainer}>
-              {selectedMarker.imageUrls && selectedMarker.imageUrls.length > 0 ? (
-                <ScrollView
-                  horizontal
-                  style={styles.imageCarousel}
-                  showsHorizontalScrollIndicator={false}
-                >
-                  {selectedMarker.imageUrls.map((url: string, index: number) => (
-                    <TouchableOpacity key={index} onPress={() => handleImagePress(url)}>
-                      <Image
-                        key={index}
-                        source={{ uri: url }}
-                        style={styles.image}
-                        resizeMode="cover"
-                      />
-                    </TouchableOpacity>
-                  ))}
-                </ScrollView>
-              ) : (
-                <View style={styles.noImagesContainer}>  
-                  <View style={styles.noImagesView}>
-                    <Text style={styles.noImagesText}>
-                      Nenhuma imagem disponível para esta quadra.
-                    </Text>
-                  </View>
-                </View>  
-              )}
-              <View style={styles.textContainer}>
-                <Text style={styles.infoTitle}>{selectedMarker.title}</Text>
-                <View style={styles.row}>
-                  <Image source={LocationIcon} style={styles.locationIcon} />
-                  <Text style={styles.infoDescription}>{selectedMarker.description}</Text>
-                </View>
-              </View>
+  <View style={[styles.infoContainer, { height: panelHeight }]}>
+    <TouchableWithoutFeedback>
+      <View {...panResponder.panHandlers} style={styles.dragHandle}>
+        <Image source={require("../icons/Rectangle.png")} style={styles.dragIcon} />
+      </View>
+    </TouchableWithoutFeedback>
 
-              {selectedFeature && (
-                  <View style={styles.messageContainer}>
-                    <Text style={styles.messageText}>
-                      {selectedFeature.name}:{" "}
-                      {selectedFeature.status === true
-                        ? "Disponível"
-                        : selectedFeature.status === false
-                        ? "Indisponível"
-                        : "Desconhecido"}
-                    </Text>
-                  </View>
-                )}
-
-              <ScrollView
-                horizontal
-                style={styles.iconCarousel}
-                showsHorizontalScrollIndicator={false}
-              >
-                {features.map((feature, index) => (
-                  <View key={index}>
-                    <TouchableWithoutFeedback
-                      onPressIn={() => handleFeaturePress(feature.name, feature.status)}
-                      onPressOut={handleFeatureRelease}
-                    >
-                      <View style={styles.iconCircle}>
-                        <Image source={feature.icon} style={styles.iconImage} />
-                        <View style={styles.statusIconContainer}>
-                          {feature.status === true ? (
-                            <Image source={require("../icons/Check.png")} style={styles.statusIcon} />
-                          ) : feature.status === false ? (
-                            <Image source={require("../icons/No Check.png")} style={styles.statusIcon} />
-                          ) : null}
-                        </View>
-                      </View>
-                    </TouchableWithoutFeedback>
-                  </View>
-                ))}
-              </ScrollView>
-
-              <View style={styles.commentsContainer}>
-                <Text style={styles.commentsHeader}>Comentários</Text>
-                {comments.length > 0 ? (
-                  <ScrollView>
-                    {comments.map((comment) => (
-                      <View key={comment.id} style={styles.commentBox}>
-                        <View style={styles.commentHeader}>
-                          <Text style={styles.username}>{comment.username}</Text>
-                          <Text style={styles.timestamp}>
-                            {comment.timestamp.toLocaleString("pt-BR", {
-                              day: "2-digit",
-                              month: "short",
-                              year: "numeric",
-                              hour: "2-digit",
-                              minute: "2-digit",
-                            })}
-                          </Text>
-                        </View>
-                        <Text style={styles.commentText}>{comment.comment}</Text>
-                      </View>
-                    ))}
-                  </ScrollView>
-                ) : (
-                  <Text style={styles.noComments}>Ainda não há comentários para esta quadra.</Text>
-                )}
-              </View>
-
-            </View>
+    <View style={styles.contentContainer}>
+      {selectedMarker.imageUrls && selectedMarker.imageUrls.length > 0 ? (
+        <ScrollView horizontal style={styles.imageCarousel} showsHorizontalScrollIndicator={false}>
+          {selectedMarker.imageUrls.map((url: string, index: number) => (
+            <TouchableOpacity key={index} onPress={() => handleImagePress(url)}>
+              <Image key={index} source={{ uri: url }} style={styles.image} resizeMode="cover" />
+            </TouchableOpacity>
+          ))}
+        </ScrollView>
+      ) : (
+        <View style={styles.noImagesContainer}>
+          <View style={styles.noImagesView}>
+            <Text style={styles.noImagesText}>
+              {selectedMarker.type === "evento"
+                ? "Nenhuma imagem disponível para este evento."
+                : "Nenhuma imagem disponível para esta quadra."}
+            </Text>
           </View>
+        </View>
       )}
+
+      {/* Exibir informações do evento/quadra */}
+      <View style={styles.textContainer}>
+        <Text style={styles.infoTitle}>{selectedMarker.title}</Text>
+        <View style={styles.row}>
+          <Image source={LocationIcon} style={styles.locationIcon} />
+          <Text style={styles.infoDescription}>{selectedMarker.description}</Text>
+        </View>
+
+        
+      </View>
+      {/* Exibir informações específicas de eventos */}
+      {selectedMarker.type === "evento" && eventDetails && (
+          <View style={styles.textContainerEvent}>  
+
+              <Text style={styles.infoDescriptionEvent}>Data: {eventDetails.date}</Text>
+              <Text style={styles.infoDescriptionEvent}>Horário: {eventDetails.time}</Text>
+              <Text style={styles.infoDescriptionEvent}>Informações do Evento: {eventDetails.other || "Sem informações adicionais."}</Text>
+
+          </View>
+        )}
+
+        {/* Status das funcionalidades, apenas para quadras */}
+        {selectedMarker.type === "quadra" && selectedFeature && (
+          <View style={styles.messageContainer}>
+            <Text style={styles.messageText}>
+              {selectedFeature.name}:{" "}
+              {selectedFeature.status === true
+                ? "Disponível"
+                : selectedFeature.status === false
+                ? "Indisponível"
+                : "Desconhecido"}
+            </Text>
+          </View>
+        )}
+
+        {/* Ícones das funcionalidades, apenas para quadras */}
+        {selectedMarker.type === "quadra" && (
+          <ScrollView horizontal style={styles.iconCarousel} showsHorizontalScrollIndicator={false}>
+            {features.map((feature, index) => (
+              <View key={index}>
+                <TouchableWithoutFeedback
+                  onPressIn={() => handleFeaturePress(feature.name, feature.status)}
+                  onPressOut={handleFeatureRelease}
+                >
+                  <View style={styles.iconCircle}>
+                    <Image source={feature.icon} style={styles.iconImage} />
+                    <View style={styles.statusIconContainer}>
+                      {feature.status === true ? (
+                        <Image source={require("../icons/Check.png")} style={styles.statusIcon} />
+                      ) : feature.status === false ? (
+                        <Image source={require("../icons/No Check.png")} style={styles.statusIcon} />
+                      ) : null}
+                    </View>
+                  </View>
+                </TouchableWithoutFeedback>
+              </View>
+            ))}
+          </ScrollView>
+        )}
+
+
+      {/* Exibição de comentários */}
+      <View style={styles.commentsContainer}>
+        <Text style={styles.commentsHeader}>Comentários</Text>
+        {comments.length > 0 ? (
+          <ScrollView>
+            {comments.map((comment) => (
+              <View key={comment.id} style={styles.commentBox}>
+                <View style={styles.commentHeader}>
+                  <Text style={styles.username}>{comment.username}</Text>
+                  <Text style={styles.timestamp}>
+                    {comment.timestamp.toLocaleString("pt-BR", {
+                      day: "2-digit",
+                      month: "short",
+                      year: "numeric",
+                      hour: "2-digit",
+                      minute: "2-digit",
+                    })}
+                  </Text>
+                </View>
+                <Text style={styles.commentText}>{comment.comment}</Text>
+              </View>
+            ))}
+          </ScrollView>
+        ) : (
+          <Text style={styles.noComments}>
+            {selectedMarker.type === "evento"
+              ? "Nenhuma comentário disponível para este evento."
+              : "Nenhuma comentário disponível para esta quadra."}
+          </Text>
+        )}
+      </View>
+    </View>
+  </View>
+)}
+
       <Modal visible={isZoomed} transparent={true} animationType="fade" onRequestClose={() => setIsZoomed(false)}>
         <BlurView intensity={50} style={styles.blurBackground}>
           <View style={styles.fullscreenImageContainer}>
