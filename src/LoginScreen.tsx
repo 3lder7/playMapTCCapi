@@ -28,7 +28,7 @@ export default function LoginScreen({ navigation }: Props) {
   
     // validação para entradas inadequadas
     if (!validateEmail(email) || senha.length < 6) {
-      showAlert('Erro', 'Por favor, preencha os campos corretamente.');
+      showAlert('Erro', 'Por favor, preencha os campos corretamente ou verifique seus dados.');
       return;
     }
   
@@ -96,11 +96,6 @@ export default function LoginScreen({ navigation }: Props) {
       <TouchableOpacity onPress={() => navigation.navigate('Cadastro')}>
         <Text style={styles.registerText}>
           Ainda não possui uma conta? <Text style={styles.registerLink}>Cadastre-se</Text>
-        </Text>
-      </TouchableOpacity>
-      <TouchableOpacity onPress={() => navigation.navigate('Main')}>
-        <Text style={styles.linkMapaBox}>
-          <Text style={styles.linkMapa}>MAPA</Text>
         </Text>
       </TouchableOpacity>
     </View>
