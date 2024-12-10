@@ -66,6 +66,7 @@ const MapScreen = () => {
     bebedouro: null,
     acessibilidade: null,
     estacionamento: null,
+    gratuidade: null,
   });
 
   const [selectedFeature, setSelectedFeature] = useState<{
@@ -206,6 +207,7 @@ const MapScreen = () => {
     { name: "Bebedouros", icon: require("../icons/Fountain.png"), status: featureStatus.bebedouro },
     { name: "Acessibilidade", icon: require("../icons/Wheelchair.png"), status: featureStatus.acessibilidade },
     { name: "Estacionamento", icon: require("../icons/Garage.png"), status: featureStatus.estacionamento },
+    { name: "Gratuidade", icon: require("../icons/Money.png"), status: featureStatus.gratuidade },
   ];  
 
   const handleImagePress = (url: string) => {

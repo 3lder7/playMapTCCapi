@@ -87,10 +87,10 @@ export const styles = StyleSheet.create({
   // declaração de estilos dos comentarios
   commentsContainer: {
     padding: 10,
-    backgroundColor: "#f5f5f",
+    backgroundColor: "#f9f9f9",
     borderTopLeftRadius: 10,
     borderTopRightRadius: 10,
-    maxHeight: 255, // Limita a altura do container
+    maxHeight: 265, // Limita a altura do container
   },
   commentsHeader: {
     fontSize: 18,
@@ -213,8 +213,9 @@ export const styles = StyleSheet.create({
     backgroundColor: '#fff',
   },
   textContainer: {
-    marginTop: 10,
+    marginTop: 5,
     left: 10,
+    marginRight: 10,
   },
   
   gpsButton: {
@@ -240,7 +241,7 @@ export const styles = StyleSheet.create({
     bottom: 0,
     left: 0,
     right: 0,
-    backgroundColor: '#fff',
+    backgroundColor: '#f9f9f9',
     borderTopLeftRadius: 5,
     borderTopRightRadius: 5,
     padding: 5,
@@ -324,6 +325,7 @@ export const styles = StyleSheet.create({
   infoDescription: {
     fontSize: 14,
     color: '#555',
+    margin: 4,
   },
   row: {
     flexDirection: "row",

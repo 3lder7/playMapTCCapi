@@ -40,7 +40,6 @@ import { Neighborhood, Comment, EventDetails } from "../navigation/types";
       // Aplicar filtros
       Object.entries(filters).forEach(([key, value]) => {
         if (value) {
-          console.log(`Aplicando filtro: sports.${key} == true`);
           quadrasQuery = query(quadrasQuery, where(`sports.${key}`, "==", true));
         }
       });
@@ -156,6 +155,7 @@ import { Neighborhood, Comment, EventDetails } from "../navigation/types";
           bebedouro: features.bebedouro ?? null,
           acessibilidade: features.acessibilidade ?? null,
           estacionamento: features.estacionamento ?? null,
+          gratuidade: features.gratuidade ?? null,
         };
   
         setFeatureStatus(featureStatus);
