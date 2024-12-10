@@ -4,8 +4,9 @@ import { GestureHandlerRootView } from "react-native-gesture-handler";
 import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
 import { BlurView } from "expo-blur";
 import { styles } from "./MapScreen.styles";
-import { requestLocationPermission, fetchMarkersWithEvents, fetchCommentsForItem,
-fetchNeighborhoodSuggestions, centerUserLocation, fetchFeatureStatus, fetchEventDetails
+import { requestLocationPermission, fetchMarkersWithFilters, fetchCommentsForItem,
+fetchNeighborhoodSuggestions, centerUserLocation, fetchFeatureStatus, fetchEventDetails,
+fetchSportsStatus
 } from "./MapScreen.functions";
 import * as Location from "expo-location";
 import { useNavigation, useRoute } from "@react-navigation/native";
@@ -46,6 +47,15 @@ const MapScreen = () => {
   const [isZoomed, setIsZoomed] = useState(false);
   const [zoomedImage, setZoomedImage] = useState<string | undefined>(undefined);
 
+  //Estados para a exibição dos icones de esportes 
+  const [sportsStatus, setSportsStatus] = useState<{ [key: string]: boolean }>({
+    futebol: false,
+    basquete: false,
+    tenis: false,
+    volei: false,
+  });
+  
+  
   //Estados de exibição dos icones de status de acordo com especificidades
   const [featureStatus, setFeatureStatus] = useState<{
     [key: string]: boolean | null;
@@ -91,6 +101,12 @@ const MapScreen = () => {
       fetchEventDetails(selectedMarker.id, setEventDetails);
     }
   }, [selectedMarker]);
+
+  useEffect(() => {
+    if (selectedMarker?.id && selectedMarker.type === "quadra") {
+      fetchSportsStatus(selectedMarker.id, setSportsStatus);
+    }
+  }, [selectedMarker]);
   
   // Referências
   const mapRef = useRef<MapView | null>(null);
@@ -103,13 +119,27 @@ const MapScreen = () => {
       "stylers": [{ "visibility": "off" }],
     },
   ];
-  
 
   useEffect(() => {
-    requestLocationPermission(setLocation, setLoading);
-    fetchMarkersWithEvents(setMarkers); // Use a nova função aqui
-  }, []);  
-
+    const initializeMap = async () => {
+      try {
+        // Solicitar permissão de localização
+        await requestLocationPermission(setLocation, setLoading);
+  
+        // Buscar marcadores no Firestore
+        const fetchedMarkers = await fetchMarkersWithFilters({});
+        setMarkers(fetchedMarkers); // Agora fetchedMarkers sempre terá um valor válido
+      } catch (error) {
+        console.error("Erro ao inicializar o mapa:", error);
+        Alert.alert("Erro", "Não foi possível carregar os dados do mapa.");
+      } finally {
+        setLoading(false);
+      }
+    };
+  
+    initializeMap();
+  }, []);
+  
   useEffect(() => {
     fetchNeighborhoodSuggestions(searchQuery, setSuggestions);
   }, [searchQuery]);
@@ -161,6 +191,14 @@ const MapScreen = () => {
 
   };
   
+  const sportsFeatures = [
+    { name: "Futebol", icon: require("../icons/Soccer.png"), status: sportsStatus.futebol },
+    { name: "Basquete", icon: require("../icons/Basketball.png"), status: sportsStatus.basquete },
+    { name: "Tênis", icon: require("../icons/Tennis.png"), status: sportsStatus.tenis },
+    { name: "Vôlei", icon: require("../icons/Volley.png"), status: sportsStatus.volei },
+  ];
+  
+
   const features = [
     { name: "Banheiros", icon: require("../icons/Toilet.png"), status: featureStatus.banheiro },
     { name: "Segurança", icon: require("../icons/Police.png"), status: featureStatus.seguranca },
@@ -323,7 +361,19 @@ const MapScreen = () => {
             ))}
           </ScrollView>
         )}
-
+    
+        {selectedMarker.type === "quadra" && (
+          <ScrollView horizontal style={styles.sportsIconCarousel} showsHorizontalScrollIndicator={false}>
+              {sportsFeatures
+                .filter((sport) => sport.status)
+                .map((sport, index) => (
+                  <View key={index} style={styles.sportItem}>
+                    <Image source={sport.icon} style={styles.sportIcon} />
+                    <Text style={styles.sportName}>{sport.name}</Text>
+                  </View>
+                ))}
+          </ScrollView>
+        )}
 
       {/* Exibição de comentários */}
       <View style={styles.commentsContainer}>

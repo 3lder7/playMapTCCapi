@@ -171,6 +171,38 @@ export const styles = StyleSheet.create({
   
   // fim dos estilos para informações detalhadas de eventos
 
+  // estilos dos icones de tipos de esporte 
+  sportsIconCarousel: {
+    marginTop: 15,
+    marginBottom: 15,
+    paddingHorizontal: 5,
+    paddingVertical: 15,
+    flexGrow: 0, 
+  },
+  sportItem: {
+    backgroundColor: "#f9f9f9",
+    flexDirection: "row",
+    borderRadius: 5,
+    elevation: 5,
+    alignItems: "center",
+    justifyContent: "center",
+    marginHorizontal: 5,
+    width: 90,
+    height: 30,
+  },
+  sportIcon: {
+    width: 15,
+    height: 15,
+    marginRight: 3,
+  },
+  sportName: {
+    fontSize: 13,
+    color: "#333",
+    fontWeight: "bold",
+  },
+
+  // fim dos estilos de tipos de esporte 
+
   icon: {
     width: 20,
     height: 20,

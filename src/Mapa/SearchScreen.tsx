@@ -41,6 +41,12 @@ const SearchScreen = () => {
           value={searchQuery}
           onChangeText={setSearchQuery}
         />
+        <TouchableOpacity style={styles.filterTouch}>
+          <Image
+              source={require('../icons/Filter.png')}
+              style={styles.filterIcon}
+            />
+        </TouchableOpacity>
       </View>
       <View style={styles.recentSection}>
         <Text style={styles.recentTitle}>Resultados</Text>

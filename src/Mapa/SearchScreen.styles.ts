@@ -12,6 +12,20 @@ export const styles = StyleSheet.create({
       padding: 15,
       backgroundColor: '#f5f5f5',
     },
+    filterTouch: {
+      height: 40,
+      width: 40,
+      right: 20,
+      borderRadius: 45,
+      elevation: 5,
+      alignItems: "center",
+      justifyContent:"center",
+      backgroundColor: "#fff",
+    },
+    filterIcon: {
+      height: 22,
+      width: 22,
+    },
     searchInput: {
       flex: 1,
       marginLeft: 10,

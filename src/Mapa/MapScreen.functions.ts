@@ -2,11 +2,9 @@ import { Alert } from "react-native";
 import * as Location from "expo-location";
 import { LocationObject } from "expo-location";
 import MapView from "react-native-maps";
-import { collection, getDocs, getDoc, doc, query, where } from "firebase/firestore";
+import { collection, getDocs, getDoc, doc, query, where, Query, DocumentData } from "firebase/firestore";
 import { db } from "../../firebaseConfig";
 import { Neighborhood, Comment, EventDetails } from "../navigation/types";
-
-
 
   // Solicita permissão de localização ao usuário
 
@@ -31,36 +29,47 @@ import { Neighborhood, Comment, EventDetails } from "../navigation/types";
 
   // Captura os marcadores do Firebase
 
-  export const fetchMarkersWithEvents = async (
-    setMarkers: React.Dispatch<React.SetStateAction<any[]>>
-  ) => {
+  export const fetchMarkersWithFilters = async (
+    filters: { [key: string]: boolean }
+  ): Promise<any[]> => {
     try {
-      // Buscando quadras
-      const quadrasSnapshot = await getDocs(collection(db, "locations"));
+      console.log("Iniciando a busca de marcadores com filtros:", filters);
+  
+      let quadrasQuery: Query<DocumentData> = collection(db, "locations");
+  
+      // Aplicar filtros
+      Object.entries(filters).forEach(([key, value]) => {
+        if (value) {
+          console.log(`Aplicando filtro: sports.${key} == true`);
+          quadrasQuery = query(quadrasQuery, where(`sports.${key}`, "==", true));
+        }
+      });
+  
+      const quadrasSnapshot = await getDocs(quadrasQuery);
+  
       const quadrasMarkers = quadrasSnapshot.docs.map(doc => ({
         id: doc.id,
         ...doc.data(),
-        type: "quadra", // Identificando o tipo como "quadra"
+        type: "quadra",
       }));
   
-      // Buscando eventos
       const eventsSnapshot = await getDocs(collection(db, "events"));
+  
       const eventsMarkers = eventsSnapshot.docs.map(doc => ({
         id: doc.id,
         ...doc.data(),
-        type: "evento", // Identificando o tipo como "evento"
+        type: "evento",
       }));
   
-      // Combinando marcadores de quadras e eventos
       const allMarkers = [...quadrasMarkers, ...eventsMarkers];
   
-      // Atualizando o estado
-      setMarkers(allMarkers);
+      return allMarkers;
     } catch (error) {
       console.error("Erro ao buscar marcadores: ", error);
       Alert.alert("Erro", "Não foi possível carregar os marcadores.");
+      return [];
     }
-  };
+  };  
 
   // Busca sugestões de bairros no Firebase
 
@@ -213,6 +222,32 @@ import { Neighborhood, Comment, EventDetails } from "../navigation/types";
     } catch (error) {
       console.error("Erro ao buscar detalhes do evento: ", error);
       setEventDetails(null);
+    }
+  };
+
+  export const fetchSportsStatus = async (
+    courtId: string, // ID da quadra selecionada
+    setSportsStatus: React.Dispatch<React.SetStateAction<{ [key: string]: boolean }>>
+  ) => {
+    try {
+      // Acessa o documento da quadra no Firestore
+      const courtDoc = await getDoc(doc(db, "locations", courtId));
+  
+      if (courtDoc.exists()) {
+        const courtData = courtDoc.data();
+  
+        // Obtém o campo "sports" do documento
+        const sports = courtData.sports || {};
+  
+        // Atualiza o estado com os esportes suportados
+        setSportsStatus(sports);
+      } else {
+        console.error("Documento da quadra não encontrado!");
+        Alert.alert("Erro", "Informações da quadra não encontradas.");
+      }
+    } catch (error) {
+      console.error("Erro ao buscar informações dos esportes: ", error);
+      Alert.alert("Erro", "Não foi possível carregar os esportes suportados pela quadra.");
     }
   };
   
