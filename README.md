@@ -41,7 +41,7 @@ npx expo start
 
 2. Executar versão web
 
-  **Para iniciar a versão web, pressione 'W' no terminal e aguarde a mensagem "web compiled successfully".**
+  **Para iniciar a versão web: pressione 'W' no terminal e aguarde a mensagem "web compiled successfully".**
 
 3. Para executar diretamente no celular (mais conselhável)
 ```
